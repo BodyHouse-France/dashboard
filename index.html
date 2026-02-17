@@ -1,1 +1,953 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body House — Portail Marketing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+        :root {
+            --bg-deep: #080808;
+            --bg-primary: #0e0e0e;
+            --bg-card: rgba(255,255,255,0.035);
+            --bg-card-hover: rgba(255,255,255,0.055);
+            --bg-card-inner: rgba(255,255,255,0.04);
+            --coral: #F19D76;
+            --coral-light: #f5b899;
+            --coral-glow: rgba(241,157,118,0.15);
+            --coral-soft: rgba(241,157,118,0.08);
+            --beige: #f1dbcf;
+            --beige-soft: rgba(241,219,207,0.08);
+            --rose: #e8a0b4;
+            --rose-soft: rgba(232,160,180,0.08);
+            --text-primary: #f0ece8;
+            --text-secondary: #8a8580;
+            --text-tertiary: #5a5652;
+            --border: rgba(255,255,255,0.06);
+            --border-hover: rgba(241,157,118,0.25);
+            --gradient-coral: linear-gradient(135deg, #F19D76 0%, #e87a4f 100%);
+            --gradient-premium: linear-gradient(135deg, #F19D76 0%, #e8a0b4 50%, #f1dbcf 100%);
+            --gradient-dark: linear-gradient(135deg, rgba(241,157,118,0.12) 0%, rgba(232,160,180,0.06) 100%);
+            --shadow-glow: 0 0 40px rgba(241,157,118,0.08);
+            --shadow-card: 0 4px 24px rgba(0,0,0,0.3);
+            --radius: 16px;
+            --radius-lg: 22px;
+            --radius-xl: 28px;
+            --meta-blue: #5b9cf6;
+            --meta-soft: rgba(91,156,246,0.10);
+            --google-yellow: #f6c95b;
+            --google-soft: rgba(246,201,91,0.10);
+            --gmb-green: #5bcf8a;
+            --gmb-soft: rgba(91,207,138,0.10);
+            --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ═══ AMBIENT BACKGROUND ═══ */
+        .page-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 0%, rgba(241,157,118,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(232,160,180,0.04) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 50% at 50% 50%, rgba(241,219,207,0.02) 0%, transparent 70%);
+        }
+
+        /* ═══ HEADER ═══ */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            background: rgba(8,8,8,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+
+        .logo-bh svg { height: 22px; width: auto; }
+        .logo-bh svg path { fill: var(--text-primary); }
+
+        .logo-divider {
+            width: 1px;
+            height: 28px;
+            background: var(--border);
+        }
+        .logo-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .header-right { display: flex; align-items: center; gap: 16px; }
+
+        .year-toggle {
+            display: flex;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 3px;
+            border: 1px solid var(--border);
+        }
+        .year-btn {
+            padding: 8px 22px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s var(--ease);
+            background: transparent;
+            color: var(--text-secondary);
+        }
+        .year-btn.active {
+            background: var(--gradient-coral);
+            color: #fff;
+            box-shadow: 0 2px 16px rgba(241,157,118,0.35);
+        }
+        .year-btn:hover:not(.active) { color: var(--coral); }
+
+        /* ═══ MAIN ═══ */
+        .main {
+            position: relative;
+            z-index: 1;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 36px 40px 80px;
+        }
+
+        /* ═══ HERO KPI ═══ */
+        .kpi-hero {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+        .kpi-card {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px 26px;
+            overflow: hidden;
+            transition: all 0.35s var(--ease);
+        }
+        .kpi-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+        }
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            opacity: 0;
+            transition: opacity 0.35s var(--ease);
+        }
+        .kpi-card:hover::before { opacity: 1; }
+        .kpi-card:nth-child(1)::before { background: var(--meta-blue); }
+        .kpi-card:nth-child(2)::before { background: var(--coral); }
+        .kpi-card:nth-child(3)::before { background: var(--rose); }
+        .kpi-card:nth-child(4)::before { background: var(--gmb-green); }
+
+        .kpi-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 12px;
+        }
+        .kpi-value {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+        .kpi-card:nth-child(1) .kpi-value { color: var(--meta-blue); }
+        .kpi-card:nth-child(2) .kpi-value { color: var(--coral); }
+        .kpi-card:nth-child(3) .kpi-value { color: var(--rose); }
+        .kpi-card:nth-child(4) .kpi-value { color: var(--gmb-green); }
+
+        .kpi-detail {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* ═══ SECTION HEADERS ═══ */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+        .section-badge {
+            font-size: 11px;
+            font-weight: 700;
+            background: var(--coral-soft);
+            color: var(--coral);
+            padding: 4px 14px;
+            border-radius: 20px;
+        }
+
+        /* ═══ BOUTIQUES GRID ═══ */
+        .boutiques-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 16px;
+            margin-bottom: 56px;
+            align-items: start;
+        }
+
+        .boutique-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            transition: all 0.35s var(--ease);
+            cursor: pointer;
+        }
+        .boutique-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-glow);
+        }
+        .boutique-card.expanded {
+            border-color: rgba(241,157,118,0.2);
+            box-shadow: 0 0 50px rgba(241,157,118,0.06);
+        }
+        .boutique-card.inactive {
+            opacity: 0.35;
+        }
+
+        .card-top {
+            padding: 24px 26px 20px;
+        }
+        .card-name-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .card-name {
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: -0.2px;
+        }
+        .card-badge-inactive {
+            font-size: 10px;
+            font-weight: 600;
+            background: rgba(255,255,255,0.06);
+            color: var(--text-tertiary);
+            padding: 3px 10px;
+            border-radius: 8px;
+        }
+
+        .card-hero-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .card-ca-block {}
+        .card-ca-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+        .card-ca-value {
+            font-size: 24px;
+            font-weight: 900;
+            background: var(--gradient-premium);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .card-dep-block { text-align: right; }
+        .card-dep-label {
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 2px;
+        }
+        .card-dep-value {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--coral);
+            letter-spacing: -0.3px;
+        }
+
+        .card-sub-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        .card-stats-mini {
+            display: flex;
+            gap: 20px;
+        }
+        .mini-stat {}
+        .mini-stat-val {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .mini-stat-label {
+            font-size: 9px;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* GMB Stars */
+        .gmb-rating {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .gmb-stars {
+            display: flex;
+            gap: 2px;
+        }
+        .gmb-stars svg {
+            width: 13px;
+            height: 13px;
+        }
+        .star-full { color: #f6c95b; }
+        .star-half { color: #f6c95b; }
+        .star-empty { color: rgba(255,255,255,0.1); }
+        .gmb-note-val {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .gmb-note-label {
+            font-size: 9px;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Expand indicator */
+        .card-expand-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            border-top: 1px solid var(--border);
+            color: var(--text-tertiary);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            gap: 6px;
+            transition: color 0.3s;
+        }
+        .boutique-card:hover .card-expand-bar { color: var(--coral); }
+        .card-expand-bar svg {
+            width: 14px; height: 14px;
+            transition: transform 0.35s var(--ease-spring);
+        }
+        .boutique-card.expanded .card-expand-bar svg {
+            transform: rotate(180deg);
+        }
+
+        /* Expandable details */
+        .card-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s var(--ease);
+        }
+        .card-details-inner {
+            padding: 0 26px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Detail sections */
+        .detail-section {
+            background: var(--bg-card-inner);
+            border-radius: 14px;
+            padding: 16px 18px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+        .detail-section-title {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .detail-section-title .dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+        }
+        .dot-meta { background: var(--meta-blue); }
+        .dot-google { background: var(--google-yellow); }
+        .dot-gmb { background: var(--gmb-green); }
+        .ds-meta .detail-section-title { color: var(--meta-blue); }
+        .ds-google .detail-section-title { color: var(--google-yellow); }
+        .ds-gmb .detail-section-title { color: var(--gmb-green); }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px 16px;
+        }
+        .detail-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+        .detail-metric {}
+        .dm-val {
+            font-size: 15px;
+            font-weight: 700;
+        }
+        .dm-label {
+            font-size: 10px;
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        /* Budget progress */
+        .budget-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .budget-bar-bg {
+            flex: 1;
+            height: 5px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .budget-bar-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.6s var(--ease);
+        }
+        .fill-ok { background: var(--gmb-green); }
+        .fill-warn { background: var(--coral); }
+        .fill-over { background: #ef5350; }
+        .budget-text {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            white-space: nowrap;
+        }
+
+        /* Site web footer */
+        .detail-footer {
+            display: flex;
+            gap: 20px;
+            padding-top: 8px;
+        }
+        .df-item {}
+        .df-val { font-size: 14px; font-weight: 700; }
+        .df-label { font-size: 9px; color: var(--text-tertiary); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* ═══ RAPPORTS DROPDOWN ═══ */
+        .rapports-section { margin-top: 8px; }
+
+        .rapports-dropdown {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            margin-bottom: 16px;
+            transition: all 0.35s var(--ease);
+        }
+        .rapports-dropdown:hover {
+            border-color: var(--border-hover);
+        }
+        .rapports-dropdown-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.25s;
+        }
+        .rapports-dropdown-header:hover {
+            background: var(--bg-card-hover);
+        }
+        .rdh-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .rdh-icon {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .rdh-icon svg { width: 17px; height: 17px; }
+        .rdh-icon-synth { background: var(--coral-soft); color: var(--coral); }
+        .rdh-icon-skeepers { background: var(--rose-soft); color: var(--rose); }
+        .rdh-title {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .rdh-count {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+        }
+        .rdh-chevron {
+            width: 20px; height: 20px;
+            color: var(--text-tertiary);
+            transition: transform 0.35s var(--ease-spring);
+        }
+        .rapports-dropdown.open .rdh-chevron {
+            transform: rotate(180deg);
+        }
+        .rapports-dropdown-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s var(--ease);
+        }
+        .rapports-dropdown-body-inner {
+            padding: 0 24px 20px;
+        }
+
+        .rapports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 10px;
+        }
+        .rapport-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            background: var(--bg-card-inner);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.25s var(--ease);
+        }
+        .rapport-link:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+        .rapport-icon {
+            width: 34px; height: 34px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .rapport-icon svg { width: 15px; height: 15px; }
+        .ri-synth { background: var(--coral-soft); color: var(--coral); }
+        .ri-skeepers { background: var(--rose-soft); color: var(--rose); }
+        .rapport-text {}
+        .rapport-label { font-size: 13px; font-weight: 600; }
+        .rapport-sub { font-size: 11px; color: var(--text-tertiary); font-weight: 500; }
+
+        /* ═══ RESPONSIVE ═══ */
+        @media (max-width: 1100px) {
+            .kpi-hero { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 900px) {
+            .header { padding: 0 20px; }
+            .main { padding: 24px 20px 60px; }
+            .boutiques-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+            .header { height: 60px; padding: 0 16px; }
+            .main { padding: 20px 16px 40px; }
+            .kpi-hero { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .kpi-value { font-size: 24px; }
+            .kpi-card { padding: 18px 20px; border-radius: 16px; }
+            .logo-label { display: none; }
+            .logo-divider { display: none; }
+            .rapports-grid { grid-template-columns: 1fr; }
+            .year-btn { padding: 6px 14px; font-size: 12px; }
+        }
+
+        /* ═══ SCROLLBAR ═══ */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+    </style>
+</head>
+<body>
+
+<div class="page-bg"></div>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="header-left">
+        <div class="logo-bh">
+            <svg viewBox="0 0 231 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0.449219H10.4278C12.4884 0.449219 14.037 0.536638 15.0486 0.711476C16.0601 0.886314 16.9718 1.23599 17.771 1.78548C18.5703 2.33497 19.2447 3.0593 19.7692 3.97096C20.3062 4.88261 20.5685 5.89418 20.5685 7.01814C20.5685 8.242 20.2438 9.36596 19.5819 10.3775C18.92 11.4016 18.0333 12.1634 16.8969 12.6754C18.4829 13.1375 19.7068 13.9242 20.5685 15.0482C21.4177 16.1597 21.8548 17.471 21.8548 18.9821C21.8548 20.1685 21.58 21.3174 21.0305 22.4414C20.481 23.5653 19.7192 24.452 18.7701 25.1264C17.821 25.8007 16.6346 26.2129 15.2359 26.3627C14.3617 26.4626 12.2387 26.5126 8.87928 26.5376H0V0.449219ZM5.27012 4.78271V10.8146H8.71693C10.765 10.8146 12.0389 10.7896 12.5384 10.7272C13.4376 10.6148 14.1494 10.3026 14.6614 9.79057C15.1734 9.27854 15.4357 8.59168 15.4357 7.75495C15.4357 6.91823 15.2109 6.29381 14.7738 5.78178C14.3242 5.28224 13.6623 4.97003 12.7882 4.87013C12.2636 4.80768 10.765 4.78271 8.29232 4.78271H5.27012ZM5.27012 15.1606V22.1416H10.1406C12.0389 22.1416 13.2377 22.0917 13.7498 21.9793C14.5365 21.8419 15.1734 21.4922 15.6605 20.9427C16.1475 20.3933 16.3973 19.6564 16.3973 18.7198C16.3973 17.933 16.21 17.2711 15.8228 16.7217C15.4357 16.1722 14.8987 15.7725 14.1744 15.5228C13.4625 15.273 11.9015 15.1481 9.5037 15.1481H5.24514L5.27012 15.1606Z" fill="currentColor"/>
+                <path d="M25.2391 13.6499C25.2391 10.9898 25.6387 8.76688 26.438 6.95606C27.0249 5.63228 27.8367 4.43339 28.8607 3.37188C29.8848 2.32285 31.0087 1.53608 32.2326 1.02405C33.8561 0.349676 35.7294 0 37.8524 0C41.6988 0 44.771 1.1864 47.0814 3.57169C49.3917 5.95698 50.5406 9.26642 50.5406 13.525C50.5406 17.7835 49.3917 21.0305 47.1063 23.4158C44.8209 25.8011 41.7488 26.9875 37.9273 26.9875C34.1059 26.9875 30.9588 25.8011 28.6734 23.4408C26.388 21.068 25.2391 17.8085 25.2391 13.6623M30.6591 13.475C30.6591 16.4348 31.3459 18.6702 32.7072 20.1938C34.0684 21.7174 35.8043 22.4792 37.9024 22.4792C40.0004 22.4792 41.7238 21.7174 43.0726 20.2063C44.4213 18.6952 45.0957 16.4223 45.0957 13.4001C45.0957 10.3779 44.4463 8.17992 43.135 6.70629C41.8237 5.23265 40.0878 4.49584 37.9148 4.49584C35.7419 4.49584 33.9935 5.24514 32.6697 6.73127C31.3459 8.21739 30.6715 10.4653 30.6715 13.4625" fill="currentColor"/>
+                <path d="M54.6369 0.449219H64.2655C66.4385 0.449219 68.0869 0.611568 69.2359 0.948756C70.772 1.39834 72.0832 2.1976 73.1697 3.34654C74.2562 4.49547 75.093 5.90667 75.6674 7.56763C76.2419 9.24108 76.5166 11.2892 76.5166 13.7369C76.5166 15.8849 76.2544 17.7332 75.7174 19.2943C75.068 21.1925 74.1313 22.7286 72.92 23.9025C72.0083 24.7892 70.772 25.4885 69.2234 25.9881C68.062 26.3502 66.5009 26.5376 64.5652 26.5376H54.6494V0.449219H54.6369ZM59.907 4.85764V22.1416H63.8409C65.3145 22.1416 66.376 22.0542 67.0254 21.8919C67.8746 21.6796 68.5865 21.3174 69.1485 20.8054C69.7104 20.2933 70.1725 19.4566 70.5222 18.2827C70.8844 17.1088 71.0592 15.5228 71.0592 13.4996C71.0592 11.4765 70.8844 9.94043 70.5222 8.85394C70.16 7.77993 69.673 6.93072 69.0236 6.33127C68.3867 5.73183 67.5749 5.31971 66.5883 5.10741C65.8515 4.94506 64.4153 4.85764 62.2673 4.85764H59.907Z" fill="currentColor"/>
+                <path d="M87.8311 26.5376V15.5602L78.2774 0.449219H84.4467L90.591 10.7647L96.6105 0.449219H102.68L93.0762 15.5852V26.5376H87.8311Z" fill="currentColor"/>
+                <path d="M105.315 26.5376V0.449219H110.573V10.7147H120.901V0.449219H126.171V26.5376H120.901V15.1231H110.573V26.5376H105.315Z" fill="currentColor"/>
+                <path d="M130.542 13.6499C130.542 10.9898 130.941 8.76688 131.728 6.95606C132.328 5.63228 133.127 4.43339 134.163 3.37188C135.187 2.32285 136.311 1.53608 137.535 1.02405C139.171 0.349676 141.044 0 143.167 0C147.014 0 150.086 1.1864 152.396 3.57169C154.707 5.95698 155.856 9.26642 155.856 13.525C155.856 17.7835 154.707 21.0305 152.421 23.4158C150.136 25.8011 147.064 26.9875 143.242 26.9875C139.421 26.9875 136.274 25.8011 133.988 23.4408C131.703 21.068 130.554 17.8085 130.554 13.6623M135.974 13.475C135.974 16.4348 136.661 18.6702 138.022 20.1938C139.383 21.7174 141.119 22.4792 143.217 22.4792C145.315 22.4792 147.039 21.7174 148.388 20.2063C149.736 18.6952 150.411 16.4223 150.411 13.4001C150.411 10.3779 149.749 8.17992 148.438 6.70629C147.126 5.23265 145.39 4.49584 143.217 4.49584C141.044 4.49584 139.296 5.24514 137.972 6.73127C136.649 8.21739 135.974 10.4653 135.974 13.4625" fill="currentColor"/>
+                <path d="M160 0H165.27V14.1369C165.27 16.3723 165.333 17.8335 165.47 18.4954C165.695 19.5569 166.232 20.4186 167.081 21.068C167.93 21.7174 169.092 22.0421 170.565 22.0421C172.039 22.0421 173.188 21.7424 173.95 21.1304C174.711 20.5185 175.161 19.7692 175.323 18.8825C175.473 17.9958 175.548 16.5097 175.548 14.4491V0H180.818V13.6998C180.818 16.8344 180.681 19.0449 180.394 20.3312C180.106 21.63 179.582 22.7165 178.82 23.6031C178.058 24.4898 177.034 25.2017 175.748 25.7262C174.462 26.2507 172.788 26.5129 170.728 26.5129C168.242 26.5129 166.344 26.2257 165.058 25.6512C163.772 25.0768 162.747 24.3275 162.011 23.4033C161.261 22.4792 160.774 21.5176 160.537 20.506C160.2 19.0074 160.025 16.8094 160.025 13.8871V0H160Z" fill="currentColor"/>
+                <path d="M184.954 18.0458L190.074 17.5463C190.386 19.2697 191.011 20.531 191.947 21.3427C192.896 22.1545 194.158 22.5541 195.769 22.5541C197.467 22.5541 198.741 22.192 199.603 21.4801C200.464 20.7683 200.889 19.9191 200.889 18.9574C200.889 18.3455 200.702 17.821 200.352 17.3839C199.99 16.9468 199.353 16.5722 198.454 16.2599C197.842 16.0476 196.431 15.673 194.233 15.1235C191.41 14.4241 189.425 13.5624 188.288 12.5384C186.69 11.1022 185.89 9.35384 185.89 7.29325C185.89 5.96947 186.265 4.72063 187.014 3.5592C187.764 2.39778 188.85 1.52359 190.274 0.911656C191.698 0.312211 193.409 0 195.407 0C198.679 0 201.151 0.724329 202.8 2.14801C204.461 3.58418 205.322 5.5074 205.41 7.89269L200.14 8.12997C199.915 6.79371 199.428 5.81961 198.691 5.23266C197.954 4.6457 196.843 4.35846 195.357 4.35846C193.871 4.35846 192.634 4.67068 191.76 5.30759C191.198 5.70722 190.923 6.25671 190.923 6.93108C190.923 7.54302 191.186 8.08002 191.71 8.51711C192.372 9.07909 193.983 9.65356 196.556 10.2655C199.116 10.8649 201.014 11.5019 202.238 12.1388C203.462 12.7882 204.423 13.6748 205.123 14.7863C205.822 15.8978 206.159 17.2965 206.159 18.945C206.159 20.4436 205.747 21.8423 204.91 23.1411C204.086 24.4399 202.9 25.414 201.389 26.0509C199.865 26.6878 197.979 27 195.706 27C192.409 27 189.874 26.2382 188.101 24.7146C186.328 23.191 185.279 20.9681 184.929 18.0458" fill="currentColor"/>
+                <path d="M210.605 26.5376V0.449219H229.95V4.85764H215.875V10.6398H228.976V15.0357H215.875V22.1416H230.449V26.5376H210.605Z" fill="currentColor"/>
+            </svg>
+        </div>
+        <div class="logo-divider"></div>
+        <div class="logo-label">Portail Marketing</div>
+    </div>
+    <div class="header-right">
+        <div class="year-toggle">
+            <button class="year-btn active" onclick="switchYear('2025')">2025</button>
+            <button class="year-btn" onclick="switchYear('2026')">2026</button>
+        </div>
+    </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+    <!-- KPI HERO -->
+    <div class="kpi-hero" id="kpiHero"></div>
+
+    <!-- BOUTIQUES -->
+    <div class="section-header">
+        <div class="section-title">Performances par boutique</div>
+        <span class="section-badge" id="boutiqueCount">15 boutiques</span>
+    </div>
+    <div class="boutiques-grid" id="boutiquesGrid"></div>
+
+    <!-- RAPPORTS -->
+    <div class="rapports-section">
+        <div class="section-header">
+            <div class="section-title">Rapports & Analyses</div>
+        </div>
+
+        <div class="rapports-dropdown" onclick="toggleDropdown(this)">
+            <div class="rapports-dropdown-header">
+                <div class="rdh-left">
+                    <div class="rdh-icon rdh-icon-synth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+                    <div><div class="rdh-title">Syntheses boutiques — 2025</div><div class="rdh-count">13 rapports</div></div>
+                </div>
+                <svg class="rdh-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="rapports-dropdown-body">
+                <div class="rapports-dropdown-body-inner">
+                    <div class="rapports-grid" id="rapportsSynthGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rapports-dropdown" onclick="toggleDropdown(this)">
+            <div class="rapports-dropdown-header">
+                <div class="rdh-left">
+                    <div class="rdh-icon rdh-icon-skeepers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+                    <div><div class="rdh-title">Skeepers — 2025</div><div class="rdh-count">1 rapport</div></div>
+                </div>
+                <svg class="rdh-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="rapports-dropdown-body">
+                <div class="rapports-dropdown-body-inner">
+                    <div class="rapports-grid" id="rapportsSkeepersGrid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+const DATA = {
+    "2025": {
+        "Avignon Nord": { meta_imp: 6399073, meta_clics: 57865, meta_eng: 8226, meta_dep: 9024, meta_budget: 8960, google_imp: 104788, google_clics: 24767, google_dep: 5705, gmb_imp: 111089, appels: 833, itineraires: 3632, visites: 47769, ca_ttc: 1399781, gmb_note: 5.0 },
+        "Avignon Sud": { meta_imp: 6975381, meta_clics: 54522, meta_eng: 7287, meta_dep: 9926, meta_budget: 9455, google_imp: 121855, google_clics: 24313, google_dep: 6010, gmb_imp: 85539, appels: 526, itineraires: 2558, visites: 32744, ca_ttc: 536488, gmb_note: 5.0 },
+        "Aubiere": { meta_imp: 2876543, meta_clics: 40443, meta_eng: 13516, meta_dep: 10680, meta_budget: 11600, google_imp: 71998, google_clics: 12477, google_dep: 3854, gmb_imp: 42026, appels: 498, itineraires: 2320, visites: 32955, ca_ttc: 557150, gmb_note: 5.0 },
+        "Biganos": { meta_imp: 1862442, meta_clics: 25745, meta_eng: 13461, meta_dep: 6124, meta_budget: 6100, google_imp: 61390, google_clics: 10482, google_dep: 6868, gmb_imp: 27976, appels: 291, itineraires: 1279, visites: 20582, ca_ttc: 335823, gmb_note: 5.0 },
+        "Chambery": { meta_imp: 2338797, meta_clics: 40165, meta_eng: 9444, meta_dep: 8367, meta_budget: 7400, google_imp: 73707, google_clics: 13301, google_dep: 5662, gmb_imp: 56568, appels: 432, itineraires: 2690, visites: 34165, ca_ttc: 848024, gmb_note: 5.0 },
+        "Grenoble": { meta_imp: 2749392, meta_clics: 44115, meta_eng: 9250, meta_dep: 5797, meta_budget: 5995, google_imp: 75869, google_clics: 14450, google_dep: 3914, gmb_imp: 70856, appels: 693, itineraires: 3484, visites: 31776, ca_ttc: 871532, gmb_note: 5.0 },
+        "Jacou": { meta_imp: 598197, meta_clics: 2699, meta_eng: 564, meta_dep: 929, meta_budget: 900, google_imp: 21747, google_clics: 2942, google_dep: 1101, gmb_imp: 28314, appels: 259, itineraires: 1415, visites: 12166, ca_ttc: 219321, gmb_note: 4.2 },
+        "Lyon": { meta_imp: 2825592, meta_clics: 61928, meta_eng: 14507, meta_dep: 5662, meta_budget: 5795, google_imp: 90939, google_clics: 16227, google_dep: 3835, gmb_imp: 147535, appels: 915, itineraires: 5018, visites: 48804, ca_ttc: 1111465, gmb_note: 5.0 },
+        "Montelimar": { meta_imp: 2813692, meta_clics: 42392, meta_eng: 5943, meta_dep: 5849, meta_budget: 5795, google_imp: 46768, google_clics: 9382, google_dep: 3742, gmb_imp: 53329, appels: 429, itineraires: 2452, visites: 22439, ca_ttc: 609907, gmb_note: 5.0 },
+        "Nimes": { meta_imp: 4289309, meta_clics: 30503, meta_eng: 10858, meta_dep: 7222, meta_budget: 7000, google_imp: 38412, google_clics: 6080, google_dep: 2088, gmb_imp: 47218, appels: 371, itineraires: 2082, visites: 18560, ca_ttc: 302692, gmb_note: 5.0 },
+        "Sainte-Eulalie": { meta_imp: 3854784, meta_clics: 37371, meta_eng: 18808, meta_dep: 10760, meta_budget: 9900, google_imp: 96516, google_clics: 14838, google_dep: 4547, gmb_imp: 49241, appels: 477, itineraires: 2090, visites: 35797, ca_ttc: 465548, gmb_note: 5.0 },
+        "Salaise": { meta_imp: 3238677, meta_clics: 33278, meta_eng: 9266, meta_dep: 8531, meta_budget: 7400, google_imp: 67734, google_clics: 12404, google_dep: 4049, gmb_imp: 54211, appels: 381, itineraires: 1808, visites: 22539, ca_ttc: 436862, gmb_note: 5.0 },
+        "Tignieu": { meta_imp: 955272, meta_clics: 5047, meta_eng: 1306, meta_dep: 1388, meta_budget: 1200, google_imp: 20110, google_clics: 4003, google_dep: 1021, gmb_imp: 28188, appels: 280, itineraires: 967, visites: 8150, ca_ttc: 98295, gmb_note: 4.8 },
+        "Valence": { meta_imp: 2013552, meta_clics: 31238, meta_eng: 5907, meta_dep: 5097, meta_budget: 4900, google_imp: 59729, google_clics: 13850, google_dep: 4611, gmb_imp: 77172, appels: 735, itineraires: 2700, visites: 31045, ca_ttc: 963011, gmb_note: 4.9 },
+        "Villefranche": { meta_imp: 4137287, meta_clics: 39330, meta_eng: 11668, meta_dep: 11110, meta_budget: 11200, google_imp: 141653, google_clics: 23927, google_dep: 7036, gmb_imp: 55736, appels: 465, itineraires: 2369, visites: 34590, ca_ttc: 535979, gmb_note: 5.0 }
+    },
+    "2026": {
+        "Avignon Nord": { meta_imp: 766230, meta_clics: 7048, meta_eng: 1407, meta_dep: 1481, meta_budget: 2900, google_imp: 11334, google_clics: 2713, google_dep: 453, gmb_imp: 20936, appels: 89, itineraires: 499, visites: 4908, ca_ttc: 188865, gmb_note: 5.0 },
+        "Avignon Sud": { meta_imp: 761734, meta_clics: 6241, meta_eng: 1260, meta_dep: 1466, meta_budget: 2900, google_imp: 11804, google_clics: 2660, google_dep: 466, gmb_imp: 13102, appels: 79, itineraires: 279, visites: 3600, ca_ttc: 69159, gmb_note: 4.8 },
+        "Aubiere": { meta_imp: 552443, meta_clics: 10669, meta_eng: 3153, meta_dep: 2151, meta_budget: 3000, google_imp: 10342, google_clics: 1960, google_dep: 468, gmb_imp: 5124, appels: 53, itineraires: 374, visites: 4890, ca_ttc: 75125, gmb_note: 4.9 },
+        "Biganos": { meta_imp: 249215, meta_clics: 5028, meta_eng: 2304, meta_dep: 1115, meta_budget: 2000, google_imp: 8084, google_clics: 1403, google_dep: 766, gmb_imp: 4683, appels: 35, itineraires: 149, visites: 2698, ca_ttc: 43292, gmb_note: 5.0 },
+        "Chambery": { meta_imp: 361380, meta_clics: 10799, meta_eng: 2010, meta_dep: 1576, meta_budget: 3000, google_imp: 8928, google_clics: 1937, google_dep: 539, gmb_imp: 10218, appels: 47, itineraires: 453, visites: 5047, ca_ttc: 123200, gmb_note: 4.9 },
+        "Grenoble": { meta_imp: 316214, meta_clics: 4356, meta_eng: 1138, meta_dep: 1100, meta_budget: 2100, google_imp: 10620, google_clics: 2247, google_dep: 465, gmb_imp: 16007, appels: 77, itineraires: 483, visites: 4300, ca_ttc: 116932, gmb_note: 5.0 },
+        "Jacou": { meta_imp: 0, meta_clics: 0, meta_eng: 0, meta_dep: 0, meta_budget: 0, google_imp: 0, google_clics: 0, google_dep: 0, gmb_imp: 3101, appels: 51, itineraires: 122, visites: 1614, ca_ttc: 29256, gmb_note: 5.0 },
+        "Lyon": { meta_imp: 502732, meta_clics: 9802, meta_eng: 3490, meta_dep: 1286, meta_budget: 2100, google_imp: 12773, google_clics: 2428, google_dep: 461, gmb_imp: 27113, appels: 95, itineraires: 680, visites: 6131, ca_ttc: 155938, gmb_note: 5.0 },
+        "Montelimar": { meta_imp: 443294, meta_clics: 7372, meta_eng: 1085, meta_dep: 1106, meta_budget: 2100, google_imp: 6433, google_clics: 1357, google_dep: 469, gmb_imp: 12204, appels: 59, itineraires: 261, visites: 2772, ca_ttc: 77948, gmb_note: 5.0 },
+        "Nimes": { meta_imp: 811708, meta_clics: 5877, meta_eng: 24684, meta_dep: 1572, meta_budget: 3000, google_imp: 8805, google_clics: 1627, google_dep: 449, gmb_imp: 9730, appels: 74, itineraires: 362, visites: 3047, ca_ttc: 46811, gmb_note: 5.0 },
+        "Sainte-Eulalie": { meta_imp: 373092, meta_clics: 6751, meta_eng: 2785, meta_dep: 1577, meta_budget: 3000, google_imp: 10467, google_clics: 1977, google_dep: 459, gmb_imp: 6360, appels: 56, itineraires: 242, visites: 4637, ca_ttc: 62590, gmb_note: 5.0 },
+        "Salaise": { meta_imp: 681303, meta_clics: 4416, meta_eng: 1535, meta_dep: 1699, meta_budget: 11200, google_imp: 12732, google_clics: 2391, google_dep: 870, gmb_imp: 11609, appels: 63, itineraires: 306, visites: 3780, ca_ttc: 51864, gmb_note: 4.9 },
+        "Tignieu": { meta_imp: 0, meta_clics: 0, meta_eng: 0, meta_dep: 0, meta_budget: 0, google_imp: 0, google_clics: 0, google_dep: 0, gmb_imp: 156, appels: 22, itineraires: 77, visites: 1, ca_ttc: 0, gmb_note: 0 },
+        "Valence": { meta_imp: 125761, meta_clics: 2946, meta_eng: 252, meta_dep: 632, meta_budget: 1200, google_imp: 8147, google_clics: 1902, google_dep: 460, gmb_imp: 20424, appels: 75, itineraires: 277, visites: 3536, ca_ttc: 125994, gmb_note: 5.0 },
+        "Villefranche": { meta_imp: 420552, meta_clics: 5609, meta_eng: 1716, meta_dep: 1082, meta_budget: 8500, google_imp: 13093, google_clics: 2878, google_dep: 579, gmb_imp: 9920, appels: 49, itineraires: 404, visites: 4480, ca_ttc: 60198, gmb_note: 5.0 }
+    }
+};
+
+const RAPPORTS = [
+    { label: 'Aubiere', file: 'synthese-bodyhouse-aubiere-2025.pdf' },
+    { label: 'Avignon Nord', file: 'synthese-bodyhouse-avignon-nord-2025.pdf' },
+    { label: 'Avignon Sud', file: 'synthese-bodyhouse-avignon-sud-2025.pdf' },
+    { label: 'Biganos', file: 'synthese-bodyhouse-biganos-2025.pdf' },
+    { label: 'Chambery', file: 'synthese-bodyhouse-chambery-2025.pdf' },
+    { label: 'Grenoble', file: 'synthese-bodyhouse-grenoble-2025.pdf' },
+    { label: 'Jacou', file: 'synthese-bodyhouse-jacou-2025.pdf' },
+    { label: 'Lyon', file: 'synthese-bodyhouse-lyon-2025.pdf' },
+    { label: 'Montelimar', file: 'synthese-bodyhouse-montelimar-2025.pdf' },
+    { label: 'Sainte-Eulalie', file: 'synthese-bodyhouse-sainte-eulalie-2025.pdf' },
+    { label: 'Salaise', file: 'synthese-bodyhouse-salaise-2025.pdf' },
+    { label: 'Valence', file: 'synthese-bodyhouse-valence-2025.pdf' },
+    { label: 'Villefranche', file: 'synthese-bodyhouse-villefranche-2025.pdf' }
+];
+
+let currentYear = '2025';
+
+function fmt(n) { return (n || 0).toLocaleString('fr-FR'); }
+function fmtE(n) { return (n || 0).toLocaleString('fr-FR') + ' \u20ac'; }
+function fmtShort(n) {
+    if (n >= 1000000) return (n / 1000000).toFixed(1).replace('.', ',') + 'M';
+    if (n >= 1000) return Math.round(n / 1000) + 'K';
+    return String(n);
+}
+
+function renderKPIs() {
+    const year = DATA[currentYear];
+    let tImp = 0, tClics = 0, tDep = 0, tCA = 0;
+    Object.values(year).forEach(b => { tImp += b.meta_imp + b.google_imp; tClics += b.meta_clics + b.google_clics; tDep += b.meta_dep + b.google_dep; tCA += b.ca_ttc; });
+
+    document.getElementById('kpiHero').innerHTML = `
+        <div class="kpi-card">
+            <div class="kpi-label">Impressions publicitaires</div>
+            <div class="kpi-value">${fmtShort(tImp)}</div>
+            <div class="kpi-detail">${fmt(tImp)} — META + Google Ads</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Clics publicitaires</div>
+            <div class="kpi-value">${fmtShort(tClics)}</div>
+            <div class="kpi-detail">${fmt(tClics)} — META + Google Ads</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Investissement publicitaire</div>
+            <div class="kpi-value">${fmtE(tDep)}</div>
+            <div class="kpi-detail">META + Google Ads</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Chiffre d'affaires</div>
+            <div class="kpi-value">${fmtShort(tCA)}\u20ac</div>
+            <div class="kpi-detail">${fmtE(tCA)} CA TTC</div>
+        </div>`;
+}
+
+function renderStars(note) {
+    if (!note) return '';
+    const full = Math.floor(note);
+    const half = note % 1 >= 0.3 ? 1 : 0;
+    const empty = 5 - full - half;
+    const starFull = '<svg viewBox="0 0 24 24" fill="currentColor" class="star-full"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+    const starHalf = '<svg viewBox="0 0 24 24" class="star-half"><defs><linearGradient id="hg"><stop offset="50%" stop-color="#f6c95b"/><stop offset="50%" stop-color="rgba(255,255,255,0.1)"/></linearGradient></defs><path fill="url(#hg)" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+    const starEmpty = '<svg viewBox="0 0 24 24" fill="currentColor" class="star-empty"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+    return '<div class="gmb-stars">' + starFull.repeat(full) + starHalf.repeat(half) + starEmpty.repeat(empty) + '</div>';
+}
+
+function renderBoutiques() {
+    const year = DATA[currentYear];
+    const sorted = Object.entries(year).sort((a, b) => b[1].ca_ttc - a[1].ca_ttc);
+    let active = 0;
+
+    document.getElementById('boutiquesGrid').innerHTML = sorted.map(([name, d]) => {
+        const off = d.meta_imp === 0 && d.google_imp === 0 && d.ca_ttc === 0;
+        if (!off) active++;
+        const pct = d.meta_budget > 0 ? Math.min((d.meta_dep / d.meta_budget) * 100, 120) : 0;
+        const fc = pct > 105 ? 'fill-over' : pct > 90 ? 'fill-warn' : 'fill-ok';
+        const totalDep = d.meta_dep + d.google_dep;
+
+        return `
+        <div class="boutique-card ${off ? 'inactive' : ''}" onclick="toggleCard(this)">
+            <div class="card-top">
+                <div class="card-name-row">
+                    <div class="card-name">${name}</div>
+                    ${off ? '<span class="card-badge-inactive">Inactif</span>' : ''}
+                    ${d.gmb_note > 0 ? `<div class="gmb-rating">${renderStars(d.gmb_note)}<span class="gmb-note-val">${d.gmb_note.toFixed(1).replace('.', ',')}</span></div>` : ''}
+                </div>
+                <div class="card-hero-row">
+                    <div class="card-ca-block">
+                        <div class="card-ca-label">Chiffre d'affaires</div>
+                        <div class="card-ca-value">${fmtE(d.ca_ttc)}</div>
+                    </div>
+                    <div class="card-dep-block">
+                        <div class="card-dep-label">Depenses totales</div>
+                        <div class="card-dep-value">${fmtE(totalDep)}</div>
+                    </div>
+                </div>
+                <div class="card-sub-row">
+                    <div class="card-stats-mini">
+                        <div class="mini-stat">
+                            <div class="mini-stat-val">${fmtShort(d.meta_imp)}</div>
+                            <div class="mini-stat-label">Impressions</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-val">${fmt(d.meta_clics)}</div>
+                            <div class="mini-stat-label">Clics</div>
+                        </div>
+                    </div>
+                    ${d.meta_budget > 0 ? `<div class="budget-text">${Math.round(pct)}% budget META</div>` : ''}
+                </div>
+            </div>
+
+            <div class="card-expand-bar">
+                <span>Details</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+
+            <div class="card-details">
+                <div class="card-details-inner">
+                    <div class="detail-section ds-meta">
+                        <div class="detail-section-title"><span class="dot dot-meta"></span> META</div>
+                        <div class="detail-grid">
+                            <div class="detail-metric"><div class="dm-val">${fmt(d.meta_imp)}</div><div class="dm-label">Impressions</div></div>
+                            <div class="detail-metric"><div class="dm-val">${fmt(d.meta_clics)}</div><div class="dm-label">Clics</div></div>
+                            <div class="detail-metric"><div class="dm-val">${fmtE(d.meta_dep)}</div><div class="dm-label">Depenses</div></div>
+                            <div class="detail-metric"><div class="dm-val">${fmt(d.meta_eng)}</div><div class="dm-label">Engagements</div></div>
+                        </div>
+                        ${d.meta_budget > 0 ? `<div class="budget-row">
+                            <div class="budget-bar-bg"><div class="budget-bar-fill ${fc}" style="width:${Math.min(pct, 100)}%"></div></div>
+                            <div class="budget-text">${Math.round(pct)}% du budget (${fmtE(d.meta_budget)})</div>
+                        </div>` : ''}
+                    </div>
+                    <div class="detail-section ds-google">
+                        <div class="detail-section-title"><span class="dot dot-google"></span> GOOGLE ADS</div>
+                        <div class="detail-grid cols-3">
+                            <div class="detail-metric"><div class="dm-val">${fmt(d.google_imp)}</div><div class="dm-label">Impressions</div></div>
+                            <div class="detail-metric"><div class="dm-val">${fmt(d.google_clics)}</div><div class="dm-label">Clics</div></div>
+                            <div class="detail-metric"><div class="dm-val">${fmtE(d.google_dep)}</div><div class="dm-label">Depenses</div></div>
+                        </div>
+                    </div>
+                    <div class="detail-section ds-gmb">
+                        <div class="detail-section-title"><span class="dot dot-gmb"></span> GOOGLE MY BUSINESS</div>
+                        <div class="detail-grid cols-3">
+                            <div class="detail-metric"><div class="dm-val">${fmt(d.gmb_imp)}</div><div class="dm-label">Impressions</div></div>
+                            <div class="detail-metric"><div class="dm-val">${fmt(d.appels)}</div><div class="dm-label">Appels</div></div>
+                            <div class="detail-metric"><div class="dm-val">${fmt(d.itineraires)}</div><div class="dm-label">Itineraires</div></div>
+                        </div>
+                    </div>
+                    <div class="detail-footer">
+                        <div class="df-item"><div class="df-val">${fmt(d.visites)}</div><div class="df-label">Visites site web</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+
+    document.getElementById('boutiqueCount').textContent = active + ' boutiques';
+}
+
+function toggleCard(card) {
+    if (card.classList.contains('inactive')) return;
+    const details = card.querySelector('.card-details');
+    const isOpen = card.classList.contains('expanded');
+    if (isOpen) {
+        details.style.maxHeight = '0';
+        card.classList.remove('expanded');
+    } else {
+        details.style.maxHeight = details.scrollHeight + 'px';
+        card.classList.add('expanded');
+    }
+}
+
+function toggleDropdown(el) {
+    const body = el.querySelector('.rapports-dropdown-body');
+    const isOpen = el.classList.contains('open');
+    if (isOpen) {
+        body.style.maxHeight = '0';
+        el.classList.remove('open');
+    } else {
+        body.style.maxHeight = body.scrollHeight + 'px';
+        el.classList.add('open');
+    }
+}
+
+function renderRapports() {
+    document.getElementById('rapportsSynthGrid').innerHTML = RAPPORTS.map(r => `
+        <a class="rapport-link" href="${r.file}" target="_blank" onclick="event.stopPropagation()">
+            <div class="rapport-icon ri-synth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            <div class="rapport-text"><div class="rapport-label">${r.label}</div><div class="rapport-sub">Synthese 2025</div></div>
+        </a>`).join('');
+
+    document.getElementById('rapportsSkeepersGrid').innerHTML = `
+        <a class="rapport-link" href="rapport-skeepers-bodyhouse-2025.pdf" target="_blank" onclick="event.stopPropagation()">
+            <div class="rapport-icon ri-skeepers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+            <div class="rapport-text"><div class="rapport-label">Rapport Performance Skeepers</div><div class="rapport-sub">Octobre — Decembre 2025</div></div>
+        </a>`;
+}
+
+function switchYear(y) {
+    currentYear = y;
+    document.querySelectorAll('.year-btn').forEach(b => b.classList.toggle('active', b.textContent === y));
+    renderKPIs();
+    renderBoutiques();
+}
+
+renderKPIs();
+renderBoutiques();
+renderRapports();
+</script>
+</body>
+</html>
