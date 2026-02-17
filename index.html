@@ -41,6 +41,8 @@
             --google-soft: rgba(246,201,91,0.10);
             --gmb-green: #5bcf8a;
             --gmb-soft: rgba(91,207,138,0.10);
+            --national-purple: #a78bfa;
+            --national-soft: rgba(167,139,250,0.10);
             --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
@@ -644,9 +646,37 @@
         .dot-meta { background: var(--meta-blue); }
         .dot-google { background: var(--google-yellow); }
         .dot-gmb { background: var(--gmb-green); }
+        .dot-national { background: var(--national-purple); }
         .ds-meta .detail-section-title { color: var(--meta-blue); }
         .ds-google .detail-section-title { color: var(--google-yellow); }
         .ds-gmb .detail-section-title { color: var(--gmb-green); }
+        .ds-national .detail-section-title { color: var(--national-purple); }
+
+        /* National card styling */
+        .boutique-card.national-card {
+            border-color: rgba(167,139,250,0.2);
+        }
+        .boutique-card.national-card:hover {
+            border-color: rgba(167,139,250,0.4);
+            box-shadow: 0 0 40px rgba(167,139,250,0.08);
+        }
+        .national-badge {
+            font-size: 10px;
+            font-weight: 700;
+            background: var(--national-soft);
+            color: var(--national-purple);
+            padding: 3px 10px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .national-card .card-ca-value {
+            background: linear-gradient(135deg, #a78bfa 0%, #818cf8 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .national-card .card-dep-value { color: var(--national-purple); }
 
         .detail-grid {
             display: grid;
@@ -1490,6 +1520,16 @@ const BUDGETS = {
 }
 };
 
+const DATA_NATIONAL = {
+"2026":{
+nat_imp:[[0,11170,13622,13230,12594,11117,10431,10533,10136,10395,10746,9514,11765,9961,8790,9098,9877,10231,8482,9091,11020,7047,7659,7997,8554,7576,7119,7053,6273,6228,0],[0,11805,12582,12195,13954,13378,14095,33046,36018,33422,31524,30275,29492,33064,39427,33957,8128,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],
+nat_clics:[[1194,1593,1527,1607,1341,1239,1343,1269,1274,1305,1216,1546,1469,1431,1342,1365,1553,1242,1150,630,799,769,744,790,706,596,615,557,572,0,0],[0,214,195,206,268,215,234,291,234,239,227,237,195,217,277,271,57,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],
+nat_eng:[[0,196,191,193,168,163,143,151,146,134,122,133,118,252,367,297,246,300,208,200,67,41,89,84,83,55,95,95,76,69,0],[0,52,62,61,62,48,45,53,39,48,43,41,33,51,51,34,13,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],
+nat_dep:[[0,36,36,34,36,33,34,35,34,36,36,33,36,36,32,34,35,37,32,35,52,29,32,33,35,33,32,32,31,30,0],[0,41,37,38,41,39,39,63,66,64,62,62,64,68,74,63,15,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
+},
+"budget":{"2026":[1000,1000,0,0,0,0,0,0,0,0,0,0]}
+};
+
 const MONTH_NAMES = ['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
 const MONTH_SHORT = ['Jan','Fev','Mar','Avr','Mai','Jun','Jul','Aou','Sep','Oct','Nov','Dec'];
 const WEEKDAYS = ['L','M','M','J','V','S','D'];
@@ -1595,6 +1635,25 @@ function getBoutiqueData(name) {
         visites: sumDaily(b.visites, fromM, fromD, toM, toD),
         ca_ttc: sumDaily(b.ca_ttc, fromM, fromD, toM, toD)
     };
+}
+
+function getNationalData() {
+    const n = DATA_NATIONAL[currentYear];
+    if (!n) return null;
+    let fromM, fromD, toM, toD;
+    if (selMode === 'annual') { fromM = 0; fromD = 0; toM = 11; toD = 30; }
+    else { fromM = selStart.month; fromD = selStart.day; toM = selEnd.month; toD = selEnd.day; }
+    const imp = sumDaily(n.nat_imp, fromM, fromD, toM, toD);
+    const clics = sumDaily(n.nat_clics, fromM, fromD, toM, toD);
+    const eng = sumDaily(n.nat_eng, fromM, fromD, toM, toD);
+    const dep = sumDaily(n.nat_dep, fromM, fromD, toM, toD);
+    if (imp === 0 && clics === 0 && dep === 0) return null;
+    const budArr = DATA_NATIONAL.budget[currentYear] || [];
+    let budget = 0;
+    const bfm = selMode === 'annual' ? 0 : fromM;
+    const btm = selMode === 'annual' ? 11 : toM;
+    for (let m = bfm; m <= btm; m++) budget += (budArr[m] || 0);
+    return { imp, clics, eng, dep, budget };
 }
 
 // ═══ FORMATTERS ═══
@@ -1948,7 +2007,65 @@ function renderBoutiques() {
         </div>`;
     }).join('');
 
-    document.getElementById('boutiqueCount').textContent = active + ' boutiques';
+    // National card (2026 only)
+    const nat = getNationalData();
+    if (nat) {
+        const pctN = nat.budget > 0 ? Math.min((nat.dep / nat.budget) * 100, 120) : 0;
+        const fcN = pctN > 105 ? 'fill-over' : pctN > 90 ? 'fill-warn' : 'fill-ok';
+        const nationalHtml = `
+        <div class="boutique-card national-card" onclick="toggleCard(this)">
+            <div class="card-top">
+                <div class="card-name-row">
+                    <div class="card-name">National</div>
+                    <span class="national-badge">Campagne nationale</span>
+                </div>
+                <div class="card-hero-row">
+                    <div class="card-ca-block">
+                        <div class="card-ca-label">Impressions META</div>
+                        <div class="card-ca-value">${fmt(nat.imp)}</div>
+                    </div>
+                    <div class="card-dep-block">
+                        <div class="card-dep-label">Depenses META</div>
+                        <div class="card-dep-value">${fmtE(nat.dep)}</div>
+                    </div>
+                </div>
+                <div class="card-sub-row">
+                    <div class="card-stats-mini">
+                        <div class="mini-stat">
+                            <div class="mini-stat-val">${fmt(nat.clics)}</div>
+                            <div class="mini-stat-label">Clics</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-val">${fmt(nat.eng)}</div>
+                            <div class="mini-stat-label">Engagements</div>
+                        </div>
+                    </div>
+                    ${nat.budget > 0 ? '<div class="budget-text">' + Math.round(pctN) + '% budget META</div>' : ''}
+                </div>
+            </div>
+            <div class="card-expand-bar">
+                <span>Details</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="card-details">
+                <div class="card-details-inner">
+                    <div class="detail-section ds-national">
+                        <div class="detail-section-title"><span class="dot dot-national"></span> META NATIONAL</div>
+                        <div class="detail-grid">
+                            <div class="detail-metric"><div class="dm-val">${fmt(nat.imp)}</div><div class="dm-label">Impressions</div></div>
+                            <div class="detail-metric"><div class="dm-val">${fmt(nat.clics)}</div><div class="dm-label">Clics</div></div>
+                            <div class="detail-metric"><div class="dm-val">${fmtE(nat.dep)}</div><div class="dm-label">Depenses</div></div>
+                            <div class="detail-metric"><div class="dm-val">${fmt(nat.eng)}</div><div class="dm-label">Engagements</div></div>
+                        </div>
+                        ${nat.budget > 0 ? '<div class="budget-row"><div class="budget-bar-bg"><div class="budget-bar-fill ' + fcN + '" style="width:' + Math.min(pctN, 100) + '%"></div></div><div class="budget-text">' + Math.round(pctN) + '% du budget (' + fmtE(nat.budget) + ')</div></div>' : ''}
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        document.getElementById('boutiquesGrid').innerHTML = nationalHtml + document.getElementById('boutiquesGrid').innerHTML;
+    }
+
+    document.getElementById('boutiqueCount').textContent = active + ' boutiques' + (nat ? ' + National' : '');
 }
 
 // ═══ TOGGLE/DROPDOWN ═══
