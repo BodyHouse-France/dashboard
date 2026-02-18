@@ -1297,7 +1297,7 @@ const NAME_MAP = {
     'AVIGNON NORD':'Avignon Nord','AVIGNON SUD':'Avignon Sud','AUBIERE':'Aubiere',
     'BIGANOS':'Biganos','CHAMBERY':'Chambery','GRENOBLE':'Grenoble','JACOU':'Jacou',
     'LYON':'Lyon','MONTELIMAR':'Montelimar','NIMES':'Nimes','N\u00ceMES':'Nimes',
-    'SAINTE-EULALIE':'Sainte-Eulalie','TIGNIEU':'Tignieu','VALENCE':'Valence',
+    'SAINTE-EULALIE':'Sainte-Eulalie','VALENCE':'Valence',
     'SALAISE':'Salaise','VILLEFRANCHE':'Villefranche'
 };
 
@@ -1433,6 +1433,11 @@ async function loadLiveData(){
         ]);
         // Parse boutique data 2026
         const{boutiques,budgets:bud2026}=parsePerf2026(perf2026Text);
+        // Grenoble: pas de données 2026, afficher en inactif
+        if(!boutiques['Grenoble']){
+            const emptyM=()=>Array.from({length:12},()=>[]);
+            boutiques['Grenoble']={meta_imp:emptyM(),meta_clics:emptyM(),meta_eng:emptyM(),meta_dep:emptyM(),google_imp:emptyM(),google_clics:emptyM(),google_dep:emptyM(),gmb_imp:emptyM(),appels:emptyM(),itineraires:emptyM(),notes:emptyM(),visites:emptyM(),ca_ttc:emptyM()};
+        }
         DATA_DAILY['2026']=boutiques;
         BUDGETS['2026']=bud2026;
         // Parse national from PERFORMANCES NATIONAL (matrix format)
