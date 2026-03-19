@@ -997,6 +997,21 @@
                 </div>
             </div>
         </div>
+
+        <div class="rapports-dropdown" onclick="toggleDropdown(this)">
+            <div class="rapports-dropdown-header">
+                <div class="rdh-left">
+                    <div class="rdh-icon rdh-icon-skeepers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+                    <div><div class="rdh-title">Skeepers — 2026</div><div class="rdh-count">1 rapport</div></div>
+                </div>
+                <svg class="rdh-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="rapports-dropdown-body">
+                <div class="rapports-dropdown-body-inner">
+                    <div class="rapports-grid" id="rapportsSkeepers2026Grid"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </main>
@@ -2035,6 +2050,12 @@ function renderRapports() {
         <a class="rapport-link" href="rapport-skeepers-bodyhouse-2025.pdf" target="_blank" onclick="event.stopPropagation()">
             <div class="rapport-icon ri-skeepers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
             <div class="rapport-text"><div class="rapport-label">Rapport Performance Skeepers</div><div class="rapport-sub">Octobre \u2014 Decembre 2025</div></div>
+        </a>`;
+
+    document.getElementById('rapportsSkeepers2026Grid').innerHTML = `
+        <a class="rapport-link" href="rapport-skeepers-bodyhouse-stvalentin-2026.pdf" target="_blank" onclick="event.stopPropagation()">
+            <div class="rapport-icon ri-skeepers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+            <div class="rapport-text"><div class="rapport-label">Rapport Performance Skeepers</div><div class="rapport-sub">Saint-Valentin \u2014 F\u00e9vrier 2026</div></div>
         </a>`;
 }
 
