@@ -1486,22 +1486,35 @@ async function loadLiveData(){
         if(!DATA_NATIONAL.budget)DATA_NATIONAL.budget={};
         if(natBudget&&natBudget.some(v=>v>0))DATA_NATIONAL.budget['2026']=natBudget;
         console.log('[Body House] Donnees 2026 chargees depuis Google Sheets');
-        // Correct spend with raw Supermetrics data (decimals)
-        await correctSpendFromRaw();
     }catch(err){
         console.error('[Body House] Erreur chargement donnees live:',err);
     }
     if(loader)loader.style.display='none';
+    // Correct spend in background (non-blocking)
+    correctSpendFromRaw().then(function(){
+        if(typeof renderCurrentView==='function')try{renderCurrentView()}catch(e){}
+    });
 }
 
 async function correctSpendFromRaw(){
     try{
         var years=['2025','2026'];
         var corrections=0;
-        for(var[boutique,gids] of Object.entries(RAW_GIDS)){
-            try{
-                var fbText=await fetchCSV(PUB_BASE+gids.fb);
-                var gText=await fetchCSV(PUB_BASE+gids.google);
+        var entries=Object.entries(RAW_GIDS);
+        // Batch 3 boutiques at a time to avoid throttling
+        for(var b=0;b<entries.length;b+=3){
+            var batch=entries.slice(b,b+3);
+            var results=await Promise.all(batch.map(async function(entry){
+                var boutique=entry[0],gids=entry[1];
+                try{
+                    var fbText=await fetchCSV(PUB_BASE+gids.fb);
+                    var gText=await fetchCSV(PUB_BASE+gids.google);
+                    return{boutique,fbText,gText};
+                }catch(e){return{boutique,error:e.message}}
+            }));
+            for(var res of results){
+                if(res.error){console.warn('[Body House] Correction '+res.boutique+':',res.error);continue}
+                var boutique=res.boutique,fbText=res.fbText,gText=res.gText;
                 for(var year of years){
                     if(!DATA_DAILY[year]||!DATA_DAILY[year][boutique])continue;
                     var fbMonthly=aggregateRawSpend(fbText,year);
@@ -1523,7 +1536,7 @@ async function correctSpendFromRaw(){
                         }
                     }
                 }
-            }catch(e){console.warn('[Body House] Correction '+boutique+':',e.message)}
+            }
         }
         if(corrections>0)console.log('[Body House] Depenses corrigees: '+corrections+' mois (2025+2026) ajustes avec donnees Supermetrics');
     }catch(e){console.warn('[Body House] Correction globale:',e)}
