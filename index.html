@@ -1496,40 +1496,36 @@ async function loadLiveData(){
 
 async function correctSpendFromRaw(){
     try{
-        var year='2026';
-        if(!DATA_DAILY[year])return;
+        var years=['2025','2026'];
         var corrections=0;
         for(var[boutique,gids] of Object.entries(RAW_GIDS)){
-            if(!DATA_DAILY[year][boutique])continue;
             try{
-                // Fetch Meta spend
                 var fbText=await fetchCSV(PUB_BASE+gids.fb);
-                var fbMonthly=aggregateRawSpend(fbText,year);
-                // Fetch Google spend
                 var gText=await fetchCSV(PUB_BASE+gids.google);
-                var gMonthly=aggregateRawSpend(gText,year);
-                // Apply corrections
-                for(var m=0;m<12;m++){
-                    if(fbMonthly[m]!==null&&DATA_DAILY[year][boutique].meta_dep&&DATA_DAILY[year][boutique].meta_dep[m]){
-                        var oldSum=DATA_DAILY[year][boutique].meta_dep[m].reduce((a,b)=>a+b,0);
-                        if(oldSum>0&&Math.abs(fbMonthly[m]-oldSum)>0.01){
-                            var factor=fbMonthly[m]/oldSum;
-                            DATA_DAILY[year][boutique].meta_dep[m]=DATA_DAILY[year][boutique].meta_dep[m].map(v=>v*factor);
-                            corrections++;
+                for(var year of years){
+                    if(!DATA_DAILY[year]||!DATA_DAILY[year][boutique])continue;
+                    var fbMonthly=aggregateRawSpend(fbText,year);
+                    var gMonthly=aggregateRawSpend(gText,year);
+                    for(var m=0;m<12;m++){
+                        if(fbMonthly[m]!==null&&DATA_DAILY[year][boutique].meta_dep&&DATA_DAILY[year][boutique].meta_dep[m]){
+                            var oldSum=DATA_DAILY[year][boutique].meta_dep[m].reduce((a,b)=>a+b,0);
+                            if(oldSum>0&&Math.abs(fbMonthly[m]-oldSum)>0.01){
+                                DATA_DAILY[year][boutique].meta_dep[m]=DATA_DAILY[year][boutique].meta_dep[m].map(v=>v*(fbMonthly[m]/oldSum));
+                                corrections++;
+                            }
                         }
-                    }
-                    if(gMonthly[m]!==null&&DATA_DAILY[year][boutique].google_dep&&DATA_DAILY[year][boutique].google_dep[m]){
-                        var oldSumG=DATA_DAILY[year][boutique].google_dep[m].reduce((a,b)=>a+b,0);
-                        if(oldSumG>0&&Math.abs(gMonthly[m]-oldSumG)>0.01){
-                            var factorG=gMonthly[m]/oldSumG;
-                            DATA_DAILY[year][boutique].google_dep[m]=DATA_DAILY[year][boutique].google_dep[m].map(v=>v*factorG);
-                            corrections++;
+                        if(gMonthly[m]!==null&&DATA_DAILY[year][boutique].google_dep&&DATA_DAILY[year][boutique].google_dep[m]){
+                            var oldSumG=DATA_DAILY[year][boutique].google_dep[m].reduce((a,b)=>a+b,0);
+                            if(oldSumG>0&&Math.abs(gMonthly[m]-oldSumG)>0.01){
+                                DATA_DAILY[year][boutique].google_dep[m]=DATA_DAILY[year][boutique].google_dep[m].map(v=>v*(gMonthly[m]/oldSumG));
+                                corrections++;
+                            }
                         }
                     }
                 }
             }catch(e){console.warn('[Body House] Correction '+boutique+':',e.message)}
         }
-        if(corrections>0)console.log('[Body House] Depenses corrigees: '+corrections+' mois ajustes avec donnees Supermetrics');
+        if(corrections>0)console.log('[Body House] Depenses corrigees: '+corrections+' mois (2025+2026) ajustes avec donnees Supermetrics');
     }catch(e){console.warn('[Body House] Correction globale:',e)}
 }
 
