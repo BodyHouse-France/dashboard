@@ -1293,6 +1293,23 @@ const LIVE_URLS = {
     nationalMeta: PUB_BASE + '678081604'
 };
 
+// ═══ SUPERMETRICS RAW DATA (decimals) for spend correction ═══
+const RAW_GIDS = {
+    'Avignon Nord': {fb:'1587824591', google:'1309541472'},
+    'Avignon Sud': {fb:'1680113452', google:'1443109470'},
+    'Aubiere': {fb:'1338222433', google:'701232783'},
+    'Biganos': {fb:'0', google:'575812573'},
+    'Chambery': {fb:'1823747396', google:'858404703'},
+    'Grenoble': {fb:'1452214060', google:'30605893'},
+    'Jacou': {fb:'1062426748', google:'1604639697'},
+    'Lyon': {fb:'1107793576', google:'12535154'},
+    'Montelimar': {fb:'641439972', google:'164658364'},
+    'Sainte-Eulalie': {fb:'1641626942', google:'356986542'},
+    'Salaise': {fb:'191610825', google:'892162120'},
+    'Valence': {fb:'738804308', google:'1943104534'},
+    'Villefranche': {fb:'1599818358', google:'962834519'}
+};
+
 // Month column mapping: [start_col, num_days, subtotal_col]
 const MONTH_COLS = [
     [5,31,36],[37,28,65],[66,31,97],[98,30,128],[129,31,160],[161,30,191],
@@ -1469,10 +1486,76 @@ async function loadLiveData(){
         if(!DATA_NATIONAL.budget)DATA_NATIONAL.budget={};
         if(natBudget&&natBudget.some(v=>v>0))DATA_NATIONAL.budget['2026']=natBudget;
         console.log('[Body House] Donnees 2026 chargees depuis Google Sheets');
+        // Correct spend with raw Supermetrics data (decimals)
+        await correctSpendFromRaw();
     }catch(err){
         console.error('[Body House] Erreur chargement donnees live:',err);
     }
     if(loader)loader.style.display='none';
+}
+
+async function correctSpendFromRaw(){
+    try{
+        var year='2026';
+        if(!DATA_DAILY[year])return;
+        var corrections=0;
+        for(var[boutique,gids] of Object.entries(RAW_GIDS)){
+            if(!DATA_DAILY[year][boutique])continue;
+            try{
+                // Fetch Meta spend
+                var fbText=await fetchCSV(PUB_BASE+gids.fb);
+                var fbMonthly=aggregateRawSpend(fbText,year);
+                // Fetch Google spend
+                var gText=await fetchCSV(PUB_BASE+gids.google);
+                var gMonthly=aggregateRawSpend(gText,year);
+                // Apply corrections
+                for(var m=0;m<12;m++){
+                    if(fbMonthly[m]!==null&&DATA_DAILY[year][boutique].meta_dep&&DATA_DAILY[year][boutique].meta_dep[m]){
+                        var oldSum=DATA_DAILY[year][boutique].meta_dep[m].reduce((a,b)=>a+b,0);
+                        if(oldSum>0&&Math.abs(fbMonthly[m]-oldSum)>0.01){
+                            var factor=fbMonthly[m]/oldSum;
+                            DATA_DAILY[year][boutique].meta_dep[m]=DATA_DAILY[year][boutique].meta_dep[m].map(v=>v*factor);
+                            corrections++;
+                        }
+                    }
+                    if(gMonthly[m]!==null&&DATA_DAILY[year][boutique].google_dep&&DATA_DAILY[year][boutique].google_dep[m]){
+                        var oldSumG=DATA_DAILY[year][boutique].google_dep[m].reduce((a,b)=>a+b,0);
+                        if(oldSumG>0&&Math.abs(gMonthly[m]-oldSumG)>0.01){
+                            var factorG=gMonthly[m]/oldSumG;
+                            DATA_DAILY[year][boutique].google_dep[m]=DATA_DAILY[year][boutique].google_dep[m].map(v=>v*factorG);
+                            corrections++;
+                        }
+                    }
+                }
+            }catch(e){console.warn('[Body House] Correction '+boutique+':',e.message)}
+        }
+        if(corrections>0)console.log('[Body House] Depenses corrigees: '+corrections+' mois ajustes avec donnees Supermetrics');
+    }catch(e){console.warn('[Body House] Correction globale:',e)}
+}
+
+function aggregateRawSpend(csvText,year){
+    var monthly=Array(12).fill(null);
+    var lines=csvText.replace(/\r\n/g,'\n').split('\n');
+    if(lines.length<2)return monthly;
+    var header=csvLine(lines[0]);
+    var dateIdx=-1,costIdx=-1;
+    header.forEach(function(h,i){
+        var lc=h.trim().toLowerCase();
+        if(lc==='date')dateIdx=i;
+        if((lc.includes('co\u00fbt')||lc.includes('cout'))&&lc.includes('eur'))costIdx=i;
+    });
+    if(dateIdx===-1||costIdx===-1)return monthly;
+    for(var i=1;i<lines.length;i++){
+        var fields=csvLine(lines[i]);
+        var date=(fields[dateIdx]||'').trim();
+        if(!date.startsWith(year))continue;
+        var m=parseInt(date.split('-')[1])-1;
+        if(m<0||m>11)continue;
+        var cost=pN(fields[costIdx]||'');
+        if(monthly[m]===null)monthly[m]=0;
+        monthly[m]+=cost;
+    }
+    return monthly;
 }
 
 const MONTH_NAMES = ['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
