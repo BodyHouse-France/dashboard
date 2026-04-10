@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Body House — E-commerce Dashboard</title>
+<link rel="icon" href="https://bodyhouse.fr/favicon.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#8B1A4A;--primary-light:#B0325E;--accent:#D4A853;
+  --bg:#0c0810;--bg2:#120e18;
+  --card-bg:rgba(139,26,74,0.06);--card-border:rgba(139,26,74,0.12);
+  --text:#f0eaf0;--text2:rgba(240,234,240,0.55);
+  --green:#2ecc71;--orange:#e67e22;--red:#e74c3c;
+  --sidebar-w:260px;--topbar-h:70px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,h4,h5,h6{font-family:'Montserrat',sans-serif}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px}
+
+/* SIDEBAR */
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sidebar-w);background:var(--bg2);border-right:1px solid var(--card-border);display:flex;flex-direction:column;z-index:100;padding:0}
+.sidebar-brand{padding:28px 24px 20px;border-bottom:1px solid var(--card-border);text-align:center}
+.sidebar-brand img{width:140px;height:auto;margin-bottom:6px;display:block;margin-left:auto;margin-right:auto}
+.sidebar-brand .brand-text{font-family:'Montserrat',sans-serif;font-weight:800;font-size:22px;letter-spacing:3px;color:var(--text);display:none}
+.sidebar-brand .brand-sub{font-family:'Inter',sans-serif;font-size:11px;color:var(--accent);letter-spacing:4px;text-transform:uppercase;margin-top:4px}
+.sidebar-nav{flex:1;padding:20px 0}
+.sidebar-nav a{display:flex;align-items:center;gap:12px;padding:12px 24px;color:var(--text2);text-decoration:none;font-size:14px;font-weight:500;transition:all .2s;border-left:3px solid transparent;cursor:pointer}
+.sidebar-nav a:hover,.sidebar-nav a.active{color:var(--text);background:rgba(139,26,74,0.1);border-left-color:var(--accent)}
+.sidebar-nav a.active{color:var(--accent)}
+.sidebar-nav a svg{width:18px;height:18px;flex-shrink:0;opacity:.6}
+.sidebar-nav a.active svg,.sidebar-nav a:hover svg{opacity:1}
+.sidebar-bottom{padding:16px 24px;border-top:1px solid var(--card-border)}
+.sidebar-bottom a{display:flex;align-items:center;gap:8px;color:var(--text2);text-decoration:none;font-size:13px;transition:color .2s}
+.sidebar-bottom a:hover{color:var(--accent)}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:var(--sidebar-w);right:0;height:var(--topbar-h);background:rgba(12,8,16,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--card-border);display:flex;align-items:center;justify-content:space-between;padding:0 32px;z-index:90}
+.topbar-left{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.filter-group{display:flex;gap:6px}
+.filter-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--card-border);background:transparent;color:var(--text2);font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.filter-btn:hover{border-color:var(--primary-light);color:var(--text)}
+.filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.year-tabs{display:flex;gap:4px;margin-left:8px}
+.year-tab{padding:6px 16px;border-radius:20px;border:1px solid var(--card-border);background:transparent;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Montserrat',sans-serif}
+.year-tab:hover{border-color:var(--accent);color:var(--accent)}
+.year-tab.active{background:var(--accent);border-color:var(--accent);color:#0c0810}
+.custom-dates{display:none;align-items:center;gap:6px;margin-left:8px}
+.custom-dates.show{display:flex}
+.custom-dates input{padding:5px 10px;border-radius:8px;border:1px solid var(--card-border);background:var(--bg2);color:var(--text);font-size:12px;font-family:'Inter',sans-serif}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.btn-export{padding:8px 18px;border-radius:20px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Montserrat',sans-serif;display:flex;align-items:center;gap:6px}
+.btn-export:hover{background:var(--accent);color:#0c0810}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);padding-top:var(--topbar-h);min-height:100vh}
+.page{display:none;padding:28px 32px 60px;animation:fadeIn .35s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* STATUS */
+.status-banner{margin:0 0 24px;padding:12px 20px;border-radius:12px;font-size:13px;display:flex;align-items:center;gap:10px}
+.status-banner.loading{background:rgba(212,168,83,0.08);border:1px solid rgba(212,168,83,0.2);color:var(--accent)}
+.status-banner.success{background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.2);color:var(--green)}
+.status-banner.error{background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);color:var(--red)}
+.status-banner .spinner{width:16px;height:16px;border:2px solid transparent;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* KPI CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.kpi-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:20px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.kpi-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(139,26,74,0.1)}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.kpi-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:8px}
+.kpi-value{font-family:'Montserrat',sans-serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:6px}
+.kpi-change{font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px}
+.kpi-change.up{color:var(--green);background:rgba(46,204,113,0.1)}
+.kpi-change.down{color:var(--red);background:rgba(231,76,60,0.1)}
+.kpi-change.neutral{color:var(--text2);background:rgba(240,234,240,0.05)}
+.kpi-sparkline{position:absolute;bottom:0;right:0;width:80px;height:36px;opacity:.4}
+
+/* CHARTS */
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px}
+.chart-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px;position:relative}
+.chart-card.full{grid-column:1/-1}
+.chart-card h3{font-size:14px;font-weight:700;margin-bottom:16px;color:var(--text);letter-spacing:.5px}
+.chart-wrap{position:relative;height:300px}
+.chart-wrap.small{height:260px}
+.donuts-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px}
+
+/* TABLE */
+.table-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px;margin-bottom:28px;overflow-x:auto}
+.table-card h3{font-size:14px;font-weight:700;margin-bottom:16px;color:var(--text);letter-spacing:.5px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{text-align:left;padding:10px 12px;color:var(--text2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--card-border);cursor:pointer;white-space:nowrap;user-select:none}
+thead th:hover{color:var(--accent)}
+thead th.sorted-asc::after{content:' \u25B2';font-size:9px}
+thead th.sorted-desc::after{content:' \u25BC';font-size:9px}
+tbody td{padding:10px 12px;border-bottom:1px solid rgba(139,26,74,0.06);white-space:nowrap}
+tbody tr:hover{background:rgba(139,26,74,0.04)}
+.roas-badge{padding:3px 10px;border-radius:10px;font-weight:600;font-size:12px}
+.roas-green{background:rgba(46,204,113,0.12);color:var(--green)}
+.roas-orange{background:rgba(230,126,34,0.12);color:var(--orange)}
+.roas-red{background:rgba(231,76,60,0.12);color:var(--red)}
+.type-badge{padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600;background:rgba(139,26,74,0.12);color:var(--primary-light)}
+
+/* INFO BLOCK */
+.info-block{background:rgba(212,168,83,0.06);border:1px solid rgba(212,168,83,0.15);border-radius:16px;padding:24px;text-align:center;color:var(--text2);font-size:14px;margin-bottom:28px}
+.info-block svg{width:40px;height:40px;color:var(--accent);margin-bottom:12px}
+.info-block p{max-width:500px;margin:0 auto;line-height:1.6}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .charts-row,.donuts-row{grid-template-columns:1fr}
+}
+@media(max-width:900px){
+  .sidebar{display:none}
+  .main{margin-left:0}
+  .topbar{left:0}
+  .topbar-left{flex-wrap:wrap}
+}
+
+/* SECTION TITLE */
+.section-title{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.section-title .line{flex:1;height:1px;background:var(--card-border)}
+
+/* FUNNEL */
+.funnel-section{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.funnel-visual{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px}
+.funnel-kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.funnel-step{position:relative;text-align:center;padding:16px 0;color:#fff;font-weight:600;font-size:13px;border-radius:4px;margin-bottom:2px}
+.funnel-step .f-count{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:800;display:block;margin-top:2px}
+.funnel-rate{font-size:11px;color:var(--text2);text-align:center;padding:4px 0}
+.abandon-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:16px;text-align:center}
+.abandon-card .label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px}
+.abandon-card .value{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:800}
+.abandon-card .sub{font-size:10px;color:var(--text2);margin-top:4px}
+@media(max-width:900px){.funnel-section{grid-template-columns:1fr}}
+
+/* BEST DAY */
+.best-day-section{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px;margin-bottom:28px}
+.best-day-section h3{font-size:14px;font-weight:700;margin-bottom:16px;color:var(--text);letter-spacing:.5px}
+.day-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:8px;font-size:13px}
+.day-bar-row .day-label{width:70px;text-align:right;color:var(--text2);font-weight:500}
+.day-bar-row .day-bar{height:24px;border-radius:4px;background:rgba(139,26,74,0.5);transition:width .4s ease;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:600;color:#fff;min-width:30px}
+.day-bar-row .day-bar.best{background:var(--accent);color:#0c0810}
+.day-bar-row .day-val{font-size:12px;color:var(--text2);margin-left:6px}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <img src="bodyhouse-logo.svg" alt="Body House" onerror="this.style.display='none';this.parentElement.querySelector('.brand-text').style.display='block'">
+    <div class="brand-text">BODY HOUSE</div>
+    <div class="brand-sub">E-commerce</div>
+  </div>
+  <nav class="sidebar-nav">
+    <a class="active" data-page="overview" onclick="switchPage('overview')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Vue globale
+    </a>
+    <a data-page="campaigns" onclick="switchPage('campaigns')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      Détail campagnes
+    </a>
+    <a data-page="transactions" onclick="switchPage('transactions')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      Transactions &amp; Produits
+    </a>
+  </nav>
+  <div class="sidebar-bottom">
+    <a href="../gateway.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Retour au portail
+    </a>
+  </div>
+</aside>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="filter-group">
+      <button class="filter-btn active" data-range="7">7J</button>
+      <button class="filter-btn" data-range="30">30J</button>
+      <button class="filter-btn" data-range="month">Ce mois</button>
+      <button class="filter-btn" data-range="lastmonth">Mois dernier</button>
+      <button class="filter-btn" data-range="custom">Personnalisé</button>
+    </div>
+    <div class="custom-dates" id="customDates">
+      <input type="date" id="dateFrom"> <span style="color:var(--text2)">→</span> <input type="date" id="dateTo">
+      <button class="filter-btn" onclick="applyCustomDates()" style="padding:5px 12px">OK</button>
+    </div>
+    <div class="year-tabs">
+      <button class="year-tab" data-year="2025">2025</button>
+      <button class="year-tab active" data-year="2026">2026</button>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <button class="btn-export" onclick="exportCSV()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      Export CSV
+    </button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- PAGE 1: VUE GLOBALE -->
+  <div class="page active" id="page-overview">
+    <div class="status-banner loading" id="statusBanner">
+      <div class="spinner"></div>
+      <span>Chargement des données...</span>
+    </div>
+
+    <div class="kpi-grid" id="kpiOverview">
+      <div class="kpi-card"><div class="kpi-label">Dépenses Google Ads</div><div class="kpi-value" id="kpi-spend">—</div><div class="kpi-change neutral" id="kpi-spend-chg">—</div><canvas class="kpi-sparkline" id="spark-spend"></canvas></div>
+      <div class="kpi-card"><div class="kpi-label">Chiffre d'Affaires</div><div class="kpi-value" id="kpi-ca">—</div><div class="kpi-change neutral" id="kpi-ca-chg">—</div><canvas class="kpi-sparkline" id="spark-ca"></canvas></div>
+      <div class="kpi-card"><div class="kpi-label">ROAS</div><div class="kpi-value" id="kpi-roas">—</div><div class="kpi-change neutral" id="kpi-roas-chg">—</div><canvas class="kpi-sparkline" id="spark-roas"></canvas></div>
+      <div class="kpi-card"><div class="kpi-label">Transactions</div><div class="kpi-value" id="kpi-tx">—</div><div class="kpi-change neutral" id="kpi-tx-chg">—</div><canvas class="kpi-sparkline" id="spark-tx"></canvas></div>
+      <div class="kpi-card"><div class="kpi-label">CPA</div><div class="kpi-value" id="kpi-cpa">—</div><div class="kpi-change neutral" id="kpi-cpa-chg">—</div><canvas class="kpi-sparkline" id="spark-cpa"></canvas></div>
+      <div class="kpi-card"><div class="kpi-label">Panier Moyen</div><div class="kpi-value" id="kpi-basket">—</div><div class="kpi-change neutral" id="kpi-basket-chg">—</div><canvas class="kpi-sparkline" id="spark-basket"></canvas></div>
+      <div class="kpi-card"><div class="kpi-label">Profit Net</div><div class="kpi-value" id="kpi-profit">—</div><div class="kpi-change neutral" id="kpi-profit-chg">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Marge</div><div class="kpi-value" id="kpi-marge">—</div><div class="kpi-change neutral" id="kpi-marge-chg">—</div></div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card"><h3>Dépenses & ROAS quotidiens</h3><div class="chart-wrap"><canvas id="chartSpendRoas"></canvas></div></div>
+      <div class="chart-card"><h3>Transactions & CA quotidiens</h3><div class="chart-wrap"><canvas id="chartTxCa"></canvas></div></div>
+    </div>
+
+    <div class="donuts-row">
+      <div class="chart-card"><h3>Répartition CA par campagne</h3><div class="chart-wrap small"><canvas id="chartDonutCampaign"></canvas></div></div>
+      <div class="chart-card"><h3>Répartition par canal GA4</h3><div class="chart-wrap small"><canvas id="chartDonutChannel"></canvas></div></div>
+    </div>
+
+    <div class="section-title">Funnel de conversion <span class="line"></span></div>
+    <div class="funnel-section">
+      <div class="funnel-visual" id="funnelVisual"></div>
+      <div class="funnel-kpis" id="funnelKpis"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: DÉTAIL CAMPAGNES -->
+  <div class="page" id="page-campaigns">
+    <div class="table-card">
+      <h3>Performance par campagne</h3>
+      <table id="tableCampaigns">
+        <thead><tr>
+          <th data-col="name">Campagne</th><th data-col="type">Type</th><th data-col="spend">Dépenses</th>
+          <th data-col="impressions">Impressions</th><th data-col="clicks">Clics</th><th data-col="cpc">CPC</th>
+          <th data-col="tx">Transactions</th><th data-col="ca">CA</th><th data-col="roas">ROAS</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="chart-card" style="margin-bottom:28px">
+      <h3>Évolution CPA / ROAS par campagne</h3>
+      <div class="chart-wrap"><canvas id="chartCampaignRoas"></canvas></div>
+    </div>
+
+    <div class="table-card">
+      <h3>Performance par canal GA4</h3>
+      <table id="tableChannels">
+        <thead><tr>
+          <th data-col="channel">Canal</th><th data-col="sessions">Sessions</th><th data-col="users">Utilisateurs</th>
+          <th data-col="purchases">Achats</th><th data-col="revenue">CA</th><th data-col="convRate">Taux conv.</th><th data-col="basket">Panier moy.</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="best-day-section" id="bestDaySection">
+      <h3>Jour le plus performant (transactions moyennes par jour de la semaine)</h3>
+      <div id="bestDayBars"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: TRANSACTIONS & PRODUITS -->
+  <div class="page" id="page-transactions">
+    <div class="kpi-grid" id="kpiTransactions">
+      <div class="kpi-card"><div class="kpi-label">Total Transactions</div><div class="kpi-value" id="kpi-tx-total">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">CA Total</div><div class="kpi-value" id="kpi-ca-total">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Panier Moyen</div><div class="kpi-value" id="kpi-basket-total">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Taux de Conversion</div><div class="kpi-value" id="kpi-convrate">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Articles / Commande</div><div class="kpi-value" id="kpi-items-per-order">—</div></div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card"><h3>Transactions & CA cumulé quotidiens</h3><div class="chart-wrap"><canvas id="chartDailyTx"></canvas></div></div>
+      <div class="chart-card"><h3>Distribution des paniers</h3><div class="chart-wrap"><canvas id="chartBasketDist"></canvas></div></div>
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+/* ==================== GLOBALS ==================== */
+const BASE='https://docs.google.com/spreadsheets/d/e/2PACX-1vRLvw6rB5MiI13k7n9ji69LXJRacaQdJwl5TnspvAtiAXtHTFT-4lDXH-OqMVaFMYFFqe1xQ-2opcgH/pub?output=csv&single=true&gid=';
+const GIDS={GADS:0,GA4_OVERVIEW:2102826176,GA4_PRODUITS:1889558120};
+let rawGads=[],rawGA4=[],rawProduits=[];
+let filteredGads=[],filteredGA4=[],filteredProduits=[];
+let currentPage='overview';
+let selectedYear=2026;
+let selectedRange='7';
+let customFrom=null,customTo=null;
+let allCharts={};
+
+/* ==================== CSV PARSING ==================== */
+function parseCSV(text){
+  text=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  var rows=[[]];var cur='';var inQ=false;
+  for(var i=0;i<text.length;i++){var c=text[i];if(c==='"'){if(inQ&&i+1<text.length&&text[i+1]==='"'){cur+='"';i++}else{inQ=!inQ}}else if(c===','&&!inQ){rows[rows.length-1].push(cur);cur=''}else if(c==='\n'&&!inQ){rows[rows.length-1].push(cur);cur='';rows.push([])}else{cur+=c}}
+  if(cur!=='')rows[rows.length-1].push(cur);
+  while(rows.length>0&&rows[rows.length-1].length<=1&&rows[rows.length-1][0]==='')rows.pop();
+  if(rows.length<2)return[];
+  var headers=rows[0].map(function(h){return h.trim()});
+  var result=[];
+  for(var r=1;r<rows.length;r++){if(rows[r].length<2)continue;var obj={};for(var j=0;j<headers.length;j++){obj[headers[j]]=(j<rows[r].length)?rows[r][j].trim():'';}result.push(obj);}
+  return result;
+}
+
+function pN(v){if(!v||v==='')return 0;return parseFloat(String(v).replace(/"/g,'').replace(',','.').replace(/\s/g,''))||0}
+
+/* ==================== DATA LOADING ==================== */
+async function loadData(){
+  setStatus('loading','Chargement des données Google Sheets...');
+  try{
+    const [r1,r2,r3]=await Promise.all([
+      fetch(BASE+GIDS.GADS).then(r=>r.text()),
+      fetch(BASE+GIDS.GA4_OVERVIEW).then(r=>r.text()),
+      fetch(BASE+GIDS.GA4_PRODUITS).then(r=>r.text())
+    ]);
+    rawGads=parseCSV(r1);
+    rawGA4=parseCSV(r2);
+    rawProduits=parseCSV(r3);
+    console.log('GADS rows:',rawGads.length,'sample:',rawGads[0]);
+    console.log('GA4 rows:',rawGA4.length,'sample:',rawGA4[0]);
+    console.log('Produits rows:',rawProduits.length,'sample:',rawProduits[0]);
+    setStatus('success',`Données chargées — ${rawGads.length} lignes Ads, ${rawGA4.length} lignes GA4, ${rawProduits.length} lignes Produits`);
+    applyFilters();
+  }catch(e){
+    console.error('Load error:',e);
+    setStatus('error','Erreur de chargement: '+e.message);
+  }
+}
+
+function setStatus(type,msg){
+  const b=document.getElementById('statusBanner');
+  b.className='status-banner '+type;
+  b.innerHTML=type==='loading'?'<div class="spinner"></div><span>'+msg+'</span>':'<span>'+msg+'</span>';
+}
+
+/* ==================== DATE FILTERING ==================== */
+function parseDate(s){
+  if(!s)return null;
+  s=String(s).trim();
+  // Try YYYY-MM-DD, YYYYMMDD, DD/MM/YYYY
+  let m;
+  if(m=s.match(/^(\d{4})-(\d{2})-(\d{2})$/))return new Date(+m[1],+m[2]-1,+m[3]);
+  if(m=s.match(/^(\d{4})(\d{2})(\d{2})$/))return new Date(+m[1],+m[2]-1,+m[3]);
+  if(m=s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/))return new Date(+m[3],+m[2]-1,+m[1]);
+  // Try Month Day, Year (e.g., "Jan 1, 2026")
+  let d=new Date(s);
+  return isNaN(d)?null:d;
+}
+
+function getDateRange(){
+  const now=new Date();
+  let from,to;
+  if(selectedRange==='custom'&&customFrom&&customTo){
+    from=customFrom;to=customTo;
+  }else if(selectedRange==='month'){
+    from=new Date(selectedYear,now.getMonth(),1);
+    to=new Date(selectedYear,now.getMonth()+1,0);
+  }else if(selectedRange==='lastmonth'){
+    from=new Date(selectedYear,now.getMonth()-1,1);
+    to=new Date(selectedYear,now.getMonth(),0);
+  }else{
+    const days=parseInt(selectedRange)||7;
+    to=new Date(selectedYear,now.getMonth(),now.getDate());
+    from=new Date(to);from.setDate(from.getDate()-days+1);
+  }
+  return{from,to};
+}
+
+function getPrevRange(from,to){
+  const diff=to-from;
+  const prevTo=new Date(from.getTime()-86400000);
+  const prevFrom=new Date(prevTo.getTime()-diff);
+  return{from:prevFrom,to:prevTo};
+}
+
+function filterByDate(data,from,to){
+  return data.filter(r=>{
+    const d=parseDate(r.Date||r.date);
+    if(!d)return false;
+    return d>=from&&d<=to;
+  });
+}
+
+function applyFilters(){
+  const{from,to}=getDateRange();
+  filteredGads=filterByDate(rawGads,from,to);
+  filteredGA4=filterByDate(rawGA4,from,to);
+  filteredProduits=filterByDate(rawProduits,from,to);
+  console.log('Filtered:',filteredGads.length,'GADS,',filteredGA4.length,'GA4,',filteredProduits.length,'Produits','range:',from.toISOString().slice(0,10),'to',to.toISOString().slice(0,10));
+  renderAll();
+}
+
+/* ==================== FORMATTING ==================== */
+function fmtEur(v){return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0}).format(v)}
+function fmtEur2(v){return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(v)}
+function fmtNum(v){return new Intl.NumberFormat('fr-FR').format(Math.round(v))}
+function fmtPct(v){return (v>=0?'+':'')+v.toFixed(1)+'%'}
+function fmtRoas(v){return v.toFixed(2)+'x'}
+
+/* ==================== KPI HELPERS ==================== */
+function sumField(data,field){return data.reduce((s,r)=>s+pN(r[field]),0)}
+
+function dailyAgg(data,field){
+  const map={};
+  data.forEach(r=>{
+    const d=parseDate(r.Date||r.date);
+    if(!d)return;
+    const k=d.toISOString().slice(0,10);
+    map[k]=(map[k]||0)+pN(r[field]);
+  });
+  return Object.keys(map).sort().map(k=>({date:k,value:map[k]}));
+}
+
+function calcChange(cur,prev){
+  if(prev===0)return cur>0?100:0;
+  return((cur-prev)/Math.abs(prev))*100;
+}
+
+function setKPI(id,value,changeId,changePct){
+  document.getElementById(id).textContent=value;
+  if(changeId){
+    const el=document.getElementById(changeId);
+    const cls=changePct>0?'up':changePct<0?'down':'neutral';
+    el.className='kpi-change '+cls;
+    el.textContent=fmtPct(changePct);
+  }
+}
+
+/* ==================== SPARKLINES ==================== */
+function drawSparkline(canvasId,values,color){
+  const canvas=document.getElementById(canvasId);
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const w=canvas.width=80;const h=canvas.height=36;
+  ctx.clearRect(0,0,w,h);
+  if(values.length<2)return;
+  const max=Math.max(...values);const min=Math.min(...values);
+  const range=max-min||1;
+  ctx.beginPath();
+  ctx.strokeStyle=color||'rgba(212,168,83,0.6)';
+  ctx.lineWidth=1.5;
+  values.forEach((v,i)=>{
+    const x=(i/(values.length-1))*w;
+    const y=h-((v-min)/range)*(h-4)-2;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+}
+
+/* ==================== CHART HELPERS ==================== */
+const chartColors=['#8B1A4A','#D4A853','#B0325E','#6C3483','#2E86C1','#17A589','#E67E22','#E74C3C','#3498DB','#1ABC9C'];
+
+Chart.defaults.color='rgba(240,234,240,0.55)';
+Chart.defaults.borderColor='rgba(139,26,74,0.08)';
+Chart.defaults.font.family='Inter';
+
+function destroyChart(key){if(allCharts[key]){allCharts[key].destroy();delete allCharts[key]}}
+
+function roasColor(v){return v>=3?'var(--green)':v>=1?'var(--orange)':'var(--red)'}
+function roasClass(v){return v>=3?'roas-green':v>=1?'roas-orange':'roas-red'}
+
+/* ==================== RENDER ALL ==================== */
+function renderAll(){
+  renderOverview();
+  renderCampaigns();
+  renderTransactions();
+}
+
+/* ==================== PAGE 1: OVERVIEW ==================== */
+function renderOverview(){
+  const{from,to}=getDateRange();
+  const prev=getPrevRange(from,to);
+  const prevGads=filterByDate(rawGads,prev.from,prev.to);
+  const prevGA4=filterByDate(rawGA4,prev.from,prev.to);
+
+  // Current period KPIs
+  const spend=sumField(filteredGads,'Cost (EUR)');
+  const ca=sumField(filteredGads,'Total conversion value');
+  const tx=sumField(filteredGads,'Conversions');
+  const roas=spend>0?ca/spend:0;
+  const cpa=tx>0?spend/tx:0;
+  const basket=tx>0?ca/tx:0;
+
+  // Previous period
+  const pSpend=sumField(prevGads,'Cost (EUR)');
+  const pCa=sumField(prevGads,'Total conversion value');
+  const pTx=sumField(prevGads,'Conversions');
+  const pRoas=pSpend>0?pCa/pSpend:0;
+  const pCpa=pTx>0?pSpend/pTx:0;
+  const pBasket=pTx>0?pCa/pTx:0;
+
+  setKPI('kpi-spend',fmtEur(spend),'kpi-spend-chg',calcChange(spend,pSpend));
+  setKPI('kpi-ca',fmtEur(ca),'kpi-ca-chg',calcChange(ca,pCa));
+  setKPI('kpi-roas',fmtRoas(roas),'kpi-roas-chg',calcChange(roas,pRoas));
+  setKPI('kpi-tx',fmtNum(tx),'kpi-tx-chg',calcChange(tx,pTx));
+  setKPI('kpi-cpa',fmtEur2(cpa),'kpi-cpa-chg',calcChange(cpa,pCpa));
+  setKPI('kpi-basket',fmtEur2(basket),'kpi-basket-chg',calcChange(basket,pBasket));
+
+  // Profit Net & Marge
+  const profit=ca-spend;
+  const marge=spend>0?(profit/spend)*100:0;
+  const pProfit=pCa-pSpend;
+  const pMarge=pSpend>0?(pProfit/pSpend)*100:0;
+  setKPI('kpi-profit',fmtEur(profit),'kpi-profit-chg',calcChange(profit,pProfit));
+  setKPI('kpi-marge',(marge>=0?'+':'')+marge.toFixed(1)+'%','kpi-marge-chg',calcChange(marge,pMarge));
+  document.getElementById('kpi-profit').style.color=profit>=0?'var(--green)':'var(--red)';
+  document.getElementById('kpi-marge').style.color=marge>=0?'var(--green)':'var(--red)';
+
+  // Color ROAS
+  document.getElementById('kpi-roas').style.color=roas>=3?'var(--green)':roas>=1?'var(--orange)':'var(--red)';
+
+  // Sparklines
+  const dailySpend=dailyAgg(filteredGads,'Cost (EUR)');
+  const dailyCa=dailyAgg(filteredGads,'Total conversion value');
+  const dailyTx=dailyAgg(filteredGads,'Conversions');
+  drawSparkline('spark-spend',dailySpend.map(d=>d.value),'rgba(139,26,74,0.7)');
+  drawSparkline('spark-ca',dailyCa.map(d=>d.value),'rgba(212,168,83,0.7)');
+  drawSparkline('spark-tx',dailyTx.map(d=>d.value),'rgba(176,50,94,0.7)');
+
+  // Compute daily ROAS for sparkline
+  const spendMap={},caMap={};
+  dailySpend.forEach(d=>spendMap[d.date]=d.value);
+  dailyCa.forEach(d=>caMap[d.date]=d.value);
+  const allDates=[...new Set([...dailySpend.map(d=>d.date),...dailyCa.map(d=>d.date)])].sort();
+  const dailyRoasArr=allDates.map(d=>(spendMap[d]||0)>0?(caMap[d]||0)/(spendMap[d]):0);
+  drawSparkline('spark-roas',dailyRoasArr,'rgba(46,204,113,0.7)');
+
+  const dailyCpaArr=allDates.map(d=>{
+    const dayTx=dailyTx.find(t=>t.date===d);
+    return(dayTx&&dayTx.value>0)?(spendMap[d]||0)/dayTx.value:0;
+  });
+  drawSparkline('spark-cpa',dailyCpaArr,'rgba(231,76,60,0.7)');
+  const dailyBasketArr=allDates.map(d=>{
+    const dayTx=dailyTx.find(t=>t.date===d);
+    return(dayTx&&dayTx.value>0)?(caMap[d]||0)/dayTx.value:0;
+  });
+  drawSparkline('spark-basket',dailyBasketArr,'rgba(212,168,83,0.7)');
+
+  // Chart: Spend + ROAS
+  destroyChart('spendRoas');
+  const labels=allDates.map(d=>d.slice(5));
+  allCharts.spendRoas=new Chart(document.getElementById('chartSpendRoas'),{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        {label:'Dépenses (€)',data:allDates.map(d=>spendMap[d]||0),backgroundColor:'rgba(139,26,74,0.5)',borderColor:'#8B1A4A',borderWidth:1,borderRadius:4,yAxisID:'y',order:2},
+        {label:'ROAS',data:dailyRoasArr,type:'line',borderColor:'#D4A853',backgroundColor:'rgba(212,168,83,0.1)',pointRadius:2,pointBackgroundColor:'#D4A853',borderWidth:2,tension:.3,yAxisID:'y1',order:1}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{labels:{font:{size:11},usePointStyle:true,pointStyle:'circle'}}},
+      scales:{
+        y:{position:'left',grid:{color:'rgba(139,26,74,0.06)'},ticks:{callback:v=>fmtEur(v),font:{size:10}}},
+        y1:{position:'right',grid:{display:false},ticks:{callback:v=>v.toFixed(1)+'x',font:{size:10}},min:0},
+        x:{ticks:{font:{size:10},maxRotation:45}}
+      }
+    }
+  });
+
+  // Chart: TX + CA
+  destroyChart('txCa');
+  const dailyTxMap={};dailyTx.forEach(d=>dailyTxMap[d.date]=d.value);
+  allCharts.txCa=new Chart(document.getElementById('chartTxCa'),{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        {label:'Transactions',data:allDates.map(d=>dailyTxMap[d]||0),backgroundColor:'rgba(176,50,94,0.5)',borderColor:'#B0325E',borderWidth:1,borderRadius:4,yAxisID:'y',order:2},
+        {label:'CA (€)',data:allDates.map(d=>caMap[d]||0),type:'line',borderColor:'#D4A853',backgroundColor:'rgba(212,168,83,0.1)',pointRadius:2,pointBackgroundColor:'#D4A853',borderWidth:2,tension:.3,yAxisID:'y1',order:1}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{labels:{font:{size:11},usePointStyle:true,pointStyle:'circle'}}},
+      scales:{
+        y:{position:'left',grid:{color:'rgba(139,26,74,0.06)'},ticks:{font:{size:10}}},
+        y1:{position:'right',grid:{display:false},ticks:{callback:v=>fmtEur(v),font:{size:10}}},
+        x:{ticks:{font:{size:10},maxRotation:45}}
+      }
+    }
+  });
+
+  // Donut: CA par campagne
+  destroyChart('donutCampaign');
+  const campCA={};
+  filteredGads.forEach(r=>{
+    const name=r['Campaign name']||'Inconnu';
+    campCA[name]=(campCA[name]||0)+pN(r['Total conversion value']);
+  });
+  const campNames=Object.keys(campCA).sort((a,b)=>campCA[b]-campCA[a]);
+  allCharts.donutCampaign=new Chart(document.getElementById('chartDonutCampaign'),{
+    type:'doughnut',
+    data:{
+      labels:campNames,
+      datasets:[{data:campNames.map(n=>campCA[n]),backgroundColor:chartColors.slice(0,campNames.length),borderWidth:0}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
+      plugins:{legend:{position:'right',labels:{font:{size:11},usePointStyle:true,pointStyle:'circle',padding:10,boxWidth:12}}}
+    }
+  });
+
+  // Donut: CA par canal GA4
+  destroyChart('donutChannel');
+  const chanRev={};
+  filteredGA4.forEach(r=>{
+    const ch=r['Session default channel grouping']||'Autre';
+    chanRev[ch]=(chanRev[ch]||0)+pN(r['Purchase revenue']);
+  });
+  const chanNames=Object.keys(chanRev).sort((a,b)=>chanRev[b]-chanRev[a]);
+  allCharts.donutChannel=new Chart(document.getElementById('chartDonutChannel'),{
+    type:'doughnut',
+    data:{
+      labels:chanNames,
+      datasets:[{data:chanNames.map(n=>chanRev[n]),backgroundColor:chartColors.slice(0,chanNames.length),borderWidth:0}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
+      plugins:{legend:{position:'right',labels:{font:{size:11},usePointStyle:true,pointStyle:'circle',padding:10,boxWidth:12}}}
+    }
+  });
+
+  // ===== FUNNEL DE CONVERSION =====
+  var totalSessions=0,totalATC=0,totalCheckouts=0,totalPurchases=0,totalRevenue=0,totalUsers=0;
+  filteredGA4.forEach(function(r){
+    totalSessions+=pN(r['Sessions']);
+    totalATC+=pN(r['Add-to-carts']);
+    totalCheckouts+=pN(r['Checkouts']);
+    totalPurchases+=pN(r['Purchases']);
+    totalRevenue+=pN(r['Purchase revenue']);
+    totalUsers+=pN(r['Total users']);
+  });
+
+  var funnelEl=document.getElementById('funnelVisual');
+  if(funnelEl){
+    var steps=[
+      {label:'Sessions',count:totalSessions,color:'rgba(139,26,74,0.85)'},
+      {label:'Ajouts panier',count:totalATC,color:'rgba(139,26,74,0.65)'},
+      {label:'Checkouts',count:totalCheckouts,color:'rgba(139,26,74,0.45)'},
+      {label:'Achats',count:totalPurchases,color:'rgba(139,26,74,0.3)'}
+    ];
+    var fHTML='';
+    for(var fi=0;fi<steps.length;fi++){
+      var step=steps[fi];
+      var wPct=100-fi*18;
+      var nbPct=100-(fi+1)*18;
+      var lPx=(100-wPct)/2;var lbPx=(100-nbPct)/2;
+      fHTML+='<div class="funnel-step" style="width:'+wPct+'%;margin:0 auto;background:'+step.color+';clip-path:polygon('+lPx+'% 0,'+(100-lPx)+'% 0,'+(100-lbPx)+'% 100%,'+lbPx+'% 100%)">';
+      fHTML+='<span>'+step.label+'<span class="f-count">'+fmtNum(step.count)+'</span></span></div>';
+      if(fi<steps.length-1){
+        var rate=step.count>0?((steps[fi+1].count/step.count)*100).toFixed(1):'0';
+        fHTML+='<div class="funnel-rate">\u2193 '+rate+'%</div>';
+      }
+    }
+    funnelEl.innerHTML=fHTML;
+  }
+
+  var funnelKpisEl=document.getElementById('funnelKpis');
+  if(funnelKpisEl){
+    var abandonPanier=totalATC>0?((totalATC-totalCheckouts)/totalATC*100):0;
+    var abandonCheckout=totalCheckouts>0?((totalCheckouts-totalPurchases)/totalCheckouts*100):0;
+    var revPerSession=totalSessions>0?(totalRevenue/totalSessions):0;
+    var revPerUser=totalUsers>0?(totalRevenue/totalUsers):0;
+    var atcRate=totalSessions>0?((totalATC/totalSessions)*100):0;
+    var convRateFunnel=totalSessions>0?((totalPurchases/totalSessions)*100):0;
+
+    funnelKpisEl.innerHTML=
+      '<div class="abandon-card"><div class="label">Abandon panier</div><div class="value" style="color:#e05555">'+fmtPct(abandonPanier)+'</div><div class="sub">Panier \u2192 Checkout</div></div>'+
+      '<div class="abandon-card"><div class="label">Abandon checkout</div><div class="value" style="color:#e0a040">'+fmtPct(abandonCheckout)+'</div><div class="sub">Checkout \u2192 Achat</div></div>'+
+      '<div class="abandon-card"><div class="label">Taux ajout panier</div><div class="value" style="color:var(--accent)">'+fmtPct(atcRate)+'</div><div class="sub">Sessions \u2192 Panier</div></div>'+
+      '<div class="abandon-card"><div class="label">Taux de conversion</div><div class="value" style="color:#3fbf5e">'+fmtPct(convRateFunnel)+'</div><div class="sub">Sessions \u2192 Achat</div></div>'+
+      '<div class="abandon-card"><div class="label">Panier moyen</div><div class="value" style="color:var(--accent)">'+fmtEur(totalPurchases>0?totalRevenue/totalPurchases:0)+'</div><div class="sub">CA \u00f7 Transactions</div></div>'+
+      '<div class="abandon-card"><div class="label">Sessions totales</div><div class="value">'+fmtNum(totalSessions)+'</div><div class="sub">Toutes sources</div></div>';
+  }
+}
+
+/* ==================== PAGE 2: CAMPAIGNS ==================== */
+function detectType(name){
+  const n=name.toLowerCase();
+  if(n.includes('shopping'))return'Shopping';
+  if(n.includes('search'))return'Search';
+  if(n.includes('display'))return'Display';
+  if(n.includes('marque'))return'Brand';
+  if(n.includes('sextoy'))return'Sextoys';
+  if(n.includes('lingerie'))return'Lingerie';
+  if(n.includes('cosm'))return'Cosmétiques';
+  if(n.includes('jeu'))return'Jeux';
+  if(n.includes('pmax')||n.includes('performance max'))return'PMax';
+  return'Autre';
+}
+
+let campaignSortCol='roas';
+let campaignSortDir='desc';
+
+function renderCampaigns(){
+  // Aggregate by campaign
+  const camps={};
+  filteredGads.forEach(r=>{
+    const name=r['Campaign name']||'Inconnu';
+    if(!camps[name])camps[name]={name,spend:0,impressions:0,clicks:0,tx:0,ca:0};
+    camps[name].spend+=pN(r['Cost (EUR)']);
+    camps[name].impressions+=pN(r['Impressions']);
+    camps[name].clicks+=pN(r['Clicks']);
+    camps[name].tx+=pN(r['Conversions']);
+    camps[name].ca+=pN(r['Total conversion value']);
+  });
+  let arr=Object.values(camps).map(c=>({
+    ...c,
+    type:detectType(c.name),
+    cpc:c.clicks>0?c.spend/c.clicks:0,
+    roas:c.spend>0?c.ca/c.spend:0
+  }));
+
+  // Sort
+  arr.sort((a,b)=>{
+    let va=a[campaignSortCol],vb=b[campaignSortCol];
+    if(typeof va==='string')va=va.toLowerCase();
+    if(typeof vb==='string')vb=vb.toLowerCase();
+    return campaignSortDir==='asc'?(va>vb?1:-1):(va<vb?1:-1);
+  });
+
+  const tbody=document.querySelector('#tableCampaigns tbody');
+  tbody.innerHTML=arr.map(c=>`<tr>
+    <td style="max-width:250px;overflow:hidden;text-overflow:ellipsis" title="${c.name}">${c.name}</td>
+    <td><span class="type-badge">${c.type}</span></td>
+    <td>${fmtEur2(c.spend)}</td>
+    <td>${fmtNum(c.impressions)}</td>
+    <td>${fmtNum(c.clicks)}</td>
+    <td>${fmtEur2(c.cpc)}</td>
+    <td>${fmtNum(c.tx)}</td>
+    <td>${fmtEur(c.ca)}</td>
+    <td><span class="roas-badge ${roasClass(c.roas)}">${fmtRoas(c.roas)}</span></td>
+  </tr>`).join('');
+
+  // Update sort indicators
+  document.querySelectorAll('#tableCampaigns thead th').forEach(th=>{
+    th.classList.remove('sorted-asc','sorted-desc');
+    if(th.dataset.col===campaignSortCol)th.classList.add('sorted-'+campaignSortDir);
+  });
+
+  // Campaign ROAS evolution chart
+  destroyChart('campaignRoas');
+  const campDaily={};
+  filteredGads.forEach(r=>{
+    const name=r['Campaign name']||'Inconnu';
+    const d=parseDate(r.Date);
+    if(!d)return;
+    const k=d.toISOString().slice(0,10);
+    if(!campDaily[name])campDaily[name]={};
+    if(!campDaily[name][k])campDaily[name][k]={spend:0,ca:0};
+    campDaily[name][k].spend+=pN(r['Cost (EUR)']);
+    campDaily[name][k].ca+=pN(r['Total conversion value']);
+  });
+  const allDates=[...new Set(filteredGads.map(r=>{const d=parseDate(r.Date);return d?d.toISOString().slice(0,10):null}).filter(Boolean))].sort();
+  const topCamps=arr.slice(0,5).map(c=>c.name);
+  const datasets=topCamps.map((name,i)=>({
+    label:name.length>30?name.slice(0,28)+'…':name,
+    data:allDates.map(d=>{
+      const dd=campDaily[name]&&campDaily[name][d];
+      return dd&&dd.spend>0?dd.ca/dd.spend:0;
+    }),
+    borderColor:chartColors[i],
+    backgroundColor:'transparent',
+    borderWidth:2,tension:.3,pointRadius:1
+  }));
+  allCharts.campaignRoas=new Chart(document.getElementById('chartCampaignRoas'),{
+    type:'line',
+    data:{labels:allDates.map(d=>d.slice(5)),datasets},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{labels:{font:{size:10},usePointStyle:true,pointStyle:'circle'}}},
+      scales:{y:{ticks:{callback:v=>v.toFixed(1)+'x',font:{size:10}},grid:{color:'rgba(139,26,74,0.06)'}},x:{ticks:{font:{size:10},maxRotation:45}}}
+    }
+  });
+
+  // Channel table (GA4)
+  const channels={};
+  filteredGA4.forEach(r=>{
+    const ch=r['Session default channel grouping']||'Autre';
+    if(!channels[ch])channels[ch]={sessions:0,users:0,purchases:0,revenue:0};
+    channels[ch].sessions+=pN(r['Sessions']);
+    channels[ch].users+=pN(r['Total users']);
+    channels[ch].purchases+=pN(r['Purchases']);
+    channels[ch].revenue+=pN(r['Purchase revenue']);
+  });
+  const chanArr=Object.entries(channels).map(([ch,d])=>({
+    channel:ch,...d,
+    convRate:d.sessions>0?d.purchases/d.sessions:0,
+    basket:d.purchases>0?d.revenue/d.purchases:0
+  })).sort((a,b)=>b.revenue-a.revenue);
+
+  document.querySelector('#tableChannels tbody').innerHTML=chanArr.map(c=>`<tr>
+    <td>${c.channel}</td>
+    <td>${fmtNum(c.sessions)}</td>
+    <td>${fmtNum(c.users)}</td>
+    <td>${fmtNum(c.purchases)}</td>
+    <td>${fmtEur(c.revenue)}</td>
+    <td>${(c.convRate*100).toFixed(2)}%</td>
+    <td>${fmtEur2(c.basket)}</td>
+  </tr>`).join('');
+
+  // ===== JOUR LE PLUS PERFORMANT =====
+  const dayNames=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  const dayTxSum={};const dayCount={};
+  dayNames.forEach(d=>{dayTxSum[d]=0;dayCount[d]=0});
+  // Group GAds data by date, then by weekday
+  const dailyByDate={};
+  filteredGads.forEach(r=>{
+    const d=parseDate(r.Date);
+    if(!d)return;
+    const k=d.toISOString().slice(0,10);
+    dailyByDate[k]=(dailyByDate[k]||0)+pN(r['Conversions']);
+  });
+  Object.entries(dailyByDate).forEach(([dateStr,txVal])=>{
+    const d=new Date(dateStr);
+    const dayName=dayNames[d.getDay()];
+    dayTxSum[dayName]+=txVal;
+    dayCount[dayName]++;
+  });
+  const dayAvgs=dayNames.slice(1).concat(dayNames[0]).map(d=>({
+    day:d,
+    avg:dayCount[d]>0?dayTxSum[d]/dayCount[d]:0
+  }));
+  const maxDayAvg=Math.max(...dayAvgs.map(d=>d.avg),1);
+  const bestDay=dayAvgs.reduce((a,b)=>b.avg>a.avg?b:a,dayAvgs[0]);
+  const bestDayBarsEl=document.getElementById('bestDayBars');
+  if(bestDayBarsEl){
+    bestDayBarsEl.innerHTML=dayAvgs.map(d=>{
+      const pct=(d.avg/maxDayAvg)*100;
+      const isBest=d.day===bestDay.day;
+      return `<div class="day-bar-row"><span class="day-label">${d.day}</span><div class="day-bar${isBest?' best':''}" style="width:${pct}%">${d.avg.toFixed(1)}</div>${isBest?'<span class="day-val" style="color:var(--accent);font-weight:700">\u2605 Meilleur</span>':''}</div>`;
+    }).join('');
+  }
+}
+
+/* ==================== PAGE 3: TRANSACTIONS ==================== */
+function renderTransactions(){
+  // KPIs from GA4 overview
+  const totalTx=sumField(filteredGA4,'Purchases');
+  const totalCa=sumField(filteredGA4,'Purchase revenue');
+  const totalSessions=sumField(filteredGA4,'Sessions');
+  const basket=totalTx>0?totalCa/totalTx:0;
+  const convRate=totalSessions>0?totalTx/totalSessions:0;
+
+  document.getElementById('kpi-tx-total').textContent=fmtNum(totalTx);
+  document.getElementById('kpi-ca-total').textContent=fmtEur(totalCa);
+  document.getElementById('kpi-basket-total').textContent=fmtEur2(basket);
+  document.getElementById('kpi-convrate').textContent=(convRate*100).toFixed(2)+'%';
+
+  // Articles / commande from GA4_PRODUITS
+  var totalItemQty=0;
+  var uniqueTxIds={};
+  filteredProduits.forEach(function(r){
+    totalItemQty+=pN(r['Item purchase quantity']);
+    var tid=r['Transaction ID']||'';
+    if(tid && tid!=='(not set)') uniqueTxIds[tid]=true;
+  });
+  var uniqueTxCount=Object.keys(uniqueTxIds).length;
+  var itemsPerOrder=uniqueTxCount>0?(totalItemQty/uniqueTxCount):0;
+  document.getElementById('kpi-items-per-order').textContent=itemsPerOrder.toFixed(1);
+
+  // Daily transactions chart with cumulative CA
+  const dailyTx=dailyAgg(filteredGA4,'Purchases');
+  const dailyCaGA4=dailyAgg(filteredGA4,'Purchase revenue');
+  const caMap={};dailyCaGA4.forEach(d=>caMap[d.date]=d.value);
+  const allDates=[...new Set([...dailyTx.map(d=>d.date),...dailyCaGA4.map(d=>d.date)])].sort();
+  let cumCA=0;
+  const cumArr=allDates.map(d=>{cumCA+=(caMap[d]||0);return cumCA});
+
+  destroyChart('dailyTx');
+  const txMap={};dailyTx.forEach(d=>txMap[d.date]=d.value);
+  allCharts.dailyTx=new Chart(document.getElementById('chartDailyTx'),{
+    type:'bar',
+    data:{
+      labels:allDates.map(d=>d.slice(5)),
+      datasets:[
+        {label:'Transactions',data:allDates.map(d=>txMap[d]||0),backgroundColor:'rgba(176,50,94,0.5)',borderColor:'#B0325E',borderWidth:1,borderRadius:4,yAxisID:'y',order:2},
+        {label:'CA cumulé (€)',data:cumArr,type:'line',borderColor:'#D4A853',backgroundColor:'rgba(212,168,83,0.1)',pointRadius:1,borderWidth:2,tension:.3,yAxisID:'y1',order:1}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{labels:{font:{size:11},usePointStyle:true,pointStyle:'circle'}}},
+      scales:{
+        y:{position:'left',grid:{color:'rgba(139,26,74,0.06)'},ticks:{font:{size:10}}},
+        y1:{position:'right',grid:{display:false},ticks:{callback:v=>fmtEur(v),font:{size:10}}},
+        x:{ticks:{font:{size:10},maxRotation:45}}
+      }
+    }
+  });
+
+  // Basket distribution from GA4_PRODUITS (transaction-level revenue)
+  destroyChart('basketDist');
+  const txRevenues={};
+  filteredProduits.forEach(r=>{
+    const tid=r['Transaction ID']||'unknown';
+    const rev=pN(r['Item revenue']);
+    txRevenues[tid]=(txRevenues[tid]||0)+rev;
+  });
+  const bins={'0-25 €':0,'25-50 €':0,'50-100 €':0,'100-200 €':0,'200+ €':0};
+  Object.values(txRevenues).forEach(v=>{
+    if(v<=25)bins['0-25 €']++;
+    else if(v<=50)bins['25-50 €']++;
+    else if(v<=100)bins['50-100 €']++;
+    else if(v<=200)bins['100-200 €']++;
+    else bins['200+ €']++;
+  });
+  const binLabels=Object.keys(bins);
+  allCharts.basketDist=new Chart(document.getElementById('chartBasketDist'),{
+    type:'bar',
+    data:{
+      labels:binLabels,
+      datasets:[{
+        label:'Nombre de commandes',
+        data:binLabels.map(l=>bins[l]),
+        backgroundColor:['rgba(139,26,74,0.4)','rgba(176,50,94,0.4)','rgba(212,168,83,0.4)','rgba(46,204,113,0.4)','rgba(108,52,131,0.4)'],
+        borderColor:['#8B1A4A','#B0325E','#D4A853','#2ecc71','#6C3483'],
+        borderWidth:1,borderRadius:6
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{y:{grid:{color:'rgba(139,26,74,0.06)'},ticks:{font:{size:10}}},x:{ticks:{font:{size:11}}}}
+    }
+  });
+}
+
+/* ==================== NAVIGATION ==================== */
+function switchPage(page){
+  currentPage=page;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.sidebar-nav a').forEach(a=>{
+    a.classList.toggle('active',a.dataset.page===page);
+  });
+}
+
+/* ==================== FILTER EVENTS ==================== */
+document.querySelectorAll('.filter-btn[data-range]').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.filter-btn[data-range]').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    selectedRange=this.dataset.range;
+    document.getElementById('customDates').classList.toggle('show',selectedRange==='custom');
+    if(selectedRange!=='custom')applyFilters();
+  });
+});
+
+document.querySelectorAll('.year-tab').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.year-tab').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    selectedYear=parseInt(this.dataset.year);
+    applyFilters();
+  });
+});
+
+function applyCustomDates(){
+  const f=document.getElementById('dateFrom').value;
+  const t=document.getElementById('dateTo').value;
+  if(f&&t){customFrom=new Date(f);customTo=new Date(t);applyFilters();}
+}
+
+/* ==================== TABLE SORTING ==================== */
+document.querySelectorAll('#tableCampaigns thead th').forEach(th=>{
+  th.addEventListener('click',function(){
+    const col=this.dataset.col;
+    if(campaignSortCol===col){campaignSortDir=campaignSortDir==='asc'?'desc':'asc'}
+    else{campaignSortCol=col;campaignSortDir='desc'}
+    renderCampaigns();
+  });
+});
+
+/* ==================== EXPORT ==================== */
+function exportCSV(){
+  const{from,to}=getDateRange();
+  let csv='Métrique,Valeur\n';
+  const spend=sumField(filteredGads,'Cost (EUR)');
+  const ca=sumField(filteredGads,'Total conversion value');
+  const tx=sumField(filteredGads,'Conversions');
+  csv+=`Période,${from.toISOString().slice(0,10)} au ${to.toISOString().slice(0,10)}\n`;
+  csv+=`Dépenses Google Ads,${spend.toFixed(2)}\n`;
+  csv+=`Chiffre d'Affaires,${ca.toFixed(2)}\n`;
+  csv+=`ROAS,${spend>0?(ca/spend).toFixed(2):'0'}\n`;
+  csv+=`Transactions,${tx}\n`;
+  csv+=`CPA,${tx>0?(spend/tx).toFixed(2):'0'}\n`;
+  csv+=`Panier Moyen,${tx>0?(ca/tx).toFixed(2):'0'}\n`;
+  csv+='\nCampagne,Type,Dépenses,Impressions,Clics,CPC,Transactions,CA,ROAS\n';
+  const camps={};
+  filteredGads.forEach(r=>{
+    const name=r['Campaign name']||'Inconnu';
+    if(!camps[name])camps[name]={spend:0,imp:0,clicks:0,tx:0,ca:0};
+    camps[name].spend+=pN(r['Cost (EUR)']);
+    camps[name].imp+=pN(r['Impressions']);
+    camps[name].clicks+=pN(r['Clicks']);
+    camps[name].tx+=pN(r['Conversions']);
+    camps[name].ca+=pN(r['Total conversion value']);
+  });
+  Object.entries(camps).forEach(([name,c])=>{
+    csv+=`"${name}",${detectType(name)},${c.spend.toFixed(2)},${c.imp},${c.clicks},${c.clicks>0?(c.spend/c.clicks).toFixed(2):'0'},${c.tx},${c.ca.toFixed(2)},${c.spend>0?(c.ca/c.spend).toFixed(2):'0'}\n`;
+  });
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`bodyhouse-ecommerce-export-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();URL.revokeObjectURL(url);
+}
+
+/* ==================== INIT ==================== */
+loadData();
+</script>
+</body>
+</html>
