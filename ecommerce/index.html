@@ -319,6 +319,22 @@ tbody tr:hover{background:rgba(139,26,74,0.04)}
       <div class="kpi-card"><div class="kpi-label">Part du CA total</div><div class="kpi-value" id="kpi-inf-share">—</div></div>
     </div>
 
+    <div class="table-card">
+      <h3>Performance par opération influenceur</h3>
+      <table id="tableInfluenceurs">
+        <thead><tr>
+          <th data-col="campaign">Campagne / Influenceur</th><th data-col="source">Source</th><th data-col="sessions">Sessions</th><th data-col="users">Utilisateurs</th>
+          <th data-col="atc">Ajouts panier</th><th data-col="checkouts">Checkouts</th><th data-col="purchases">Achats</th><th data-col="revenue">CA</th><th data-col="conv">Taux conv.</th><th data-col="basket">Panier moy.</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card"><h3>Top influenceurs — CA généré</h3><div class="chart-wrap"><canvas id="chartTopInfluenceurs"></canvas></div></div>
+      <div class="chart-card"><h3>Top influenceurs — Sessions</h3><div class="chart-wrap"><canvas id="chartTopInfluenceursSessions"></canvas></div></div>
+    </div>
+
     <div class="charts-row">
       <div class="chart-card"><h3>Sessions & CA — Organic Social vs Paid Social (quotidien)</h3><div class="chart-wrap"><canvas id="chartInfluenceDaily"></canvas></div></div>
       <div class="chart-card"><h3>Part de CA par canal</h3><div class="chart-wrap small"><canvas id="chartInfluenceShare"></canvas></div></div>
@@ -355,8 +371,8 @@ tbody tr:hover{background:rgba(139,26,74,0.04)}
 <script>
 /* ==================== GLOBALS ==================== */
 const BASE='https://docs.google.com/spreadsheets/d/e/2PACX-1vRLvw6rB5MiI13k7n9ji69LXJRacaQdJwl5TnspvAtiAXtHTFT-4lDXH-OqMVaFMYFFqe1xQ-2opcgH/pub?output=csv&single=true&gid=';
-const GIDS={GADS:0,GA4_OVERVIEW:2102826176,GA4_PRODUITS:1889558120};
-let rawGads=[],rawGA4=[],rawProduits=[];
+const GIDS={GADS:0,GA4_OVERVIEW:2102826176,GA4_PRODUITS:1889558120,GA4_UTM:2015079031};
+let rawGads=[],rawGA4=[],rawProduits=[],rawUTM=[];
 let filteredGads=[],filteredGA4=[],filteredProduits=[];
 let currentPage='overview';
 let selectedYear=2026;
@@ -384,18 +400,18 @@ function pN(v){if(!v||v==='')return 0;return parseFloat(String(v).replace(/"/g,'
 async function loadData(){
   setStatus('loading','Chargement des données Google Sheets...');
   try{
-    const [r1,r2,r3]=await Promise.all([
+    const [r1,r2,r3,r4]=await Promise.all([
       fetch(BASE+GIDS.GADS).then(r=>r.text()),
       fetch(BASE+GIDS.GA4_OVERVIEW).then(r=>r.text()),
-      fetch(BASE+GIDS.GA4_PRODUITS).then(r=>r.text())
+      fetch(BASE+GIDS.GA4_PRODUITS).then(r=>r.text()),
+      fetch(BASE+GIDS.GA4_UTM).then(r=>r.text())
     ]);
     rawGads=parseCSV(r1);
     rawGA4=parseCSV(r2);
     rawProduits=parseCSV(r3);
-    console.log('GADS rows:',rawGads.length,'sample:',rawGads[0]);
-    console.log('GA4 rows:',rawGA4.length,'sample:',rawGA4[0]);
-    console.log('Produits rows:',rawProduits.length,'sample:',rawProduits[0]);
-    setStatus('success',`Données chargées — ${rawGads.length} lignes Ads, ${rawGA4.length} lignes GA4, ${rawProduits.length} lignes Produits`);
+    rawUTM=parseCSV(r4);
+    console.log('GADS rows:',rawGads.length,'GA4 rows:',rawGA4.length,'Produits rows:',rawProduits.length,'UTM rows:',rawUTM.length);
+    setStatus('success',`Données chargées — ${rawGads.length} Ads, ${rawGA4.length} GA4, ${rawProduits.length} Produits, ${rawUTM.length} UTM`);
     applyFilters();
   }catch(e){
     console.error('Load error:',e);
@@ -1037,6 +1053,92 @@ function renderInfluence(){
   document.getElementById('kpi-inf-basket').textContent=fmtEur2(basket);
   document.getElementById('kpi-inf-share').textContent=share.toFixed(1)+'%';
   document.getElementById('kpi-inf-share').style.color=share>=10?'var(--green)':share>=5?'var(--accent)':'var(--text2)';
+
+  // === INFLUENCER TABLE (from UTM data) ===
+  const influencerMediums=['influence','influencer'];
+  const utmInfluencers=rawUTM.filter(r=>{
+    const med=(r['Session medium']||'').toLowerCase();
+    return influencerMediums.includes(med);
+  });
+  const infAgg={};
+  utmInfluencers.forEach(r=>{
+    const camp=r['Session campaign name']||r['Session campaign']||'(non défini)';
+    const src=r['Session source']||'';
+    const key=camp+'||'+src;
+    if(!infAgg[key])infAgg[key]={campaign:camp,source:src,sessions:0,users:0,atc:0,checkouts:0,purchases:0,revenue:0};
+    infAgg[key].sessions+=pN(r['Sessions']);
+    infAgg[key].users+=pN(r['Total users']);
+    infAgg[key].atc+=pN(r['Add-to-carts']);
+    infAgg[key].checkouts+=pN(r['Checkouts']);
+    infAgg[key].purchases+=pN(r['Purchases']);
+    infAgg[key].revenue+=pN(r['Purchase revenue']);
+  });
+  let infArr=Object.values(infAgg).sort((a,b)=>b.sessions-a.sessions);
+  const infTbody=document.querySelector('#tableInfluenceurs tbody');
+  if(infArr.length>0){
+    const totalInfSess=infArr.reduce((s,i)=>s+i.sessions,0);
+    const totalInfRev=infArr.reduce((s,i)=>s+i.revenue,0);
+    const totalInfPurch=infArr.reduce((s,i)=>s+i.purchases,0);
+    infTbody.innerHTML=infArr.map(c=>{
+      const cv=c.sessions>0?(c.purchases/c.sessions*100).toFixed(2):'0';
+      const bsk=c.purchases>0?fmtEur2(c.revenue/c.purchases):'—';
+      const revStyle=c.revenue>0?'color:var(--green);font-weight:600':'';
+      return `<tr>
+        <td style="font-weight:600">${c.campaign}</td>
+        <td>${c.source}</td>
+        <td>${fmtNum(c.sessions)}</td>
+        <td>${fmtNum(c.users)}</td>
+        <td>${fmtNum(c.atc)}</td>
+        <td>${fmtNum(c.checkouts)}</td>
+        <td>${fmtNum(c.purchases)}</td>
+        <td style="${revStyle}">${fmtEur2(c.revenue)}</td>
+        <td>${cv}%</td>
+        <td>${bsk}</td>
+      </tr>`;
+    }).join('')+`<tr style="background:rgba(212,168,83,0.08);font-weight:700">
+      <td>TOTAL</td><td></td>
+      <td>${fmtNum(totalInfSess)}</td><td></td><td></td><td></td>
+      <td>${fmtNum(totalInfPurch)}</td>
+      <td style="color:var(--green)">${fmtEur2(totalInfRev)}</td>
+      <td>${totalInfSess>0?(totalInfPurch/totalInfSess*100).toFixed(2):'0'}%</td>
+      <td>${totalInfPurch>0?fmtEur2(totalInfRev/totalInfPurch):'—'}</td>
+    </tr>`;
+  }else{
+    infTbody.innerHTML='<tr><td colspan="10" style="text-align:center;color:var(--text2);padding:30px">Aucune donnée influenceur trouvée</td></tr>';
+  }
+
+  // Top influenceurs charts
+  destroyChart('topInfluenceurs');
+  destroyChart('topInfluenceursSessions');
+  const topByRev=infArr.filter(i=>i.revenue>0).sort((a,b)=>b.revenue-a.revenue).slice(0,10);
+  const topBySess=infArr.slice(0,10);
+
+  if(topByRev.length>0){
+    allCharts.topInfluenceurs=new Chart(document.getElementById('chartTopInfluenceurs'),{
+      type:'bar',
+      data:{
+        labels:topByRev.map(i=>i.campaign.length>20?i.campaign.slice(0,18)+'…':i.campaign),
+        datasets:[{label:'CA (€)',data:topByRev.map(i=>i.revenue),backgroundColor:'rgba(46,204,113,0.5)',borderColor:'#2ecc71',borderWidth:1,borderRadius:6}]
+      },
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{x:{grid:{color:'rgba(139,26,74,0.06)'},ticks:{callback:v=>fmtEur(v),font:{size:10}}},y:{ticks:{font:{size:11}}}}
+      }
+    });
+  }
+  if(topBySess.length>0){
+    allCharts.topInfluenceursSessions=new Chart(document.getElementById('chartTopInfluenceursSessions'),{
+      type:'bar',
+      data:{
+        labels:topBySess.map(i=>i.campaign.length>20?i.campaign.slice(0,18)+'…':i.campaign),
+        datasets:[{label:'Sessions',data:topBySess.map(i=>i.sessions),backgroundColor:'rgba(212,168,83,0.5)',borderColor:'#D4A853',borderWidth:1,borderRadius:6}]
+      },
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{x:{grid:{color:'rgba(139,26,74,0.06)'},ticks:{font:{size:10}}},y:{ticks:{font:{size:11}}}}
+      }
+    });
+  }
 
   // Daily chart: Organic Social vs Paid Social sessions + revenue
   destroyChart('influenceDaily');
