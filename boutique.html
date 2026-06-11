@@ -618,15 +618,7 @@ const gmb_notes_daily = boutiqueData.notes || _e();
 const gmb_visites_daily = boutiqueData.visites || _e();
 const gmb_ca_daily = boutiqueData.ca_ttc || _e();
 
-const skeepers = BOUTIQUE_NAME === 'Villefranche' ? [
-  {name:'Coralie diary',campagne:'Engagement IG',impressions:11442,reach:9504,ctr:'0,42%',engagements:5964,reactions:51,clics:92,vues100:100,vues50:1079},
-  {name:'Lauranne',campagne:'Engagement IG',impressions:3295,reach:2648,ctr:'0,42%',engagements:1349,reactions:19,clics:20,vues100:59,vues50:225},
-  {name:'Elisa B',campagne:'Notoriete META',impressions:246,reach:244,ctr:'0%',engagements:27,reactions:1,clics:1,vues100:1,vues50:1},
-  {name:'la vie de la meute',campagne:'Notoriete META',impressions:854,reach:843,ctr:'0%',engagements:146,reactions:1,clics:6,vues100:2,vues50:21},
-  {name:'miamore and more',campagne:'Notoriete META',impressions:1454,reach:1454,ctr:'0,07%',engagements:164,reactions:2,clics:5,vues100:11,vues50:32},
-  {name:'Elisa B',campagne:'Trafic IG',impressions:7158,reach:4679,ctr:'2,63%',engagements:1993,reactions:26,clics:214,vues100:146,vues50:390},
-  {name:'Mommy lilly off',campagne:'Trafic IG',impressions:5127,reach:3997,ctr:'3,10%',engagements:1508,reactions:20,clics:204,vues100:25,vues50:246}
-] : [];
+const skeepers = (typeof SKEEPERS_DATA !== 'undefined' && SKEEPERS_DATA[BOUTIQUE_NAME]) ? SKEEPERS_DATA[BOUTIQUE_NAME] : [];
 
 document.title = 'Body House ' + BOUTIQUE_NAME + ' — Dashboard Marketing 2025-2026';
 
@@ -1554,7 +1546,7 @@ function renderSkeepers() {
   tbody.innerHTML = '';
   skeepers.forEach(s => {
     const tr = document.createElement('tr');
-    const badgeClass = s.campagne.includes('Engagement') ? 'badge-rose' : s.campagne.includes('Trafic') ? 'badge-coral' : 'badge-meta';
+    const badgeClass = s.campagne.includes('Valentin') ? 'badge-rose' : s.campagne.includes('2025') ? 'badge-coral' : s.campagne.includes('Engagement') ? 'badge-rose' : s.campagne.includes('Trafic') ? 'badge-coral' : 'badge-meta';
     tr.innerHTML = `
       <td style="font-weight:600;color:var(--text)">${s.name}</td>
       <td><span class="badge ${badgeClass}">${s.campagne}</span></td>

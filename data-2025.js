@@ -261,3 +261,107 @@ let BUDGETS = {
 "Villefranche":{meta:[800,800,800,1000,1000,1000,1000,1000,1000,900,900,1000],google:[400,600,600,600,600,600,600,600,600,700,700,600]}
 }
 };
+
+const SKEEPERS_DATA = {
+"Avignon Nord":[
+{name:'La Vie de la Meute',campagne:'Skeepers 2025',impressions:340668,reach:null,ctr:'0,22%',engagements:135316,reactions:890,clics:6235,vues100:7140,vues50:23402},
+{name:'Coralie Diary',campagne:'Skeepers 2025',impressions:34156,reach:24059,ctr:'0,16%',engagements:16086,reactions:102,clics:506,vues100:297,vues50:2478},
+{name:'Mommy Lilly Off',campagne:'Skeepers 2025',impressions:31278,reach:19843,ctr:'0,25%',engagements:15695,reactions:143,clics:699,vues100:277,vues50:2408},
+{name:'Elisa B',campagne:'Skeepers 2025',impressions:12518,reach:10763,ctr:'0,07%',engagements:2831,reactions:14,clics:74,vues100:108,vues50:285},
+{name:'Jodie Chpln',campagne:'Skeepers 2025',impressions:8001,reach:6104,ctr:'0,10%',engagements:3392,reactions:23,clics:117,vues100:478,vues50:757},
+{name:'Johanna Todisco',campagne:'Skeepers 2025',impressions:5104,reach:4113,ctr:'0,22%',engagements:2023,reactions:26,clics:163,vues100:100,vues50:224},
+{name:'Auriipls',campagne:'St-Valentin 2026',impressions:104946,reach:56931,ctr:'0,11%',engagements:46774,reactions:294,clics:1569,vues100:3543,vues50:6919},
+{name:'Olivia Pouzol',campagne:'St-Valentin 2026',impressions:40103,reach:28448,ctr:'0,06%',engagements:14596,reactions:105,clics:454,vues100:1330,vues50:3942},
+{name:'Destouches Amelie',campagne:'St-Valentin 2026',impressions:5839,reach:3453,ctr:'1,22%',engagements:1024,reactions:15,clics:72,vues100:116,vues50:266},
+{name:'Ornella Mtl',campagne:'St-Valentin 2026',impressions:1434,reach:1122,ctr:'1,05%',engagements:317,reactions:10,clics:13,vues100:23,vues50:82},
+{name:'Stefy22100',campagne:'St-Valentin 2026',impressions:677,reach:511,ctr:'0,74%',engagements:103,reactions:5,clics:6,vues100:11,vues50:25},
+{name:'Riri Va',campagne:'St-Valentin 2026',impressions:244,reach:189,ctr:'2,46%',engagements:56,reactions:5,clics:6,vues100:4,vues50:11}
+],
+"Avignon Sud":[
+{name:'Coralie Diary',campagne:'Skeepers 2025',impressions:216699,reach:101272,ctr:'0,15%',engagements:101933,reactions:453,clics:2828,vues100:1715,vues50:14947},
+{name:'La Vie de la Meute',campagne:'Skeepers 2025',impressions:38583,reach:25055,ctr:'0,23%',engagements:16641,reactions:110,clics:578,vues100:554,vues50:2411},
+{name:'Jodie Chpln',campagne:'Skeepers 2025',impressions:37660,reach:21690,ctr:'0,21%',engagements:15104,reactions:66,clics:525,vues100:1852,vues50:2983},
+{name:'Johanna Todisco',campagne:'Skeepers 2025',impressions:19597,reach:12032,ctr:'0,18%',engagements:7625,reactions:54,clics:414,vues100:315,vues50:766},
+{name:'Mommy Lilly Off',campagne:'Skeepers 2025',impressions:17882,reach:12791,ctr:'0,18%',engagements:8321,reactions:98,clics:356,vues100:127,vues50:919},
+{name:'Elisa B',campagne:'Skeepers 2025',impressions:6477,reach:4527,ctr:'0,12%',engagements:2977,reactions:31,clics:82,vues100:173,vues50:388},
+{name:'Mababytest',campagne:'St-Valentin 2026',impressions:65888,reach:41034,ctr:'0,11%',engagements:24488,reactions:110,clics:678,vues100:1414,vues50:4720},
+{name:'Mommylillyoff',campagne:'St-Valentin 2026',impressions:6839,reach:5048,ctr:'0,06%',engagements:2065,reactions:18,clics:85,vues100:191,vues50:491},
+{name:'Jodie Chpln',campagne:'St-Valentin 2026',impressions:4618,reach:3462,ctr:'0,19%',engagements:1382,reactions:13,clics:71,vues100:50,vues50:133},
+{name:'Destouches Amelie',campagne:'St-Valentin 2026',impressions:5839,reach:3453,ctr:'1,22%',engagements:1024,reactions:15,clics:72,vues100:116,vues50:266},
+{name:'Ornella Mtl',campagne:'St-Valentin 2026',impressions:1434,reach:1122,ctr:'1,05%',engagements:317,reactions:10,clics:13,vues100:23,vues50:82},
+{name:'Stefy22100',campagne:'St-Valentin 2026',impressions:677,reach:511,ctr:'0,74%',engagements:103,reactions:5,clics:6,vues100:11,vues50:25},
+{name:'Riri Va',campagne:'St-Valentin 2026',impressions:244,reach:189,ctr:'2,46%',engagements:56,reactions:5,clics:6,vues100:4,vues50:11}
+],
+"Aubiere":[
+{name:'Jenn Qre',campagne:'Skeepers 2025',impressions:98653,reach:60726,ctr:'0,26%',engagements:49763,reactions:474,clics:740,vues100:1791,vues50:8558},
+{name:'Loulouchana',campagne:'Skeepers 2025',impressions:58740,reach:41350,ctr:'0,59%',engagements:24265,reactions:227,clics:1002,vues100:2320,vues50:4038},
+{name:'Alice',campagne:'Skeepers 2025',impressions:6645,reach:4788,ctr:'0,62%',engagements:2627,reactions:39,clics:157,vues100:170,vues50:344},
+{name:'Meghanee',campagne:'St-Valentin 2026',impressions:122954,reach:76551,ctr:'0,30%',engagements:51890,reactions:370,clics:1052,vues100:3580,vues50:7288},
+{name:'Loulouchana',campagne:'St-Valentin 2026',impressions:10451,reach:7314,ctr:'0,17%',engagements:3470,reactions:41,clics:38,vues100:130,vues50:394}
+],
+"Chambery":[
+{name:'Non identifiée',campagne:'Skeepers 2025',impressions:6095,reach:4635,ctr:'0,18%',engagements:1824,reactions:14,clics:21,vues100:268,vues50:456},
+{name:'Marine.b',campagne:'St-Valentin 2026',impressions:1446,reach:1262,ctr:'0,28%',engagements:986,reactions:11,clics:13,vues100:30,vues50:63}
+],
+"Grenoble":[
+{name:'Coralie Diary',campagne:'Skeepers 2025',impressions:112852,reach:58104,ctr:'0,16%',engagements:58979,reactions:292,clics:1535,vues100:868,vues50:9137},
+{name:'Mommy Lilly Off',campagne:'Skeepers 2025',impressions:52554,reach:28340,ctr:'0,23%',engagements:26321,reactions:225,clics:1001,vues100:328,vues50:3444},
+{name:'Jodie Chpln',campagne:'Skeepers 2025',impressions:6605,reach:4199,ctr:'0,11%',engagements:2839,reactions:13,clics:81,vues100:358,vues50:655},
+{name:'Johanna Todisco',campagne:'Skeepers 2025',impressions:4631,reach:3114,ctr:'0,17%',engagements:1927,reactions:18,clics:100,vues100:88,vues50:193},
+{name:'Elisa B',campagne:'Skeepers 2025',impressions:1662,reach:1251,ctr:'0,06%',engagements:807,reactions:9,clics:22,vues100:45,vues50:124},
+{name:'Mababytest',campagne:'St-Valentin 2026',impressions:35669,reach:22051,ctr:'0,10%',engagements:13387,reactions:65,clics:458,vues100:660,vues50:2375},
+{name:'Jodie Chpln',campagne:'St-Valentin 2026',impressions:9730,reach:6681,ctr:'0,20%',engagements:3129,reactions:24,clics:148,vues100:119,vues50:357},
+{name:'Mommylillyoff',campagne:'St-Valentin 2026',impressions:3455,reach:2566,ctr:'0,26%',engagements:943,reactions:2,clics:51,vues100:97,vues50:223}
+],
+"Jacou":[],
+"Lyon":[
+{name:'Elisa B',campagne:'Skeepers 2025',impressions:15904,reach:11882,ctr:'0,18%',engagements:7383,reactions:44,clics:211,vues100:555,vues50:1230},
+{name:'Stephya',campagne:'Skeepers 2025',impressions:7276,reach:6261,ctr:'0,14%',engagements:3563,reactions:75,clics:161,vues100:491,vues50:893},
+{name:'Flau Hope',campagne:'St-Valentin 2026',impressions:82014,reach:53183,ctr:'0,22%',engagements:38039,reactions:344,clics:1421,vues100:8247,vues50:15750},
+{name:"L'Univers de Laure",campagne:'St-Valentin 2026',impressions:75776,reach:49839,ctr:'0,18%',engagements:39016,reactions:331,clics:1368,vues100:2057,vues50:3953},
+{name:'Stefpya',campagne:'St-Valentin 2026',impressions:177,reach:150,ctr:'0,56%',engagements:78,reactions:4,clics:5,vues100:10,vues50:24}
+],
+"Montelimar":[
+{name:'Coralie Diary',campagne:'Skeepers 2025',impressions:105978,reach:48118,ctr:'0,17%',engagements:48118,reactions:197,clics:1762,vues100:612,vues50:4456},
+{name:'Mommy Lilly Off',campagne:'Skeepers 2025',impressions:40693,reach:17243,ctr:'0,27%',engagements:17247,reactions:139,clics:2721,vues100:630,vues50:4612},
+{name:'Jodie Chpln',campagne:'Skeepers 2025',impressions:31609,reach:15586,ctr:'0,17%',engagements:11329,reactions:50,clics:544,vues100:1417,vues50:2463},
+{name:'Elisa B',campagne:'Skeepers 2025',impressions:25342,reach:15455,ctr:'0,14%',engagements:10782,reactions:42,clics:431,vues100:621,vues50:1454},
+{name:'Johanna Todisco',campagne:'Skeepers 2025',impressions:10492,reach:5472,ctr:'0,29%',engagements:4227,reactions:24,clics:260,vues100:181,vues50:373},
+{name:'Les Avis de Coralie',campagne:'St-Valentin 2026',impressions:25625,reach:14869,ctr:'0,10%',engagements:7611,reactions:48,clics:346,vues100:491,vues50:1288},
+{name:'Maelle Kolz',campagne:'St-Valentin 2026',impressions:20216,reach:11590,ctr:'0,14%',engagements:6259,reactions:36,clics:346,vues100:199,vues50:668},
+{name:'Veronique Brooks',campagne:'St-Valentin 2026',impressions:16948,reach:9313,ctr:'0,08%',engagements:4987,reactions:12,clics:158,vues100:723,vues50:1487}
+],
+"Nimes":[
+{name:'Alice Vinct',campagne:'Skeepers 2025',impressions:38805,reach:31085,ctr:'0,44%',engagements:18640,reactions:527,clics:684,vues100:1800,vues50:4575},
+{name:'Alice Vinct',campagne:'St-Valentin 2026',impressions:20107,reach:16333,ctr:'0,28%',engagements:8802,reactions:107,clics:131,vues100:415,vues50:1037}
+],
+"Sainte-Eulalie":[
+{name:'Melissedlisse',campagne:'Skeepers 2025',impressions:9092,reach:7230,ctr:'0,22%',engagements:3832,reactions:31,clics:75,vues100:70,vues50:510},
+{name:'Laeti.vrl',campagne:'St-Valentin 2026',impressions:59484,reach:41429,ctr:'0,22%',engagements:31579,reactions:183,clics:699,vues100:346,vues50:2480},
+{name:'Laurymaillot',campagne:'St-Valentin 2026',impressions:16580,reach:12687,ctr:'0,30%',engagements:7113,reactions:77,clics:78,vues100:186,vues50:680},
+{name:'Theyellowblog',campagne:'St-Valentin 2026',impressions:10185,reach:8152,ctr:'0,22%',engagements:4012,reactions:43,clics:35,vues100:369,vues50:854},
+{name:'Sweet Valentine',campagne:'St-Valentin 2026',impressions:5320,reach:4554,ctr:'0,45%',engagements:3296,reactions:153,clics:57,vues100:746,vues50:1808}
+],
+"Tignieu":[],
+"Valence":[
+{name:'Jodie Chpln',campagne:'Skeepers 2025',impressions:45143,reach:24793,ctr:'2,23%',engagements:11214,reactions:153,clics:1008,vues100:1658,vues50:2906},
+{name:'Coralie Diary',campagne:'Skeepers 2025',impressions:2550,reach:2144,ctr:'4,34%',engagements:970,reactions:7,clics:114,vues100:11,vues50:151},
+{name:'Johanna Todisco',campagne:'Skeepers 2025',impressions:611,reach:522,ctr:'3,44%',engagements:173,reactions:4,clics:23,vues100:8,vues50:19},
+{name:'Mommy Lilly Off',campagne:'Skeepers 2025',impressions:240,reach:217,ctr:'2,50%',engagements:74,reactions:1,clics:9,vues100:1,vues50:10},
+{name:'Elisa B',campagne:'Skeepers 2025',impressions:239,reach:219,ctr:'3,13%',engagements:66,reactions:2,clics:7,vues100:5,vues50:13},
+{name:'Ornella Mtl',campagne:'St-Valentin 2026',impressions:1819,reach:1326,ctr:'2,09%',engagements:312,reactions:3,clics:40,vues100:17,vues50:67},
+{name:'Destouches Amelie',campagne:'St-Valentin 2026',impressions:489,reach:434,ctr:'3,07%',engagements:88,reactions:3,clics:16,vues100:7,vues50:16}
+],
+"Salaise":[],
+"Villefranche":[
+{name:'Coralie Diary',campagne:'Skeepers 2025',impressions:11442,reach:9504,ctr:'0,42%',engagements:5964,reactions:51,clics:92,vues100:100,vues50:1079},
+{name:'Elisa B',campagne:'Skeepers 2025',impressions:7404,reach:4923,ctr:'2,54%',engagements:2020,reactions:27,clics:215,vues100:147,vues50:391},
+{name:'Mommy Lilly Off',campagne:'Skeepers 2025',impressions:5127,reach:3997,ctr:'3,10%',engagements:1508,reactions:20,clics:204,vues100:25,vues50:246},
+{name:'Lauranne',campagne:'Skeepers 2025',impressions:3295,reach:2648,ctr:'0,42%',engagements:1349,reactions:19,clics:20,vues100:59,vues50:225},
+{name:'Miamore',campagne:'Skeepers 2025',impressions:1454,reach:1454,ctr:'0,07%',engagements:164,reactions:2,clics:5,vues100:11,vues50:32},
+{name:'La Vie de la Meute',campagne:'Skeepers 2025',impressions:854,reach:843,ctr:'0%',engagements:146,reactions:1,clics:6,vues100:2,vues50:21},
+{name:'Larefetudiante',campagne:'St-Valentin 2026',impressions:24401,reach:16406,ctr:'0,29%',engagements:9704,reactions:86,clics:105,vues100:1254,vues50:2373},
+{name:'Jodie Chpln',campagne:'St-Valentin 2026',impressions:9528,reach:7041,ctr:'0,33%',engagements:3308,reactions:32,clics:63,vues100:127,vues50:360}
+],
+"Biganos":[]
+};
