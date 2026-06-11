@@ -182,6 +182,23 @@ body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Inter'
   .tagline{font-size:13px;letter-spacing:2px}
   .card-title{font-size:22px}
 }
+.blink{
+  display:flex;align-items:center;justify-content:center;
+  padding:14px 16px;border-radius:12px;
+  background:linear-gradient(160deg,rgba(139,26,74,0.06),rgba(6,4,10,0.5));
+  border:1px solid rgba(212,168,83,0.06);
+  color:var(--text);text-decoration:none;
+  font-size:13px;font-weight:500;letter-spacing:.3px;
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+.blink:hover{
+  border-color:rgba(212,168,83,0.22);
+  background:linear-gradient(160deg,rgba(139,26,74,0.12),rgba(212,168,83,0.04));
+  box-shadow:0 4px 20px rgba(139,26,74,0.08);
+  transform:translateY(-3px);
+  color:var(--gold-light);
+}
 @media(max-width:480px){
   .logo,.logo-reflect{width:240px}
   .card{padding:28px 24px 24px;border-radius:20px}
@@ -264,6 +281,31 @@ body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Inter'
     </a>
 
   </nav>
+
+  <!-- BOUTIQUES -->
+  <section class="boutiques-section" style="width:100%;max-width:920px;margin-top:64px;opacity:0;transform:translateY(30px);animation:rise .8s cubic-bezier(.16,1,.3,1) .85s forwards">
+    <div style="text-align:center;margin-bottom:32px">
+      <h2 style="font-family:'Playfair Display',serif;font-weight:700;font-size:22px;color:var(--text);margin-bottom:8px">Dashboards Boutiques</h2>
+      <p style="font-size:12px;font-weight:300;color:var(--gold);opacity:.6;letter-spacing:2px">PERFORMANCES INDIVIDUELLES</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px">
+      <a href="boutique.html?b=avignon-nord" class="blink">Avignon Nord</a>
+      <a href="boutique.html?b=avignon-sud" class="blink">Avignon Sud</a>
+      <a href="boutique.html?b=aubiere" class="blink">Aubière</a>
+      <a href="boutique.html?b=biganos" class="blink">Biganos</a>
+      <a href="boutique.html?b=chambery" class="blink">Chambéry</a>
+      <a href="boutique.html?b=grenoble" class="blink">Grenoble</a>
+      <a href="boutique.html?b=jacou" class="blink">Jacou</a>
+      <a href="boutique.html?b=lyon" class="blink">Lyon</a>
+      <a href="boutique.html?b=montelimar" class="blink">Montélimar</a>
+      <a href="boutique.html?b=nimes" class="blink">Nîmes</a>
+      <a href="boutique.html?b=sainte-eulalie" class="blink">Sainte-Eulalie</a>
+      <a href="boutique.html?b=salaise" class="blink">Salaise</a>
+      <a href="boutique.html?b=tignieu" class="blink">Tignieu</a>
+      <a href="boutique.html?b=valence" class="blink">Valence</a>
+      <a href="boutique.html?b=villefranche" class="blink">Villefranche</a>
+    </div>
+  </section>
 
 </div>
 
