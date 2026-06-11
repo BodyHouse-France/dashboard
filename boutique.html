@@ -595,7 +595,8 @@ const SLUG_TO_NAME = {
   'salaise':'Salaise','villefranche':'Villefranche'
 };
 const urlParams = new URLSearchParams(window.location.search);
-const boutiqueSlug = (urlParams.get('b') || 'villefranche').toLowerCase();
+const pathSlug = window.location.pathname.split('/').filter(Boolean).pop();
+const boutiqueSlug = (urlParams.get('b') || (pathSlug && SLUG_TO_NAME[pathSlug] ? pathSlug : null) || 'villefranche').toLowerCase();
 const BOUTIQUE_NAME = SLUG_TO_NAME[boutiqueSlug] || 'Villefranche';
 const BOUTIQUE_UPPER = BOUTIQUE_NAME.toUpperCase();
 
