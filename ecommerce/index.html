@@ -177,6 +177,10 @@ tbody tr:hover{background:rgba(139,26,74,0.04)}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
       Transactions &amp; Produits
     </a>
+    <a data-page="influence" onclick="switchPage('influence')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      Influence &amp; UTM
+    </a>
   </nav>
   <div class="sidebar-bottom">
     <a href="../gateway.html">
@@ -302,6 +306,48 @@ tbody tr:hover{background:rgba(139,26,74,0.04)}
       <div class="chart-card"><h3>Distribution des paniers</h3><div class="chart-wrap"><canvas id="chartBasketDist"></canvas></div></div>
     </div>
 
+  </div>
+
+  <!-- PAGE 4: INFLUENCE & UTM -->
+  <div class="page" id="page-influence">
+    <div class="kpi-grid" id="kpiInfluence">
+      <div class="kpi-card"><div class="kpi-label">Sessions Organic Social</div><div class="kpi-value" id="kpi-inf-sessions">—</div><div class="kpi-change neutral" id="kpi-inf-sessions-chg">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">CA Organic Social</div><div class="kpi-value" id="kpi-inf-revenue">—</div><div class="kpi-change neutral" id="kpi-inf-revenue-chg">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Achats</div><div class="kpi-value" id="kpi-inf-purchases">—</div><div class="kpi-change neutral" id="kpi-inf-purchases-chg">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Taux de conversion</div><div class="kpi-value" id="kpi-inf-conv">—</div><div class="kpi-change neutral" id="kpi-inf-conv-chg">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Panier moyen</div><div class="kpi-value" id="kpi-inf-basket">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Part du CA total</div><div class="kpi-value" id="kpi-inf-share">—</div></div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card"><h3>Sessions & CA — Organic Social vs Paid Social (quotidien)</h3><div class="chart-wrap"><canvas id="chartInfluenceDaily"></canvas></div></div>
+      <div class="chart-card"><h3>Part de CA par canal</h3><div class="chart-wrap small"><canvas id="chartInfluenceShare"></canvas></div></div>
+    </div>
+
+    <div class="table-card">
+      <h3>Performance mensuelle — Organic Social (Influence)</h3>
+      <table id="tableInfluenceMonthly">
+        <thead><tr>
+          <th>Mois</th><th>Sessions</th><th>Utilisateurs</th><th>Ajouts panier</th><th>Checkouts</th><th>Achats</th><th>CA</th><th>Taux conv.</th><th>Panier moy.</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card"><h3>Évolution mensuelle — Sessions Organic Social</h3><div class="chart-wrap"><canvas id="chartInfluenceMonthlyLine"></canvas></div></div>
+      <div class="chart-card"><h3>Évolution mensuelle — CA Organic Social</h3><div class="chart-wrap"><canvas id="chartInfluenceMonthlyCA"></canvas></div></div>
+    </div>
+
+    <div class="table-card">
+      <h3>Comparatif canaux sociaux — Performance</h3>
+      <table id="tableInfluenceChannels">
+        <thead><tr>
+          <th>Canal</th><th>Sessions</th><th>Utilisateurs</th><th>Achats</th><th>CA</th><th>Taux conv.</th><th>Panier moy.</th><th>Part CA</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
 
 </main>
@@ -494,6 +540,7 @@ function renderAll(){
   renderOverview();
   renderCampaigns();
   renderTransactions();
+  renderInfluence();
 }
 
 /* ==================== PAGE 1: OVERVIEW ==================== */
@@ -949,6 +996,189 @@ function renderTransactions(){
       scales:{y:{grid:{color:'rgba(139,26,74,0.06)'},ticks:{font:{size:10}}},x:{ticks:{font:{size:11}}}}
     }
   });
+}
+
+/* ==================== PAGE 4: INFLUENCE & UTM ==================== */
+const MONTH_LABELS_FR=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const SOCIAL_CHANNELS=['Organic Social','Paid Social'];
+
+function filterGA4Channel(data,channels){
+  return data.filter(r=>channels.includes(r['Session default channel grouping']));
+}
+
+function renderInfluence(){
+  const{from,to}=getDateRange();
+  const prev=getPrevRange(from,to);
+  const prevGA4=filterByDate(rawGA4,prev.from,prev.to);
+
+  const orgSocial=filteredGA4.filter(r=>r['Session default channel grouping']==='Organic Social');
+  const prevOrgSocial=prevGA4.filter(r=>r['Session default channel grouping']==='Organic Social');
+  const paidSocial=filteredGA4.filter(r=>r['Session default channel grouping']==='Paid Social');
+
+  const sessions=sumField(orgSocial,'Sessions');
+  const revenue=sumField(orgSocial,'Purchase revenue');
+  const purchases=sumField(orgSocial,'Purchases');
+  const users=sumField(orgSocial,'Total users');
+  const conv=sessions>0?purchases/sessions:0;
+  const basket=purchases>0?revenue/purchases:0;
+
+  const pSessions=sumField(prevOrgSocial,'Sessions');
+  const pRevenue=sumField(prevOrgSocial,'Purchase revenue');
+  const pPurchases=sumField(prevOrgSocial,'Purchases');
+  const pConv=pSessions>0?pPurchases/pSessions:0;
+
+  const totalRevAll=sumField(filteredGA4,'Purchase revenue');
+  const share=totalRevAll>0?(revenue/totalRevAll)*100:0;
+
+  setKPI('kpi-inf-sessions',fmtNum(sessions),'kpi-inf-sessions-chg',calcChange(sessions,pSessions));
+  setKPI('kpi-inf-revenue',fmtEur(revenue),'kpi-inf-revenue-chg',calcChange(revenue,pRevenue));
+  setKPI('kpi-inf-purchases',fmtNum(purchases),'kpi-inf-purchases-chg',calcChange(purchases,pPurchases));
+  setKPI('kpi-inf-conv',(conv*100).toFixed(2)+'%','kpi-inf-conv-chg',calcChange(conv,pConv));
+  document.getElementById('kpi-inf-basket').textContent=fmtEur2(basket);
+  document.getElementById('kpi-inf-share').textContent=share.toFixed(1)+'%';
+  document.getElementById('kpi-inf-share').style.color=share>=10?'var(--green)':share>=5?'var(--accent)':'var(--text2)';
+
+  // Daily chart: Organic Social vs Paid Social sessions + revenue
+  destroyChart('influenceDaily');
+  const orgDailySess=dailyAgg(orgSocial,'Sessions');
+  const orgDailyRev=dailyAgg(orgSocial,'Purchase revenue');
+  const paidDailySess=dailyAgg(paidSocial,'Sessions');
+  const allDates=[...new Set([...orgDailySess.map(d=>d.date),...paidDailySess.map(d=>d.date)])].sort();
+  const orgSessMap={};orgDailySess.forEach(d=>orgSessMap[d.date]=d.value);
+  const orgRevMap={};orgDailyRev.forEach(d=>orgRevMap[d.date]=d.value);
+  const paidSessMap={};paidDailySess.forEach(d=>paidSessMap[d.date]=d.value);
+
+  allCharts.influenceDaily=new Chart(document.getElementById('chartInfluenceDaily'),{
+    type:'bar',
+    data:{
+      labels:allDates.map(d=>d.slice(5)),
+      datasets:[
+        {label:'Sessions Organic Social',data:allDates.map(d=>orgSessMap[d]||0),backgroundColor:'rgba(212,168,83,0.5)',borderColor:'#D4A853',borderWidth:1,borderRadius:4,yAxisID:'y',order:3},
+        {label:'Sessions Paid Social',data:allDates.map(d=>paidSessMap[d]||0),backgroundColor:'rgba(139,26,74,0.4)',borderColor:'#8B1A4A',borderWidth:1,borderRadius:4,yAxisID:'y',order:2},
+        {label:'CA Organic Social (€)',data:allDates.map(d=>orgRevMap[d]||0),type:'line',borderColor:'#2ecc71',backgroundColor:'rgba(46,204,113,0.1)',pointRadius:2,pointBackgroundColor:'#2ecc71',borderWidth:2,tension:.3,yAxisID:'y1',order:1}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{labels:{font:{size:11},usePointStyle:true,pointStyle:'circle'}}},
+      scales:{
+        y:{position:'left',stacked:true,grid:{color:'rgba(139,26,74,0.06)'},ticks:{font:{size:10}},title:{display:true,text:'Sessions',font:{size:10},color:'var(--text2)'}},
+        y1:{position:'right',grid:{display:false},ticks:{callback:v=>fmtEur(v),font:{size:10}},title:{display:true,text:'CA (€)',font:{size:10},color:'var(--text2)'}},
+        x:{stacked:true,ticks:{font:{size:10},maxRotation:45}}
+      }
+    }
+  });
+
+  // Share donut: all channels
+  destroyChart('influenceShare');
+  const chanRev={};
+  filteredGA4.forEach(r=>{
+    const ch=r['Session default channel grouping']||'Autre';
+    chanRev[ch]=(chanRev[ch]||0)+pN(r['Purchase revenue']);
+  });
+  const chanNames=Object.keys(chanRev).sort((a,b)=>chanRev[b]-chanRev[a]);
+  const shareColors=chanNames.map(n=>n==='Organic Social'?'#D4A853':n==='Paid Social'?'#B0325E':chartColors[chanNames.indexOf(n)%chartColors.length]);
+  allCharts.influenceShare=new Chart(document.getElementById('chartInfluenceShare'),{
+    type:'doughnut',
+    data:{
+      labels:chanNames,
+      datasets:[{data:chanNames.map(n=>chanRev[n]),backgroundColor:shareColors,borderWidth:0}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
+      plugins:{legend:{position:'right',labels:{font:{size:11},usePointStyle:true,pointStyle:'circle',padding:8,boxWidth:12}}}
+    }
+  });
+
+  // Monthly table for Organic Social
+  const monthlyData={};
+  orgSocial.forEach(r=>{
+    const d=parseDate(r.Date);
+    if(!d)return;
+    const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+    if(!monthlyData[key])monthlyData[key]={sessions:0,users:0,atc:0,checkouts:0,purchases:0,revenue:0};
+    monthlyData[key].sessions+=pN(r['Sessions']);
+    monthlyData[key].users+=pN(r['Total users']);
+    monthlyData[key].atc+=pN(r['Add-to-carts']);
+    monthlyData[key].checkouts+=pN(r['Checkouts']);
+    monthlyData[key].purchases+=pN(r['Purchases']);
+    monthlyData[key].revenue+=pN(r['Purchase revenue']);
+  });
+  const months=Object.keys(monthlyData).sort();
+  const tbody=document.querySelector('#tableInfluenceMonthly tbody');
+  tbody.innerHTML=months.map(m=>{
+    const d=monthlyData[m];
+    const cv=d.sessions>0?(d.purchases/d.sessions*100).toFixed(2):'0';
+    const bsk=d.purchases>0?fmtEur2(d.revenue/d.purchases):'—';
+    const parts=m.split('-');
+    const label=MONTH_LABELS_FR[parseInt(parts[1])-1]+' '+parts[0];
+    return `<tr><td>${label}</td><td>${fmtNum(d.sessions)}</td><td>${fmtNum(d.users)}</td><td>${fmtNum(d.atc)}</td><td>${fmtNum(d.checkouts)}</td><td>${fmtNum(d.purchases)}</td><td>${fmtEur(d.revenue)}</td><td>${cv}%</td><td>${bsk}</td></tr>`;
+  }).join('');
+
+  // Monthly line charts
+  destroyChart('influenceMonthlyLine');
+  allCharts.influenceMonthlyLine=new Chart(document.getElementById('chartInfluenceMonthlyLine'),{
+    type:'line',
+    data:{
+      labels:months.map(m=>{const p=m.split('-');return MONTH_LABELS_FR[parseInt(p[1])-1].slice(0,3)+' '+p[0].slice(2)}),
+      datasets:[{
+        label:'Sessions',data:months.map(m=>monthlyData[m].sessions),
+        borderColor:'#D4A853',backgroundColor:'rgba(212,168,83,0.1)',fill:true,
+        pointRadius:4,pointBackgroundColor:'#D4A853',borderWidth:2,tension:.3
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{y:{grid:{color:'rgba(139,26,74,0.06)'},ticks:{font:{size:10}}},x:{ticks:{font:{size:10}}}}
+    }
+  });
+
+  destroyChart('influenceMonthlyCA');
+  allCharts.influenceMonthlyCA=new Chart(document.getElementById('chartInfluenceMonthlyCA'),{
+    type:'line',
+    data:{
+      labels:months.map(m=>{const p=m.split('-');return MONTH_LABELS_FR[parseInt(p[1])-1].slice(0,3)+' '+p[0].slice(2)}),
+      datasets:[{
+        label:'CA (€)',data:months.map(m=>monthlyData[m].revenue),
+        borderColor:'#2ecc71',backgroundColor:'rgba(46,204,113,0.1)',fill:true,
+        pointRadius:4,pointBackgroundColor:'#2ecc71',borderWidth:2,tension:.3
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{y:{grid:{color:'rgba(139,26,74,0.06)'},ticks:{callback:v=>fmtEur(v),font:{size:10}}},x:{ticks:{font:{size:10}}}}
+    }
+  });
+
+  // Channel comparison table (social focus)
+  const allChannels={};
+  filteredGA4.forEach(r=>{
+    const ch=r['Session default channel grouping']||'Autre';
+    if(!allChannels[ch])allChannels[ch]={sessions:0,users:0,purchases:0,revenue:0};
+    allChannels[ch].sessions+=pN(r['Sessions']);
+    allChannels[ch].users+=pN(r['Total users']);
+    allChannels[ch].purchases+=pN(r['Purchases']);
+    allChannels[ch].revenue+=pN(r['Purchase revenue']);
+  });
+  const chanArr=Object.entries(allChannels).map(([ch,d])=>({
+    channel:ch,...d,
+    convRate:d.sessions>0?d.purchases/d.sessions:0,
+    basket:d.purchases>0?d.revenue/d.purchases:0,
+    shareCA:totalRevAll>0?(d.revenue/totalRevAll)*100:0
+  })).sort((a,b)=>b.revenue-a.revenue);
+
+  document.querySelector('#tableInfluenceChannels tbody').innerHTML=chanArr.map(c=>{
+    const isSocial=SOCIAL_CHANNELS.includes(c.channel);
+    const style=isSocial?'style="background:rgba(212,168,83,0.06);font-weight:600"':'';
+    return `<tr ${style}>
+      <td>${isSocial?'★ ':''}<span style="${isSocial?'color:var(--accent)':''}">${c.channel}</span></td>
+      <td>${fmtNum(c.sessions)}</td>
+      <td>${fmtNum(c.users)}</td>
+      <td>${fmtNum(c.purchases)}</td>
+      <td>${fmtEur(c.revenue)}</td>
+      <td>${(c.convRate*100).toFixed(2)}%</td>
+      <td>${c.purchases>0?fmtEur2(c.basket):'—'}</td>
+      <td>${c.shareCA.toFixed(1)}%</td>
+    </tr>`;
+  }).join('');
 }
 
 /* ==================== NAVIGATION ==================== */
