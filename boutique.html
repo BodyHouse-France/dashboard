@@ -766,7 +766,9 @@ async function loadPosData() {
       if (matched !== BOUTIQUE_NAME || !date || !total) continue;
       if (!daily[date]) daily[date] = { ca: 0, count: 0 };
       daily[date].ca += total;
-      daily[date].count++;
+      // Onglet « Pos order » agrégé (date, point de vente, CA TTC, tickets) : la 4e colonne donne le nombre de tickets
+      const tickets = fields.length > 3 ? pN(fields[3]) : 0;
+      daily[date].count += tickets > 0 ? tickets : 1;
     }
     posData = daily;
     console.log('['+BOUTIQUE_NAME+'] POS data loaded:', Object.keys(daily).length, 'jours');
