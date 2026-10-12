@@ -84,7 +84,7 @@ body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Inter'
 /* ═══════════════════════════════════
    CARDS
    ═══════════════════════════════════ */
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:28px;width:100%;max-width:920px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;width:100%;max-width:1200px}
 
 .card{
   position:relative;
@@ -101,6 +101,7 @@ body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Inter'
 }
 .card:nth-child(1){animation:rise .8s cubic-bezier(.16,1,.3,1) .5s forwards}
 .card:nth-child(2){animation:rise .8s cubic-bezier(.16,1,.3,1) .65s forwards}
+.card:nth-child(3){animation:rise .8s cubic-bezier(.16,1,.3,1) .8s forwards}
 
 /* Top border glow */
 .card::before{content:'';position:absolute;top:-1px;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(212,168,83,0.2),transparent);transition:all .45s;opacity:0}
@@ -174,6 +175,10 @@ body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Inter'
 /* ═══════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════ */
+@media(max-width:1000px){
+  .cards{grid-template-columns:1fr 1fr}
+  .card:nth-child(3){grid-column:1 / -1;max-width:480px;justify-self:center;width:100%}
+}
 @media(max-width:820px){
   .cards{grid-template-columns:1fr;max-width:480px}
   .card{padding:36px 30px 32px}
@@ -280,6 +285,27 @@ body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Inter'
       </div>
     </a>
 
+    <!-- Nouvelles Boutiques BodyHouse by Dorcel -->
+    <a href="bhdor/index.html" class="card">
+      <div class="card-icon">
+        <svg viewBox="0 0 30 30" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 27V13L15 4l11 9v14" stroke="#B0325E" stroke-width="1.4"/>
+          <path d="M10 27v-8h10v8" stroke="#8B1A4A" stroke-width="1.2" fill="rgba(139,26,74,0.08)"/>
+          <circle cx="15" cy="15" r="2.5" stroke="#D4A853" stroke-width="1.2" fill="rgba(212,168,83,0.06)"/>
+          <path d="M15 12.5v5M12.5 15h5" stroke="#D4A853" stroke-width=".8" opacity=".6"/>
+          <circle cx="8" cy="10" r="1" fill="#D4A853" opacity=".35"/>
+          <circle cx="22" cy="10" r="1" fill="#D4A853" opacity=".35"/>
+        </svg>
+      </div>
+      <div class="card-title">Nouvelles Boutiques BodyHouse by Dorcel</div>
+      <div class="card-tag">Meta Ads · Google · Ventes en caisse</div>
+      <div class="card-desc">15 nouvelles boutiques du réseau 2026 : performances publicitaires, trafic web et chiffre d'affaires en magasin.</div>
+      <div class="card-cta">
+        <span class="card-cta-text">Accéder au dashboard</span>
+        <div class="card-cta-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></div>
+      </div>
+    </a>
+
   </nav>
 
   <!-- BOUTIQUES -->
@@ -310,7 +336,7 @@ body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Inter'
   <!-- NOUVELLES BOUTIQUES -->
   <section class="boutiques-section" style="width:100%;max-width:920px;margin-top:56px;opacity:0;transform:translateY(30px);animation:rise .8s cubic-bezier(.16,1,.3,1) 1s forwards">
     <div style="text-align:center;margin-bottom:28px">
-      <h2 style="font-family:'Playfair Display',serif;font-weight:700;font-size:22px;color:var(--text);margin-bottom:8px">Nouvelles Boutiques</h2>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:700;font-size:22px;color:var(--text);margin-bottom:8px">Nouvelles Boutiques BodyHouse by Dorcel</h2>
       <p style="font-size:12px;font-weight:300;color:var(--gold);opacity:.6;letter-spacing:2px">RÉSEAU 2026 · PERFORMANCES INDIVIDUELLES</p>
     </div>
     <a href="bhdor/index.html" class="blink" style="margin-bottom:12px;padding:16px;font-weight:600;color:var(--gold-light);border-color:rgba(212,168,83,0.18)">Vue réseau — les 15 nouvelles boutiques &nbsp;→</a>
