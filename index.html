@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Body House — Portail Marketing</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -837,6 +838,49 @@
         .rapport-label { font-size: 13px; font-weight: 600; }
         .rapport-sub { font-size: 11px; color: var(--text-tertiary); font-weight: 500; }
 
+        /* ═══ 2e LIGNE DE KPIs ═══ */
+        .kpi-hero.kpi-hero-sub { margin-top:-32px }
+        .kpi-hero-sub .kpi-card { padding:18px 24px }
+        .kpi-hero-sub .kpi-value { font-size:24px;color:var(--text-primary)!important }
+        .kpi-hero-sub .kpi-card:nth-child(1)::before { background: var(--rose); }
+        .kpi-hero-sub .kpi-card:nth-child(2)::before { background: var(--beige); }
+        .kpi-hero-sub .kpi-card:nth-child(3)::before { background: var(--meta-blue); }
+        .kpi-hero-sub .kpi-card:nth-child(4)::before { background: var(--gmb-green); }
+        @media (max-width: 640px) { .kpi-hero.kpi-hero-sub { margin-top:-38px } .kpi-hero-sub .kpi-value { font-size:20px } }
+        /* En-tête sur petit écran : évite le défilement horizontal */
+        @media (max-width: 480px) {
+            .header-right { gap:8px }
+            .header-right > a { font-size:0!important;padding:8px 10px!important;margin-right:0!important;gap:0!important }
+            .logo-bh svg { height:15px }
+            .dp-icon { display:none }
+            .dp-trigger { gap:6px;padding:8px 12px }
+            .dp-label { font-size:11px;max-width:150px;overflow:hidden;text-overflow:ellipsis }
+        }
+        /* ═══ ÉVOLUTION DU RÉSEAU + CLASSEMENT ═══ */
+        .charts-grid { display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:48px }
+        .chart-card { background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-xl);padding:22px 24px 18px;min-width:0 }
+        .chart-card h3 { font-size:13px;font-weight:800;letter-spacing:.3px;margin-bottom:4px;text-transform:uppercase }
+        .chart-card .chart-sub { font-size:11px;color:var(--text-tertiary);font-weight:500;margin-bottom:14px }
+        .chart-box { position:relative;height:260px }
+        .rank-card { background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-xl);padding:8px 8px 4px;overflow-x:auto;margin-bottom:56px }
+        .rank-table { width:100%;border-collapse:collapse;min-width:900px }
+        .rank-table th { text-align:right;padding:14px 16px 12px;font-size:10px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;white-space:nowrap }
+        .rank-table th:first-child, .rank-table td:first-child { text-align:left }
+        .rank-table th:hover { color:var(--text-secondary) }
+        .rank-table th.sorted { color:var(--coral) }
+        .rank-table th .arrow { display:inline-block;margin-left:4px;opacity:.8 }
+        .rank-table td { text-align:right;padding:13px 16px;font-size:13px;font-weight:600;color:var(--text-secondary);border-bottom:1px solid rgba(255,255,255,0.03);white-space:nowrap;font-variant-numeric:tabular-nums }
+        .rank-table tbody tr { cursor:pointer;transition:background .2s }
+        .rank-table tbody tr:hover { background:var(--coral-soft) }
+        .rank-table tbody tr:hover td:first-child { color:var(--coral) }
+        .rank-table td:first-child { color:var(--text-primary);font-weight:700 }
+        .rank-table .rk { display:inline-block;width:22px;color:var(--text-tertiary);font-weight:600;font-size:11px }
+        .rank-table tfoot td { color:var(--text-primary);font-weight:800;border-top:1px solid var(--border);border-bottom:none }
+        .bar-cell { display:flex;align-items:center;justify-content:flex-end;gap:10px }
+        .bar-mini { width:70px;height:5px;border-radius:5px;background:rgba(255,255,255,0.06);overflow:hidden }
+        .bar-mini i { display:block;height:100%;border-radius:5px;background:var(--coral) }
+        @media (max-width: 1100px) { .charts-grid { grid-template-columns:1fr } }
+        @media (max-width: 640px) { .chart-card { padding:18px 16px 14px;border-radius:18px } .chart-box { height:220px } }
         /* ═══ RESPONSIVE ═══ */
         @media (max-width: 1100px) {
             .kpi-hero { grid-template-columns: repeat(2, 1fr); }
@@ -955,6 +999,25 @@
 
     <!-- KPI HERO -->
     <div class="kpi-hero" id="kpiHero"></div>
+    <div class="kpi-hero kpi-hero-sub" id="kpiHeroSub"></div>
+
+    <!-- ÉVOLUTION DU RÉSEAU -->
+    <div class="section-header">
+        <div class="section-title">Évolution du réseau</div>
+        <span class="section-badge" id="granBadge">par mois</span>
+    </div>
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>Chiffre d'affaires TTC</h3>
+            <div class="chart-sub">Ventes en caisse, toutes boutiques</div>
+            <div class="chart-box"><canvas id="chartCA" aria-label="Chiffre d'affaires TTC du réseau"></canvas></div>
+        </div>
+        <div class="chart-card">
+            <h3>Investissement publicitaire</h3>
+            <div class="chart-sub">Dépenses Meta Ads et Google Ads des boutiques (hors campagne nationale)</div>
+            <div class="chart-box"><canvas id="chartSpend" aria-label="Investissement publicitaire du réseau"></canvas></div>
+        </div>
+    </div>
 
     <!-- BOUTIQUES -->
     <div class="section-header">
@@ -962,6 +1025,15 @@
         <span class="section-badge" id="boutiqueCount">15 boutiques</span>
     </div>
     <div class="boutiques-grid" id="boutiquesGrid"></div>
+
+    <!-- CLASSEMENT -->
+    <div class="section-header">
+        <div class="section-title">Classement</div>
+        <span class="section-badge">Cliquer sur une colonne pour trier</span>
+    </div>
+    <div class="rank-card">
+        <table class="rank-table" id="rankTable"></table>
+    </div>
 
     <!-- RAPPORTS -->
     <div class="rapports-section">
@@ -1322,7 +1394,7 @@ const ROW_OFFSETS = {
     meta_budget:1, meta_imp:2, meta_clics:3, meta_eng:4, meta_dep:5,
     google_budget:7, google_imp:8, google_clics:9, google_dep:11,
     gmb_imp:14, appels:15, itineraires:16, notes:17,
-    visites:20, ca_ttc:26
+    visites:20, ca_ttc:26, tickets:27
 };
 
 // CSV name → portal display name
@@ -1380,6 +1452,7 @@ function parsePerf2026(csvText){
         b.notes=extractDailyRow(getRow(ROW_OFFSETS.notes));
         b.visites=extractDailyRow(getRow(ROW_OFFSETS.visites));
         b.ca_ttc=extractDailyRow(getRow(ROW_OFFSETS.ca_ttc));
+        b.tickets=extractDailyRow(getRow(ROW_OFFSETS.tickets));
         boutiques[name]=b;
         const bud={meta:extractBudgetRow(getRow(ROW_OFFSETS.meta_budget)),google:extractBudgetRow(getRow(ROW_OFFSETS.google_budget))};
         budgets[name]=bud;
@@ -1823,6 +1896,8 @@ function calApply() {
     document.querySelectorAll('.cal-year-tab').forEach(b => b.classList.toggle('active', b.textContent === currentYear));
     renderKPIs();
     renderBoutiques();
+    renderNetworkCharts();
+    renderRanking();
     closeCalendar();
 }
 
@@ -2152,16 +2227,210 @@ function renderRapports() {
         </a>`;
 }
 
+// ═══ ÉVOLUTION DU RÉSEAU + CLASSEMENT (repris du portail Nouvelles boutiques) ═══
+const netCharts = {};
+let rankSort = { key: 'ca_ttc', dir: -1 };
+if (typeof Chart !== 'undefined') {
+    Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+    Chart.defaults.font.size = 11;
+    Chart.defaults.color = '#8a8580';
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+    Chart.defaults.plugins.legend.labels.pointStyleWidth = 8;
+    Chart.defaults.plugins.legend.labels.padding = 16;
+    Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(18,18,18,0.96)';
+    Chart.defaults.plugins.tooltip.borderColor = 'rgba(255,255,255,0.08)';
+    Chart.defaults.plugins.tooltip.borderWidth = 1;
+    Chart.defaults.plugins.tooltip.padding = 10;
+    Chart.defaults.plugins.tooltip.titleColor = '#f0ece8';
+    Chart.defaults.plugins.tooltip.bodyColor = '#c9c4bf';
+}
+const netScale = { grid: { color: 'rgba(255,255,255,0.03)', drawBorder: false }, ticks: { color: '#5a5652', font: { size: 10 } } };
+const netEurTick = v => v >= 1000 ? (v / 1000).toLocaleString('fr-FR', { maximumFractionDigits: 1 }) + ' k€' : v.toLocaleString('fr-FR') + ' €';
+
+function selRange() {
+    if (selMode === 'annual') return { fromM: 0, fromD: 0, toM: 11, toD: 30 };
+    return { fromM: selStart.month, fromD: selStart.day, toM: selEnd.month, toD: selEnd.day };
+}
+// Liste des jours [m, d] de la période, réduite aux jours qui contiennent des données
+function activeDays() {
+    const year = DATA_DAILY[currentYear];
+    if (!year) return [];
+    const yr = parseInt(currentYear, 10);
+    const r = selRange();
+    const days = [];
+    for (let m = r.fromM; m <= r.toM; m++) {
+        const dim = daysInMonth(yr, m);
+        const sd = m === r.fromM ? r.fromD : 0;
+        const ed = m === r.toM ? Math.min(r.toD, dim - 1) : dim - 1;
+        for (let d = sd; d <= ed; d++) days.push([m, d]);
+    }
+    const names = Object.keys(year);
+    const has = ([m, d]) => names.some(n => {
+        const b = year[n];
+        return ['ca_ttc', 'meta_dep', 'google_dep', 'meta_imp'].some(k => b[k] && b[k][m] && b[k][m][d] > 0);
+    });
+    let a = 0, z = days.length - 1;
+    while (a <= z && !has(days[a])) a++;
+    while (z >= a && !has(days[z])) z--;
+    return days.slice(a, z + 1);
+}
+function netBuckets() {
+    const days = activeDays();
+    if (!days.length) return [];
+    if (days.length <= 62) {
+        return days.map(([m, d]) => ({ label: String(d + 1).padStart(2, '0') + '/' + String(m + 1).padStart(2, '0'), title: (d + 1) + ' ' + MONTH_NAMES[m].toLowerCase(), days: [[m, d]] }));
+    }
+    const out = [];
+    days.forEach(([m, d]) => {
+        let bk = out[out.length - 1];
+        if (!bk || bk.m !== m) { bk = { m, label: MONTH_SHORT[m], title: MONTH_NAMES[m], days: [] }; out.push(bk); }
+        bk.days.push([m, d]);
+    });
+    const yr = parseInt(currentYear, 10);
+    out.forEach(bk => {
+        const f = bk.days[0][1], l = bk.days[bk.days.length - 1][1];
+        if (f > 0 || l < daysInMonth(yr, bk.m) - 1) bk.title += ' (' + (f + 1) + ' → ' + (l + 1) + ')';
+    });
+    return out;
+}
+function netSeries(metric, bk) {
+    const year = DATA_DAILY[currentYear] || {};
+    return bk.map(x => {
+        let t = 0;
+        Object.keys(year).forEach(n => { const a = year[n][metric]; if (a) x.days.forEach(([m, d]) => { t += (a[m] && a[m][d]) || 0; }); });
+        return t;
+    });
+}
+function netChart(id, datasets, opts) {
+    if (netCharts[id]) { netCharts[id].destroy(); delete netCharts[id]; }
+    const el = document.getElementById(id);
+    if (!el || typeof Chart === 'undefined') return;
+    netCharts[id] = new Chart(el, {
+        type: 'bar',
+        data: { labels: opts.bk.map(x => x.label), datasets },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { display: datasets.length > 1, position: 'top' },
+                tooltip: { callbacks: { title: items => opts.bk[items[0].dataIndex].title, label: c => ' ' + c.dataset.label + ' : ' + fmtE(Math.round(c.parsed.y)) } }
+            },
+            scales: { x: { ...netScale, stacked: !!opts.stacked }, y: { ...netScale, stacked: !!opts.stacked, beginAtZero: true, ticks: { ...netScale.ticks, callback: netEurTick } } }
+        }
+    });
+}
+function renderKpiSub() {
+    const el = document.getElementById('kpiHeroSub');
+    const year = DATA_DAILY[currentYear];
+    if (!el || !year) return;
+    let ca = 0, caTk = 0, tk = 0, vis = 0, active = 0, hasTk = false;
+    const names = Object.keys(year);
+    names.forEach(n => {
+        const d = getBoutiqueData(n);
+        const t = ticketsFor(n);
+        ca += d.ca_ttc; vis += d.visites;
+        if (d.ca_ttc > 0) active++;
+        if (t > 0) { hasTk = true; tk += t; caTk += d.ca_ttc; }
+    });
+    const dash = '\u2014';
+    el.innerHTML = `
+        <div class="kpi-card"><div class="kpi-label">Passages en caisse</div><div class="kpi-value">${hasTk ? fmt(Math.round(tk)) : dash}</div><div class="kpi-detail">${hasTk ? 'tickets en boutique' : 'disponible \u00e0 partir de 2026'}</div></div>
+        <div class="kpi-card"><div class="kpi-label">Panier moyen</div><div class="kpi-value">${tk > 0 ? (caTk / tk).toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' \u20ac' : dash}</div><div class="kpi-detail">CA TTC / passages en caisse</div></div>
+        <div class="kpi-card"><div class="kpi-label">Visites site web</div><div class="kpi-value">${fmt(Math.round(vis))}</div><div class="kpi-detail">pages boutique (GA4)</div></div>
+        <div class="kpi-card"><div class="kpi-label">Boutiques actives</div><div class="kpi-value">${active} / ${names.length}</div><div class="kpi-detail">avec ventes sur la p\u00e9riode</div></div>`;
+}
+function renderNetworkCharts() {
+    renderKpiSub();
+    const bk = netBuckets();
+    const badge = document.getElementById('granBadge');
+    if (badge) badge.textContent = !bk.length ? 'aucune donn\u00e9e' : bk[0].m === undefined ? 'par jour' : 'par mois';
+    const bar = (label, data, c, a) => ({ label, data, backgroundColor: a, borderColor: c, borderWidth: 1, borderRadius: 4, maxBarThickness: 46 });
+    netChart('chartCA', [bar('CA TTC', netSeries('ca_ttc', bk), '#F19D76', 'rgba(241,157,118,0.65)')], { bk });
+    netChart('chartSpend', [
+        bar('Meta Ads', netSeries('meta_dep', bk), '#5b9cf6', 'rgba(91,156,246,0.65)'),
+        bar('Google Ads', netSeries('google_dep', bk), '#f6c95b', 'rgba(246,201,91,0.65)')
+    ], { bk, stacked: true });
+}
+
+function boutiqueSlug(name) {
+    return name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '-');
+}
+function ticketsFor(name) {
+    const b = DATA_DAILY[currentYear] && DATA_DAILY[currentYear][name];
+    if (!b || !b.tickets) return null;
+    const r = selRange();
+    return sumDaily(b.tickets, r.fromM, r.fromD, r.toM, r.toD);
+}
+function renderRanking() {
+    const tbl = document.getElementById('rankTable');
+    const year = DATA_DAILY[currentYear];
+    if (!tbl || !year) return;
+    const rows = Object.keys(year).map(name => {
+        const d = getBoutiqueData(name);
+        const tk = ticketsFor(name);
+        return { name, slug: boutiqueSlug(name), ca_ttc: d.ca_ttc, tickets: tk, panier: tk > 0 ? d.ca_ttc / tk : null, visites: d.visites,
+            meta_imp: d.meta_imp, meta_clics: d.meta_clics, dep: d.meta_dep + d.google_dep, gmb_note: d.gmb_note };
+    }).filter(r => r.ca_ttc > 0 || r.meta_imp > 0 || r.visites > 0);
+    const withTickets = rows.some(r => r.tickets > 0);
+    const cols = [
+        { key: 'name', label: 'Boutique' },
+        { key: 'ca_ttc', label: 'CA TTC', fmt: v => fmtE(Math.round(v)), bar: true }
+    ].concat(withTickets ? [
+        { key: 'tickets', label: 'Passages', fmt: v => v > 0 ? fmt(Math.round(v)) : '—' },
+        { key: 'panier', label: 'Panier moyen', fmt: v => v > 0 ? v.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' €' : '—' }
+    ] : []).concat([
+        { key: 'visites', label: 'Visites site', fmt: v => fmt(Math.round(v)) },
+        { key: 'meta_imp', label: 'Impr. META', fmt: v => fmt(Math.round(v)) },
+        { key: 'meta_clics', label: 'Clics META', fmt: v => fmt(Math.round(v)) },
+        { key: 'dep', label: 'Dépenses pub', fmt: v => fmtE(Math.round(v)) },
+        { key: 'gmb_note', label: 'Note Google', fmt: v => v > 0 ? v.toFixed(1).replace('.', ',') + ' / 5' : '—' }
+    ]);
+    if (!cols.some(c => c.key === rankSort.key)) rankSort = { key: 'ca_ttc', dir: -1 };
+    rows.sort((p, q) => rankSort.key === 'name' ? rankSort.dir * p.name.localeCompare(q.name, 'fr')
+        : rankSort.dir * ((p[rankSort.key] || 0) - (q[rankSort.key] || 0)) || p.name.localeCompare(q.name, 'fr'));
+    const tot = { ca_ttc: 0, tickets: 0, visites: 0, meta_imp: 0, meta_clics: 0, dep: 0 };
+    rows.forEach(r => Object.keys(tot).forEach(k => { tot[k] += r[k] || 0; }));
+    tot.panier = tot.tickets > 0 ? tot.ca_ttc / tot.tickets : null;
+    tot.gmb_note = null;
+    const maxCA = Math.max(1, ...rows.map(r => r.ca_ttc));
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    tbl.innerHTML = '<thead><tr>' + cols.map(c => `<th data-k="${c.key}" class="${rankSort.key === c.key ? 'sorted' : ''}">${c.label}${rankSort.key === c.key ? `<span class="arrow">${rankSort.dir < 0 ? '↓' : '↑'}</span>` : ''}</th>`).join('') + '</tr></thead>'
+        + '<tbody>' + rows.map((r, i) => `<tr data-slug="${r.slug}">` + cols.map(c => c.key === 'name' ? `<td><span class="rk">${i + 1}</span>${esc(r.name)}</td>`
+            : c.bar ? `<td><div class="bar-cell">${c.fmt(r[c.key])}<span class="bar-mini"><i style="width:${(r.ca_ttc / maxCA * 100).toFixed(1)}%"></i></span></div></td>`
+            : `<td>${c.fmt(r[c.key])}</td>`).join('') + '</tr>').join('') + '</tbody>'
+        + '<tfoot><tr>' + cols.map(c => c.key === 'name' ? '<td>Total réseau</td>'
+            : c.bar ? `<td><div class="bar-cell">${c.fmt(tot[c.key])}<span class="bar-mini" style="visibility:hidden"></span></div></td>`
+            : `<td>${c.fmt(tot[c.key])}</td>`).join('') + '</tr></tfoot>';
+    tbl.querySelectorAll('th').forEach(th => th.addEventListener('click', () => {
+        const k = th.dataset.k;
+        rankSort = rankSort.key === k ? { key: k, dir: -rankSort.dir } : { key: k, dir: k === 'name' ? 1 : -1 };
+        renderRanking();
+    }));
+    tbl.querySelectorAll('tbody tr').forEach(tr => tr.addEventListener('click', () => { location.href = 'boutique.html?b=' + tr.dataset.slug; }));
+}
+
+// Appelée par correctSpendFromRaw() une fois les dépenses ajustées
+function renderCurrentView() {
+    renderKPIs();
+    renderBoutiques();
+    renderNetworkCharts();
+    renderRanking();
+}
+
 // ═══ INIT ═══
 async function init(){
     // Render 2025 data immediately (static)
     renderKPIs();
     renderBoutiques();
+    renderNetworkCharts();
+    renderRanking();
     renderRapports();
     // Load 2026 data from Google Sheets (Supermetrics)
     await loadLiveData();
     // Re-render if user is on 2026
     if(currentYear==='2026'){renderKPIs();renderBoutiques();}
+    renderNetworkCharts();
+    renderRanking();
 }
 init();
 
