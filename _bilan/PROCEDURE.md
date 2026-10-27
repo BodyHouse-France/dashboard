@@ -70,37 +70,26 @@ Le script affiche, par compte, le nombre de campagnes et la dépense : vérifier
 ## 3. Google Ads
 
 Seulement si le connecteur Google Ads est disponible (chercher ses outils ; s'il ne l'est pas, passer à l'étape 4
-et le signaler). Pour chaque réseau, `compte` et `debut` dans `_bilan/config.json` (`reseaux.<réseau>.google`) ;
-les comptes sont sous le MCC 7676164331 (`login_customer_id`).
+et le signaler). Comptes et dates de début dans `_bilan/config.json` (`reseaux.<réseau>.google`) : nouvelles
+8728111505 depuis le 2026-09-01, historiques 5815462274 depuis le 2026-09-07, tous deux sous le MCC 7676164331.
 
-- Historiques : compte 5815462274.
-- Nouvelles : si `compte` vaut `null`, trouver le compte BH DOR : lister les comptes du MCC
-  (`SELECT customer_client.id, customer_client.descriptive_name, customer_client.manager FROM customer_client`),
-  puis, sur chaque compte non gestionnaire autre que 5815462274, chercher une campagne dont le nom contient
-  `| ANGERS |`. Écrire l'identifiant trouvé dans `config.json` et le signaler.
+Deux appels `search_search` par compte, avec `login_customer_id` = `7676164331` et `resource` = `campaign` :
 
-Deux requêtes par compte, `<debut>` et `<FIN>` au format AAAA-MM-JJ :
+| Appel | fields | conditions |
+|---|---|---|
+| Coûts | `campaign.name, metrics.cost_micros, metrics.impressions, metrics.clicks, metrics.search_impression_share` | `segments.date BETWEEN '<debut>' AND '<FIN>'`, `campaign.advertising_channel_type = 'SEARCH'`, `metrics.impressions > 0` |
+| Conversions | `campaign.name, segments.conversion_action_category, segments.conversion_action_name, metrics.all_conversions` | `segments.date BETWEEN '<debut>' AND '<FIN>'`, `campaign.advertising_channel_type = 'SEARCH'`, `metrics.all_conversions > 0` |
 
-```sql
-SELECT campaign.name, metrics.cost_micros, metrics.impressions, metrics.clicks, metrics.search_impression_share
-FROM campaign
-WHERE segments.date BETWEEN '<debut>' AND '<FIN>' AND campaign.advertising_channel_type = 'SEARCH'
-```
-```sql
-SELECT campaign.name, segments.conversion_action_category, segments.conversion_action_name, metrics.all_conversions
-FROM campaign
-WHERE segments.date BETWEEN '<debut>' AND '<FIN>' AND campaign.advertising_channel_type = 'SEARCH' AND metrics.all_conversions > 0
-```
-Après les requêtes d'un réseau (les extraire à nouveau pour le second réseau) :
+Après les quatre appels :
 ```bash
-python3 _bilan/scripts/extraire.py Google_Ads /tmp/bilan/google_<réseau> --depuis $(cat /tmp/bilan/debut)
-python3 _bilan/scripts/google_csv.py /tmp/bilan/google_<réseau> --reseau <réseau> --compte <id> --debut <debut> --fin $(cat /tmp/bilan/fin)
+python3 _bilan/scripts/extraire.py Google_Ads /tmp/bilan/google --depuis $(cat /tmp/bilan/debut)
+python3 _bilan/scripts/google_csv.py /tmp/bilan/google --reseau nouvelles --compte 8728111505 --debut 2026-09-01 --fin $(cat /tmp/bilan/fin)
+python3 _bilan/scripts/google_csv.py /tmp/bilan/google --reseau historiques --compte 5815462274 --debut 2026-09-07 --fin $(cat /tmp/bilan/fin)
 ```
-`Google_Ads` est un motif du nom des outils du connecteur (l'adapter s'il s'appelle autrement) ; `google_csv.py`
-ne garde que les réponses du compte indiqué qui contiennent des campagnes.
+`google_csv.py` ne garde, pour chaque compte, que ses réponses qui contiennent des campagnes ; il range les
+conversions par nom d'action (itinéraires, appels, visites du site, autres engagements).
 Si les itinéraires d'un réseau baissent par rapport à la semaine précédente (alerte de `construire.py`),
-refaire la seconde requête avec `metrics.conversions` à la place de `metrics.all_conversions` et garder
-la version cohérente avec les semaines précédentes.
+vérifier les noms d'actions de conversion renvoyés et le signaler.
 
 ## 4. Construire et contrôler
 

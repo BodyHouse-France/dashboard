@@ -2,8 +2,8 @@
  "fin": "2026-10-26",
  "sources": {
   "followup": {
-   "genere": "2026-10-27T09:00",
-   "note": "reprise des données vérifiées le 27/10/2026"
+   "genere": "2026-10-27T14:59",
+   "note": "export Apps Script du follow-up"
   },
   "meta": {
    "jusqua": "2026-10-26",
@@ -12,11 +12,13 @@
   "google": {
    "nouvelles": {
     "jusqua": "2026-10-26",
-    "collecte": "2026-10-27"
+    "collecte": "2026-10-27",
+    "compte": "8728111505"
    },
    "historiques": {
     "jusqua": "2026-10-26",
-    "collecte": "2026-10-27"
+    "collecte": "2026-10-27",
+    "compte": "5815462274"
    }
   }
  }
