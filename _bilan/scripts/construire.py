@@ -179,6 +179,10 @@ def construire_reseau(mode, R, cfg, ex, meta_c, meta_j, google, collecte, FIN):
     for b in boutiques:
         if not b.get('bloc_ventes'):
             ventes_suivies[b['nom']] = False
+            for k, m in blocs.items():
+                if any(contient(norm(k), norm(al)) for al in b['alias']) and sum(v or 0 for v in (m.get('ca') or {}).values()) > 0:
+                    alerte(f'{mode} : le follow-up contient maintenant des ventes pour {b["nom"]} (bloc « {k} ») ; '
+                           f'les ajouter au bilan en renseignant bloc_ventes dans config.json (à valider avec Sébastien)')
             continue
         cle_bloc = next((k for k in blocs if norm(k) == norm(b['bloc_ventes'])), None)
         if cle_bloc is None:
@@ -344,8 +348,8 @@ def construire_reseau(mode, R, cfg, ex, meta_c, meta_j, google, collecte, FIN):
         if c <= 0 and im <= 0:
             continue
         morceaux = [m.strip() for m in r['campagne'].split('|')]
-        boutique = associer(morceaux[2], alias_b) if len(morceaux) >= 3 else None
-        boutique = boutique or associer(r['campagne'], alias_b)
+        boutique = associer(morceaux[2], alias_meta) if len(morceaux) >= 3 else None
+        boutique = boutique or associer(r['campagne'], alias_meta)
         if boutique is None:
             alerte(f'{mode} : campagne Google non rattachée à une boutique, ignorée : {r["campagne"]} ({c:.2f} €)')
             continue

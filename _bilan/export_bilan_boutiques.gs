@@ -18,6 +18,7 @@
  *
  * FORMAT (une ligne par paragraphe, champs séparés par « ; ») :
  *   EXPORT;1;<date et heure>;<date du jour>
+ *   (un bloc par boutique commence par une ligne dont la colonne A vaut « Date » ou l'année, ex. 2026)
  *   V;<onglet>;<boutique>;<mesure>;<premier lundi>;<valeurs par semaine séparées par des virgules>;<total>
  *      mesures : ca, tk, ca1, tk1, vis, meta, goog (ligne « …;<mesure>;ABSENT » si introuvable)
  *   GS;<onglet GMB>;<mesure>;<premier lundi>;<valeurs par semaine>;<total>   (search, maps, calls, dir, web)
@@ -70,7 +71,7 @@ function bxVentes_(ss, nom, tz, aujourdhui, lignes) {
   const annee = (nom.match(/20\d\d/) || [''])[0];
   const lab = i => String(v[i][0]).trim().toLowerCase();
   const debuts = [];
-  for (let i = 0; i < v.length; i++) if (lab(i) === 'date') debuts.push(i);
+  for (let i = 0; i < v.length; i++) if (lab(i) === 'date' || /^20\d\d$/.test(lab(i))) debuts.push(i);
 
   debuts.forEach((d, k) => {
     const fin = k + 1 < debuts.length ? debuts[k + 1] : v.length;
