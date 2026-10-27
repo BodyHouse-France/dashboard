@@ -1,0 +1,536 @@
+<link rel="stylesheet" href="brand.css">
+<link rel="stylesheet" href="style.css">
+
+<div class="bh" id="bilan">
+  <header class="bh-entete">
+    <div class="bh-entete-haut">
+      <div class="bh-marque"><span class="bh-logo">Body House</span><span class="bh-signature">Créateur de plaisir</span></div>
+      <div class="bh-entete-actions">
+        <a class="bh-retour si-nouvelles" href="../bhdor/index.html" hidden>← Portail</a>
+        <a class="bh-retour si-historiques" href="../index.html" hidden>← Portail</a>
+        <button type="button" class="bh-switch" id="switch-reseau" role="switch" aria-checked="false" aria-label="Afficher les boutiques historiques">
+          <span class="bh-switch-option" data-reseau="nouvelles">Nouvelles boutiques</span>
+          <span class="bh-switch-option" data-reseau="historiques">Boutiques historiques</span>
+        </button>
+      </div>
+    </div>
+    <h1><span class="si-nouvelles">Bilan des nouvelles boutiques</span><span class="si-historiques">Bilan des boutiques historiques</span></h1>
+    <p class="bh-periode" id="periode-entete">
+      <span class="si-nouvelles">Meta depuis le 7 septembre, Google Ads depuis le 14 octobre · données au <span class="bh-libelle" data-source="periode" data-field="libelle_maj">—</span></span>
+      <span class="si-historiques">Meta et Google Ads en continu · <span class="bh-libelle" data-source="periode" data-field="libelle_media">—</span> · ventes comparées à 2025</span>
+    </p>
+    <p class="bh-alerte-maj" id="alerte-maj" data-source="periode" hidden></p>
+    <p class="bh-resume" id="resume">
+      <b class="bh-num dash-skeleton" data-source="kpi_global" data-field="depense_totale">—</b> investis sur
+      <b class="bh-num dash-skeleton" data-source="kpi_global" data-field="nb_boutiques_campagne">—</b> boutiques.
+      <span class="si-nouvelles">CA hebdomadaire <b class="bh-num dash-skeleton" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques en campagne">—</b> depuis le lancement,
+      témoins <b class="bh-num dash-skeleton" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques témoins">—</b>.</span>
+      <span class="si-historiques">CA <b class="bh-num dash-skeleton" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques historiques">—</b> sur un an,
+      <b class="bh-num" data-source="ventes_groupes" data-field="nb_boutiques_hausse" data-where="groupe=Boutiques historiques">—</b> boutiques sur
+      <b class="bh-num" data-source="ventes_groupes" data-field="nb_boutiques" data-where="groupe=Boutiques historiques">—</b> en hausse.</span>
+    </p>
+    <nav class="bh-onglets" role="tablist" aria-label="Sections du bilan">
+      <button class="bh-onglet" role="tab" id="onglet-synthese" data-page="synthese" aria-selected="true">Synthèse</button>
+      <button class="bh-onglet" role="tab" id="onglet-meta" data-page="meta" aria-selected="false">Meta</button>
+      <button class="bh-onglet" role="tab" id="onglet-google" data-page="google" aria-selected="false">Google Ads</button>
+      <button class="bh-onglet" role="tab" id="onglet-fiches" data-page="fiches" aria-selected="false">Fiches Google</button>
+      <button class="bh-onglet" role="tab" id="onglet-ventes" data-page="ventes" aria-selected="false">Ventes</button>
+      <button class="bh-onglet" role="tab" id="onglet-boutique" data-page="boutique" aria-selected="false">Par boutique</button>
+    </nav>
+  </header>
+
+  <main class="bh-corps">
+
+    <!-- ============================== SYNTHÈSE ============================== -->
+    <section class="bh-page" id="synthese" role="tabpanel" aria-labelledby="onglet-synthese">
+      <div class="bh-section" id="synthese-chiffres">
+        <h2 class="bh-h2">Les chiffres clés</h2>
+        <p class="bh-chapo">
+          <span class="si-nouvelles">Ventes : <span class="bh-libelle" data-source="periode" data-field="nb_semaines">—</span> semaines de campagne (<span class="bh-libelle" data-source="periode" data-field="libelle_ventes">—</span>) comparées aux 7 semaines précédentes.</span>
+          <span class="si-historiques">Ventes : <span class="bh-libelle" data-source="periode" data-field="libelle_ventes">—</span>, comparées aux mêmes semaines de 2025. Hors campagne nationale (<b class="bh-num" data-source="hors_perimetre" data-field="depense" data-where="libelle=Campagne nationale Trafic">—</b>, <b class="bh-num" data-source="hors_perimetre" data-field="abonnes_instagram" data-where="libelle=Campagne nationale Trafic">—</b> abonnés Instagram) et recrutement (<b class="bh-num" data-source="hors_perimetre" data-field="depense" data-where="libelle=Recrutement franchise">—</b>).</span>
+        </p>
+        <div class="bh-kpis">
+          <div class="bh-kpi bh-kpi-fort">
+            <span class="bh-kpi-label">Investissement média</span>
+            <span class="bh-kpi-valeur dash-skeleton" data-source="kpi_global" data-field="depense_totale">—</span>
+            <span class="bh-kpi-detail">Meta <b class="bh-num" data-source="kpi_global" data-field="depense_meta">—</b> · Google <b class="bh-num" data-source="kpi_global" data-field="depense_google">—</b></span>
+          </div>
+          <div class="bh-kpi">
+            <span class="bh-kpi-label">Interactions</span>
+            <span class="bh-kpi-valeur dash-skeleton" data-source="kpi_global" data-field="interactions">—</span>
+            <span class="bh-kpi-detail"><b class="bh-num" data-source="kpi_global" data-field="cout_interaction">—</b> l’interaction</span>
+          </div>
+          <div class="bh-kpi">
+            <span class="bh-kpi-label"><span class="si-nouvelles">Visites des pages Facebook</span><span class="si-historiques">Visites de profil</span></span>
+            <span class="bh-kpi-valeur dash-skeleton" data-source="kpi_global" data-field="visites_page_facebook">—</span>
+            <span class="bh-kpi-detail"><b class="bh-num" data-source="kpi_global" data-field="cout_visite_page">—</b> la visite<span class="si-historiques">, surtout Instagram</span></span>
+          </div>
+          <div class="bh-kpi">
+            <span class="bh-kpi-label">Nouveaux abonnés</span>
+            <span class="bh-kpi-valeur dash-skeleton" data-source="kpi_global" data-field="abonnes">—</span>
+            <span class="bh-kpi-detail">Facebook <b class="bh-num" data-source="kpi_global" data-field="abonnes_facebook">—</b> · Instagram <b class="bh-num" data-source="kpi_global" data-field="abonnes_instagram">—</b>, attribués aux publicités</span>
+          </div>
+          <div class="bh-kpi">
+            <span class="bh-kpi-label">Itinéraires Google Ads</span>
+            <span class="bh-kpi-valeur dash-skeleton" data-source="kpi_global" data-field="itineraires_google">—</span>
+            <span class="bh-kpi-detail"><b class="bh-num" data-source="kpi_global" data-field="cout_itineraire">—</b> l’itinéraire · <b class="bh-num" data-source="kpi_global" data-field="clics_google">—</b> clics</span>
+          </div>
+          <div class="bh-kpi si-nouvelles">
+            <span class="bh-kpi-label">CA HT par semaine</span>
+            <span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="ca_pendant" data-where="groupe=Boutiques en campagne">—</span>
+            <span class="bh-kpi-detail"><b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques en campagne">—</b> vs avant · témoins <b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques témoins">—</b></span>
+          </div>
+          <div class="bh-kpi si-historiques">
+            <span class="bh-kpi-label">CA HT par semaine</span>
+            <span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="ca_pendant" data-where="groupe=Boutiques historiques">—</span>
+            <span class="bh-kpi-detail"><b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques historiques">—</b> vs 2025 · passages <b class="bh-num" data-source="ventes_groupes" data-field="evol_tickets" data-where="groupe=Boutiques historiques">—</b></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bh-section" id="synthese-chronologie">
+        <h2 class="bh-h2">Chronologie</h2>
+        <div class="bh-carte">
+          <div class="bh-legende">
+            <span><i style="background:#a64551"></i>Dépense Meta / jour</span>
+            <span><i class="bh-trait" style="background:#e2806b"></i>Vues Recherche des fiches / jour</span>
+            <span><i class="bh-trait" style="background:#7f2f3b"></i>Vues Maps des fiches / jour</span>
+            <span><i style="background:#ece3de"></i>Diffusion Meta interrompue</span>
+          </div>
+          <div class="bh-graph" id="graph-chronologie" data-source="meta_jour fiches_reseau_jour jalons" style="min-height:380px"></div>
+          <ol class="bh-actions" id="liste-jalons" data-source="jalons" style="margin-top:10px"></ol>
+        </div>
+      </div>
+
+      <div class="bh-section" id="synthese-constats">
+        <h2 class="bh-h2">Ce qu’il faut retenir</h2>
+        <div class="bh-constats si-nouvelles">
+          <div class="bh-constat">
+            <h3>Meta : volume et coûts</h3>
+            <p><b class="bh-num" data-source="kpi_global" data-field="couverture_notoriete">—</b> personnes touchées, visites de page à <b class="bh-num" data-source="kpi_global" data-field="cout_visite_page">—</b>, interactions à <b class="bh-num" data-source="kpi_global" data-field="cout_interaction">—</b>.</p>
+          </div>
+          <div class="bh-constat bh-alerte">
+            <h3>Régularité de la diffusion Meta</h3>
+            <p><b class="bh-num" data-source="meta_diffusion" data-field="jours_sans_diffusion">—</b> jours sans diffusion sur <b class="bh-num" data-source="meta_diffusion" data-field="jours_total">—</b> depuis le lancement : une diffusion coupée rend l’effet sur les ventes difficile à lire.</p>
+          </div>
+          <div class="bh-constat">
+            <h3>Google Ads Search</h3>
+            <p><b class="bh-num" data-source="kpi_global" data-field="itineraires_google">—</b> itinéraires à <b class="bh-num" data-source="kpi_global" data-field="cout_itineraire">—</b> l’unité depuis le 14 octobre.</p>
+          </div>
+          <div class="bh-constat bh-alerte">
+            <h3>Fiches Google : vues Recherche</h3>
+            <p>Vues Recherche <b class="bh-num" data-source="fiches_periodes" data-field="evol_recherche" data-where="boutique=Ensemble des fiches suivies">—</b> depuis fin septembre. La baisse des 23 et 26 septembre touche toutes les fiches, témoins et boutiques historiques compris : cause côté Google. Actions : <b class="bh-num" data-source="fiches_periodes" data-field="evol_actions" data-where="boutique=Ensemble des fiches suivies">—</b>.</p>
+          </div>
+          <div class="bh-constat">
+            <h3>Ventes : campagne et témoins</h3>
+            <p>CA <b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques en campagne">—</b> vs l’été, témoins <b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques témoins">—</b>. Visites du site <b class="bh-num" data-source="ventes_groupes" data-field="evol_visites" data-where="groupe=Boutiques en campagne">—</b>, témoins <b class="bh-num" data-source="ventes_groupes" data-field="evol_visites" data-where="groupe=Boutiques témoins">—</b>.</p>
+          </div>
+          <div class="bh-constat">
+            <h3>Prochaines actions</h3>
+            <ul class="bh-actions">
+              <li>Diffuser Meta sans coupure avant de juger les ventes.</li>
+              <li>Dater les changements faits sur les fiches Google.</li>
+              <li>Relier les fiches manquantes et Facebook Insights au suivi.</li>
+              <li>Corriger le nom de la page de Rouen (« Boyd House »).</li>
+            </ul>
+          </div>
+        </div>
+        <div class="bh-constats si-historiques">
+          <div class="bh-constat">
+            <h3>Ventes sur un an</h3>
+            <p>CA <b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques historiques">—</b>, passages <b class="bh-num" data-source="ventes_groupes" data-field="evol_tickets" data-where="groupe=Boutiques historiques">—</b>, panier à <b class="bh-num" data-source="ventes_groupes" data-field="panier_pendant" data-where="groupe=Boutiques historiques">—</b>. L’été (20 juil. → 6 sept.) faisait <b class="bh-num" data-source="ventes_groupes" data-field="evol_ca_ete" data-where="groupe=Boutiques historiques">—</b>.</p>
+          </div>
+          <div class="bh-constat bh-alerte">
+            <h3>Écarts entre boutiques</h3>
+            <p>En tête : <b class="bh-num" data-source="ventes_extremes" data-field="haut1_nom">—</b> <b class="bh-num" data-source="ventes_extremes" data-field="evol_haut1">—</b>, <b class="bh-num" data-source="ventes_extremes" data-field="haut2_nom">—</b> <b class="bh-num" data-source="ventes_extremes" data-field="evol_haut2">—</b>. En bas : <b class="bh-num" data-source="ventes_extremes" data-field="bas1_nom">—</b> <b class="bh-num" data-source="ventes_extremes" data-field="evol_bas1">—</b>, <b class="bh-num" data-source="ventes_extremes" data-field="bas2_nom">—</b> <b class="bh-num" data-source="ventes_extremes" data-field="evol_bas2">—</b>.</p>
+          </div>
+          <div class="bh-constat">
+            <h3>Meta : diffusion et coûts</h3>
+            <p><b class="bh-num" data-source="meta_diffusion" data-field="jours_sans_diffusion">—</b> jours sans dépense sur <b class="bh-num" data-source="meta_diffusion" data-field="jours_total">—</b>. Interaction à <b class="bh-num" data-source="kpi_global" data-field="cout_interaction">—</b>, visite de profil à <b class="bh-num" data-source="kpi_global" data-field="cout_visite_page">—</b>.</p>
+          </div>
+          <div class="bh-constat">
+            <h3>Google Ads Search</h3>
+            <p><b class="bh-num" data-source="kpi_global" data-field="itineraires_google">—</b> itinéraires à <b class="bh-num" data-source="kpi_global" data-field="cout_itineraire">—</b> l’unité, clic à <b class="bh-num" data-source="kpi_global" data-field="cpc_google">—</b>.</p>
+          </div>
+          <div class="bh-constat bh-alerte">
+            <h3>Fiches Google</h3>
+            <p>Vues Recherche <b class="bh-num" data-source="fiches_periodes" data-field="evol_recherche" data-where="boutique=Ensemble des fiches suivies">—</b> depuis fin septembre ; la baisse touche aussi les nouvelles boutiques, les mêmes jours : cause côté Google. Itinéraires <b class="bh-num" data-source="fiches_periodes" data-field="evol_itineraires_n1" data-where="boutique=Ensemble des fiches suivies">—</b> sur un an, clics vers le site <b class="bh-num" data-source="fiches_periodes" data-field="evol_clics_site_n1" data-where="boutique=Ensemble des fiches suivies">—</b>.</p>
+          </div>
+          <div class="bh-constat">
+            <h3>Prochaines actions</h3>
+            <ul class="bh-actions">
+              <li>Analyser <b class="bh-num" data-source="ventes_extremes" data-field="bas1_nom">—</b> et <b class="bh-num" data-source="ventes_extremes" data-field="bas2_nom">—</b> avant d’ajuster leurs budgets.</li>
+              <li>Ajouter les ventes et la fiche de Cap d’Agde au suivi.</li>
+              <li>Relancer le suivi de la fiche de Lyon (arrêté en juin).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bh-section" id="synthese-boutiques">
+        <h2 class="bh-h2">Boutique par boutique</h2>
+        <p class="bh-chapo">
+          <span class="si-nouvelles">Bayonne et Poitiers, sans campagne, servent de témoins. Cliquer sur une ligne pour le détail.</span>
+          <span class="si-historiques">Cliquer sur une ligne pour le détail. La campagne Instagram commune aux deux boutiques d’Avignon (<b class="bh-num" data-source="meta_campagnes" data-field="depense" data-where="boutique=Avignon Nord + Sud">—</b>) n’est pas répartie.</span>
+        </p>
+        <div class="bh-carte">
+          <div class="bh-table-boite">
+            <table class="bh-table" id="table-synthese" data-source="synthese_boutiques" data-row-key="boutique">
+              <thead><tr>
+                <th data-field="boutique">Boutique</th>
+                <th data-field="depense_meta">Meta</th>
+                <th data-field="depense_google">Google</th>
+                <th data-field="depense_totale">Total média</th>
+                <th data-field="interactions">Interactions</th>
+                <th data-field="cout_interaction">Coût / interaction</th>
+                <th data-field="visites_page_facebook"><span class="si-nouvelles">Visites page FB</span><span class="si-historiques">Visites profil</span></th>
+                <th data-field="abonnes_facebook">Abonnés FB</th>
+                <th data-field="abonnes_instagram">Abonnés IG</th>
+                <th data-field="itineraires_google">Itinéraires Google</th>
+                <th data-field="ca_pendant_total">CA HT (période)</th>
+                <th data-field="evol_ca"><span class="si-nouvelles">Évol. CA</span><span class="si-historiques">CA vs 2025</span></th>
+                <th data-field="evol_tickets" class="si-historiques">Passages vs 2025</th>
+                <th data-field="evol_visites" class="si-nouvelles">Évol. visites site</th>
+                <th data-field="part_media_ca">Média / CA</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== META ============================== -->
+    <section class="bh-page" id="meta" role="tabpanel" aria-labelledby="onglet-meta" hidden>
+      <div class="bh-section" id="meta-leviers">
+        <h2 class="bh-h2">Trois leviers par boutique</h2>
+        <p class="bh-chapo">
+          <span class="si-nouvelles">Publiées depuis la page Facebook de chaque boutique, diffusées localement sur Facebook et Instagram.</span>
+          <span class="si-historiques"><b class="bh-num" data-source="kpi_global" data-field="nb_campagnes_meta">—</b> campagnes locales, surtout Instagram. Interactions = réactions + commentaires + enregistrements, comme pour les nouvelles boutiques.</span>
+        </p>
+        <div class="bh-grille">
+          <div class="bh-carte bh-levier" id="levier-notoriete">
+            <div class="bh-levier-tete"><h3>Notoriété</h3><span class="bh-pastille">objectif couverture</span></div>
+            <div class="bh-mini">
+              <div><span>Dépenses</span><b data-source="meta_leviers" data-field="depense" data-where="levier=Notoriété">—</b></div>
+              <div><span>Personnes touchées</span><b data-source="meta_leviers" data-field="couverture" data-where="levier=Notoriété">—</b></div>
+              <div><span>CPM</span><b data-source="meta_leviers" data-field="cpm" data-where="levier=Notoriété">—</b></div>
+              <div><span>Coût / 1 000 personnes</span><b data-source="meta_leviers" data-field="cout_1000_personnes" data-where="levier=Notoriété">—</b></div>
+            </div>
+          </div>
+          <div class="bh-carte bh-levier" id="levier-trafic">
+            <div class="bh-levier-tete"><h3>Trafic</h3><span class="bh-pastille"><span class="si-nouvelles">visites de la page</span><span class="si-historiques">visites du profil</span></span></div>
+            <div class="bh-mini">
+              <div><span>Dépenses</span><b data-source="meta_leviers" data-field="depense" data-where="levier=Trafic">—</b></div>
+              <div><span><span class="si-nouvelles">Visites page Facebook</span><span class="si-historiques">Visites du profil</span></span><b data-source="meta_leviers" data-field="resultat" data-where="levier=Trafic">—</b></div>
+              <div><span>Coût / visite</span><b data-source="meta_leviers" data-field="cout_par_resultat" data-where="levier=Trafic">—</b></div>
+              <div><span>Nouveaux abonnés (FB + IG)</span><b data-source="meta_leviers" data-field="abonnes" data-where="levier=Trafic">—</b></div>
+            </div>
+          </div>
+          <div class="bh-carte bh-levier" id="levier-engagement">
+            <div class="bh-levier-tete"><h3>Engagement</h3><span class="bh-pastille">interactions</span></div>
+            <div class="bh-mini">
+              <div><span>Dépenses</span><b data-source="meta_leviers" data-field="depense" data-where="levier=Engagement">—</b></div>
+              <div><span>Interactions</span><b data-source="meta_leviers" data-field="resultat" data-where="levier=Engagement">—</b></div>
+              <div><span>Coût / interaction</span><b data-source="meta_leviers" data-field="cout_par_resultat" data-where="levier=Engagement">—</b></div>
+              <div><span>Personnes touchées</span><b data-source="meta_leviers" data-field="couverture" data-where="levier=Engagement">—</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bh-section" id="meta-comparaison">
+        <h2 class="bh-h2">Comparaison des boutiques</h2>
+        <div class="bh-grille-2">
+          <div class="bh-carte">
+            <h3>Coût par interaction (Engagement)</h3>
+            <p class="bh-note">Trait : moyenne des boutiques.</p>
+            <div class="bh-graph" id="graph-cout-interaction" data-source="meta_campagnes kpi_global" style="min-height:380px"></div>
+          </div>
+          <div class="bh-carte">
+            <h3><span class="si-nouvelles">Visites de la page Facebook (Trafic)</span><span class="si-historiques">Visites du profil (Trafic)</span></h3>
+            <p class="bh-note">Avec les nouveaux abonnés Facebook + Instagram.</p>
+            <div class="bh-graph" id="graph-visites-page" data-source="meta_campagnes" style="min-height:380px"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bh-section" id="meta-campagnes">
+        <h2 class="bh-h2">Détail des campagnes</h2>
+        <p class="bh-chapo">Résultat : personnes touchées (Notoriété), <span class="si-nouvelles">visites de page</span><span class="si-historiques">visites du profil</span> (Trafic), interactions (Engagement).</p>
+        <div class="bh-carte">
+          <div class="bh-table-boite">
+            <table class="bh-table" id="table-meta" data-source="meta_campagnes" data-row-key="campagne">
+              <thead><tr>
+                <th data-field="boutique">Boutique</th>
+                <th data-field="levier">Levier</th>
+                <th data-field="diffusion">Diffusion</th>
+                <th data-field="depense">Dépenses</th>
+                <th data-field="impressions">Impressions</th>
+                <th data-field="couverture">Personnes touchées</th>
+                <th data-field="repetition">Répétition</th>
+                <th data-field="cpm">CPM</th>
+                <th data-field="clics_lien">Clics sur lien</th>
+                <th data-field="interactions">Interactions</th>
+                <th data-field="abonnes_facebook">Abonnés FB</th>
+                <th data-field="abonnes_instagram">Abonnés IG</th>
+                <th data-field="resultat">Résultat</th>
+                <th data-field="cout_par_resultat">Coût / résultat</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== GOOGLE ============================== -->
+    <section class="bh-page" id="google" role="tabpanel" aria-labelledby="onglet-google" hidden>
+      <div class="bh-section" id="google-chiffres">
+        <h2 class="bh-h2">Google Ads Search local</h2>
+        <p class="bh-chapo">
+          <span class="si-nouvelles">Une campagne Search par boutique. Conversion suivie : la demande d’itinéraire.</span>
+          <span class="si-historiques">Une campagne Search par boutique, active en continu. Conversion suivie : la demande d’itinéraire. Appels et clics vers le site non suivis sur ce compte.</span>
+        </p>
+        <div class="bh-kpis">
+          <div class="bh-kpi bh-kpi-fort"><span class="bh-kpi-label">Dépenses</span><span class="bh-kpi-valeur dash-skeleton" data-source="kpi_global" data-field="depense_google">—</span><span class="bh-kpi-detail"><span class="si-nouvelles">depuis le 14 octobre</span><span class="si-historiques"><span class="bh-libelle" data-source="periode" data-field="libelle_media">—</span></span></span></div>
+          <div class="bh-kpi"><span class="bh-kpi-label">Clics</span><span class="bh-kpi-valeur dash-skeleton" data-source="kpi_global" data-field="clics_google">—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="kpi_global" data-field="cpc_google">—</b> le clic</span></div>
+          <div class="bh-kpi"><span class="bh-kpi-label">Itinéraires</span><span class="bh-kpi-valeur dash-skeleton" data-source="kpi_global" data-field="itineraires_google">—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="kpi_global" data-field="cout_itineraire">—</b> l’itinéraire</span></div>
+        </div>
+      </div>
+      <div class="bh-section" id="google-boutiques">
+        <h2 class="bh-h2">Par boutique</h2>
+        <div class="bh-grille-2">
+          <div class="bh-carte">
+            <h3>Demandes d’itinéraire</h3>
+            <p class="bh-note">Avec le coût par itinéraire.</p>
+            <div class="bh-graph" id="graph-itineraires" data-source="google_campagnes" style="min-height:380px"></div>
+          </div>
+          <div class="bh-carte">
+            <h3>Part d’impressions</h3>
+            <p class="bh-note">Part des recherches où l’annonce est apparue.</p>
+            <div class="bh-graph" id="graph-part-impressions" data-source="google_campagnes" style="min-height:380px"></div>
+          </div>
+        </div>
+        <div class="bh-carte" style="margin-top:14px">
+          <div class="bh-table-boite">
+            <table class="bh-table" id="table-google" data-source="google_campagnes" data-row-key="boutique">
+              <thead><tr>
+                <th data-field="boutique">Boutique</th>
+                <th data-field="depense">Dépenses</th>
+                <th data-field="impressions">Impressions</th>
+                <th data-field="clics">Clics</th>
+                <th data-field="ctr">CTR</th>
+                <th data-field="cpc_moyen">CPC</th>
+                <th data-field="itineraires">Itinéraires</th>
+                <th data-field="cout_par_itineraire">Coût / itinéraire</th>
+                <th data-field="appels" class="si-nouvelles">Appels</th>
+                <th data-field="visites_site" class="si-nouvelles">Clics vers le site</th>
+                <th data-field="autres_engagements" class="si-historiques">Autres engagements</th>
+                <th data-field="part_impressions">Part d’impressions</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== FICHES GOOGLE ============================== -->
+    <section class="bh-page" id="fiches" role="tabpanel" aria-labelledby="onglet-fiches" hidden>
+      <div class="bh-section" id="fiches-chiffres">
+        <h2 class="bh-h2">Fiches Google (Business Profile)</h2>
+        <p class="bh-chapo">Moyennes par semaine : avant (24 août → 20 sept.), après (<span class="bh-libelle" data-source="periode" data-field="libelle_fiches_apres">—</span>). Actions = appels + itinéraires + clics vers le site.</p>
+        <div class="bh-kpis">
+          <div class="bh-kpi bh-kpi-fort"><span class="bh-kpi-label">Vues Recherche</span><span class="bh-kpi-valeur dash-skeleton" data-source="fiches_periodes" data-field="evol_recherche" data-where="boutique=Ensemble des fiches suivies">—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="fiches_periodes" data-field="recherche_avant" data-where="boutique=Ensemble des fiches suivies">—</b> → <b class="bh-num" data-source="fiches_periodes" data-field="recherche_apres" data-where="boutique=Ensemble des fiches suivies">—</b> par semaine</span></div>
+          <div class="bh-kpi"><span class="bh-kpi-label">Vues Maps</span><span class="bh-kpi-valeur dash-skeleton" data-source="fiches_periodes" data-field="evol_maps" data-where="boutique=Ensemble des fiches suivies">—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="fiches_periodes" data-field="maps_avant" data-where="boutique=Ensemble des fiches suivies">—</b> → <b class="bh-num" data-source="fiches_periodes" data-field="maps_apres" data-where="boutique=Ensemble des fiches suivies">—</b> par semaine</span></div>
+          <div class="bh-kpi"><span class="bh-kpi-label">Actions</span><span class="bh-kpi-valeur dash-skeleton" data-source="fiches_periodes" data-field="evol_actions" data-where="boutique=Ensemble des fiches suivies">—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="fiches_periodes" data-field="actions_avant" data-where="boutique=Ensemble des fiches suivies">—</b> → <b class="bh-num" data-source="fiches_periodes" data-field="actions_apres" data-where="boutique=Ensemble des fiches suivies">—</b> par semaine</span></div>
+          <div class="bh-kpi"><span class="bh-kpi-label">Actions vs 2025</span><span class="bh-kpi-valeur dash-skeleton" data-source="fiches_periodes" data-field="evol_actions_n1" data-where="boutique=Ensemble des fiches suivies">—</span><span class="bh-kpi-detail">mêmes semaines de l’an dernier</span></div>
+        </div>
+      </div>
+      <div class="bh-section" id="fiches-rupture">
+        <h2 class="bh-h2">Ce qui s’est passé sur les fiches</h2>
+        <p class="bh-chapo">
+          <span class="si-nouvelles">Chute le 23 puis le 26 septembre, les mêmes jours sur toutes les fiches, Poitiers et boutiques historiques compris : la cause est côté Google, pas dans les campagnes.</span>
+          <span class="si-historiques">Même chute, les mêmes jours que sur les nouvelles boutiques : la cause est côté Google, pas dans les campagnes. Clics vers le site : <b class="bh-num" data-source="fiches_periodes" data-field="evol_clics_site" data-where="boutique=Ensemble des fiches suivies">—</b> (après / avant). Itinéraires sur un an : <b class="bh-num" data-source="fiches_periodes" data-field="evol_itineraires_n1" data-where="boutique=Ensemble des fiches suivies">—</b>.</span>
+        </p>
+        <div class="bh-carte">
+          <h3>Vues par jour, toutes fiches suivies</h3>
+          <div class="bh-legende"><span><i class="bh-trait" style="background:#e2806b"></i>Vues Recherche</span><span><i class="bh-trait" style="background:#7f2f3b"></i>Vues Maps</span></div>
+          <div class="bh-graph" id="graph-fiches-jour" data-source="fiches_reseau_jour" style="min-height:280px"></div>
+        </div>
+        <div class="bh-grille-2" style="margin-top:14px">
+          <div class="bh-carte">
+            <h3>Vues Recherche par semaine</h3>
+            <div class="bh-legende"><span><i class="bh-trait" style="background:#a64551"></i>2026</span><span style="color:#b9a39a"><i class="bh-pointille"></i>2025, mêmes semaines</span></div>
+            <div class="bh-graph" id="graph-fiches-recherche" data-source="fiches_reseau_semaine" style="min-height:260px"></div>
+          </div>
+          <div class="bh-carte">
+            <h3>Actions par semaine</h3>
+            <div class="bh-legende"><span><i class="bh-trait" style="background:#a64551"></i>2026</span><span style="color:#b9a39a"><i class="bh-pointille"></i>2025, mêmes semaines</span></div>
+            <div class="bh-graph" id="graph-fiches-actions" data-source="fiches_reseau_semaine" style="min-height:260px"></div>
+          </div>
+        </div>
+      </div>
+      <div class="bh-section" id="fiches-boutiques">
+        <h2 class="bh-h2">Par fiche</h2>
+        <p class="bh-chapo">Fiches non reliées au suivi, donc absentes ici : <span id="fiches-absentes" data-source="boutiques">—</span>.</p>
+        <div class="bh-carte">
+          <div class="bh-table-boite">
+            <table class="bh-table" id="table-fiches" data-source="fiches_periodes" data-row-key="boutique">
+              <thead><tr>
+                <th data-field="boutique">Fiche</th>
+                <th data-field="recherche_avant">Recherche avant</th>
+                <th data-field="recherche_apres">après</th>
+                <th data-field="evol_recherche">évol.</th>
+                <th data-field="maps_avant">Maps avant</th>
+                <th data-field="maps_apres">après</th>
+                <th data-field="evol_maps">évol.</th>
+                <th data-field="actions_avant">Actions avant</th>
+                <th data-field="actions_apres">après</th>
+                <th data-field="evol_actions">évol.</th>
+                <th data-field="evol_actions_n1">vs 2025</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== VENTES ============================== -->
+    <section class="bh-page" id="ventes" role="tabpanel" aria-labelledby="onglet-ventes" hidden>
+      <div class="bh-section" id="ventes-chiffres">
+        <h2 class="bh-h2">Performance commerciale</h2>
+        <p class="bh-chapo">
+          <span class="si-nouvelles">Moyennes par semaine : campagne (<span class="bh-libelle" data-source="periode" data-field="libelle_ventes">—</span>) vs avant (20 juil. → 6 sept.). Pas d’historique N-1.</span>
+          <span class="si-historiques">Moyennes par semaine (<span class="bh-libelle" data-source="periode" data-field="libelle_ventes">—</span>), comparées aux mêmes semaines de 2025. Campagnes actives toute l’année : pas de groupe témoin.</span>
+        </p>
+        <div class="bh-kpis si-nouvelles">
+          <div class="bh-kpi bh-kpi-fort"><span class="bh-kpi-label">CA HT / semaine</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="ca_pendant" data-where="groupe=Boutiques en campagne">—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques en campagne">—</b> vs avant, boutiques en campagne</span></div>
+          <div class="bh-kpi"><span class="bh-kpi-label">Passages en caisse / semaine</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="tickets_pendant" data-where="groupe=Boutiques en campagne">—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="ventes_groupes" data-field="evol_tickets" data-where="groupe=Boutiques en campagne">—</b> vs avant</span></div>
+          <div class="bh-kpi"><span class="bh-kpi-label">Panier moyen HT</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="panier_pendant" data-where="groupe=Boutiques en campagne">—</span><span class="bh-kpi-detail">contre <b class="bh-num" data-source="ventes_groupes" data-field="panier_avant" data-where="groupe=Boutiques en campagne">—</b> avant</span></div>
+          <div class="bh-kpi"><span class="bh-kpi-label">Boutiques témoins</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques témoins">—</span><span class="bh-kpi-detail">CA hebdo vs avant, Bayonne et Poitiers</span></div>
+        </div>
+        <div class="bh-kpis si-historiques">
+          <div class="bh-kpi bh-kpi-fort"><span class="bh-kpi-label">CA HT / semaine</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="ca_pendant" data-where="groupe=Boutiques historiques">—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques historiques">—</b> vs 2025</span></div>
+          <div class="bh-kpi"><span class="bh-kpi-label">Passages en caisse / semaine</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="tickets_pendant" data-where="groupe=Boutiques historiques">—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="ventes_groupes" data-field="evol_tickets" data-where="groupe=Boutiques historiques">—</b> vs 2025</span></div>
+          <div class="bh-kpi"><span class="bh-kpi-label">Panier moyen HT</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="panier_pendant" data-where="groupe=Boutiques historiques">—</span><span class="bh-kpi-detail">contre <b class="bh-num" data-source="ventes_groupes" data-field="panier_avant" data-where="groupe=Boutiques historiques">—</b> en 2025</span></div>
+          <div class="bh-kpi"><span class="bh-kpi-label">Été 2026 vs 2025</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="evol_ca_ete" data-where="groupe=Boutiques historiques">—</span><span class="bh-kpi-detail">CA du 20 juil. au 6 sept., pour comparer</span></div>
+        </div>
+      </div>
+      <div class="bh-section" id="ventes-courbe">
+        <h2 class="bh-h2">Évolution hebdomadaire</h2>
+        <p class="bh-chapo">
+          <span class="si-nouvelles">Base 100 = moyenne des 7 semaines avant campagne.</span>
+          <span class="si-historiques">CA HT du réseau, 2026 face aux mêmes semaines de 2025.</span>
+        </p>
+        <div class="bh-carte">
+          <div class="bh-legende si-nouvelles"><span><i class="bh-trait" style="background:#a64551"></i>Boutiques en campagne</span><span><i class="bh-trait" style="background:#c9a89a"></i>Boutiques témoins</span><span><i style="background:#f8ede7;border:1px solid #e8d3c8"></i>Période de campagne</span><span><i style="background:#ece3de"></i>Meta interrompu</span></div>
+          <div class="bh-legende si-historiques"><span><i class="bh-trait" style="background:#a64551"></i>2026</span><span style="color:#b9a39a"><i class="bh-pointille"></i>2025, mêmes semaines</span><span><i style="background:#f8ede7;border:1px solid #e8d3c8"></i>Semaines analysées</span></div>
+          <div class="bh-graph" id="graph-ventes-indice" data-source="ventes_reseau_semaine" style="min-height:300px"></div>
+        </div>
+      </div>
+      <div class="bh-section" id="ventes-boutiques">
+        <h2 class="bh-h2">Par boutique</h2>
+        <div class="bh-carte">
+          <div class="bh-table-boite">
+            <table class="bh-table" id="table-ventes" data-source="ventes_boutiques" data-row-key="boutique">
+              <thead><tr>
+                <th data-field="boutique">Boutique</th>
+                <th data-field="ca_avant"><span class="si-nouvelles">CA / sem. avant</span><span class="si-historiques">CA / sem. 2025</span></th>
+                <th data-field="ca_pendant"><span class="si-nouvelles">pendant</span><span class="si-historiques">2026</span></th>
+                <th data-field="evol_ca">évol.</th>
+                <th data-field="tickets_avant"><span class="si-nouvelles">Passages avant</span><span class="si-historiques">Passages 2025</span></th>
+                <th data-field="tickets_pendant"><span class="si-nouvelles">pendant</span><span class="si-historiques">2026</span></th>
+                <th data-field="evol_tickets">évol.</th>
+                <th data-field="panier_avant"><span class="si-nouvelles">Panier avant</span><span class="si-historiques">Panier 2025</span></th>
+                <th data-field="panier_pendant"><span class="si-nouvelles">pendant</span><span class="si-historiques">2026</span></th>
+                <th data-field="visites_avant" class="si-nouvelles">Visites site avant</th>
+                <th data-field="visites_pendant" class="si-nouvelles">pendant</th>
+                <th data-field="evol_visites" class="si-nouvelles">évol.</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== PAR BOUTIQUE ============================== -->
+    <section class="bh-page" id="boutique" role="tabpanel" aria-labelledby="onglet-boutique" hidden>
+      <div class="bh-selecteur" id="selecteur-boutique" data-source="boutiques" role="group" aria-label="Choisir une boutique"></div>
+      <div class="bh-fiche-boutique-titre">
+        <h2 id="boutique-nom">—</h2>
+        <span class="bh-pastille" id="boutique-groupe">—</span>
+        <span class="bh-note" id="boutique-page" style="margin:0"></span>
+      </div>
+      <div class="bh-kpis" id="boutique-kpis">
+        <div class="bh-kpi bh-kpi-fort"><span class="bh-kpi-label">Investissement média</span><span class="bh-kpi-valeur" data-source="synthese_boutiques" data-field="depense_totale" data-bh-boutique>—</span><span class="bh-kpi-detail">Meta <b class="bh-num" data-source="synthese_boutiques" data-field="depense_meta" data-bh-boutique>—</b> · Google <b class="bh-num" data-source="synthese_boutiques" data-field="depense_google" data-bh-boutique>—</b></span></div>
+        <div class="bh-kpi"><span class="bh-kpi-label">Interactions</span><span class="bh-kpi-valeur" data-source="synthese_boutiques" data-field="interactions" data-bh-boutique>—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="synthese_boutiques" data-field="cout_interaction" data-bh-boutique>—</b> l’interaction (Engagement)</span></div>
+        <div class="bh-kpi"><span class="bh-kpi-label"><span class="si-nouvelles">Visites page Facebook</span><span class="si-historiques">Visites du profil</span></span><span class="bh-kpi-valeur" data-source="synthese_boutiques" data-field="visites_page_facebook" data-bh-boutique>—</span><span class="bh-kpi-detail">abonnés : FB <b class="bh-num" data-source="synthese_boutiques" data-field="abonnes_facebook" data-bh-boutique>—</b> · IG <b class="bh-num" data-source="synthese_boutiques" data-field="abonnes_instagram" data-bh-boutique>—</b></span></div>
+        <div class="bh-kpi"><span class="bh-kpi-label">Itinéraires Google Ads</span><span class="bh-kpi-valeur" data-source="synthese_boutiques" data-field="itineraires_google" data-bh-boutique>—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="synthese_boutiques" data-field="cout_itineraire" data-bh-boutique>—</b> l’itinéraire</span></div>
+        <div class="bh-kpi"><span class="bh-kpi-label"><span class="si-nouvelles">CA HT depuis le 7 sept.</span><span class="si-historiques">CA HT de la période</span></span><span class="bh-kpi-valeur" data-source="synthese_boutiques" data-field="ca_pendant_total" data-bh-boutique>—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="synthese_boutiques" data-field="evol_ca" data-bh-boutique>—</b> <span class="si-nouvelles">par semaine vs avant</span><span class="si-historiques">vs 2025</span></span></div>
+        <div class="bh-kpi si-nouvelles"><span class="bh-kpi-label">Visites du site</span><span class="bh-kpi-valeur" data-source="synthese_boutiques" data-field="evol_visites" data-bh-boutique>—</span><span class="bh-kpi-detail">par semaine, campagne vs avant</span></div>
+        <div class="bh-kpi si-historiques"><span class="bh-kpi-label">Passages en caisse</span><span class="bh-kpi-valeur" data-source="synthese_boutiques" data-field="evol_tickets" data-bh-boutique>—</span><span class="bh-kpi-detail">vs mêmes semaines de 2025</span></div>
+      </div>
+      <div class="bh-grille-2" style="margin-top:14px">
+        <div class="bh-carte">
+          <h3>CA HT et dépenses média par semaine</h3>
+          <div class="bh-legende"><span><i style="background:#e9c9bb"></i>CA HT</span><span class="si-historiques"><i class="bh-pointille" style="color:#242424"></i>CA HT 2025</span><span><i class="bh-trait" style="background:#a64551"></i>Dépenses Meta + Google (échelle de droite)</span></div>
+          <div class="bh-graph" id="graph-boutique-ventes" data-source="ventes_semaine" style="min-height:280px"></div>
+        </div>
+        <div class="bh-carte">
+          <h3>Fiche Google par semaine</h3>
+          <div class="bh-legende"><span><i class="bh-trait" style="background:#e2806b"></i>Vues Recherche 2026</span><span style="color:#b9a39a"><i class="bh-pointille"></i>Vues Recherche 2025</span><span><i class="bh-trait" style="background:#7f2f3b"></i>Actions 2026</span></div>
+          <div class="bh-graph" id="graph-boutique-fiche" data-source="fiches_semaine" style="min-height:280px"></div>
+        </div>
+      </div>
+      <div class="bh-carte" style="margin-top:14px">
+        <h3>Campagnes de la boutique</h3>
+        <div class="bh-table-boite">
+          <table class="bh-table" id="table-boutique-meta" data-source="meta_campagnes" data-row-key="campagne">
+            <thead><tr>
+              <th data-field="levier">Levier Meta</th>
+              <th data-field="diffusion">Diffusion</th>
+              <th data-field="depense">Dépenses</th>
+              <th data-field="impressions">Impressions</th>
+              <th data-field="couverture">Personnes touchées</th>
+              <th data-field="cpm">CPM</th>
+              <th data-field="clics_lien">Clics sur lien</th>
+              <th data-field="interactions">Interactions</th>
+              <th data-field="abonnes_facebook">Abonnés FB</th>
+              <th data-field="abonnes_instagram">Abonnés IG</th>
+              <th data-field="resultat">Résultat</th>
+              <th data-field="cout_par_resultat">Coût / résultat</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="bh-table-boite" style="margin-top:12px">
+          <table class="bh-table" id="table-boutique-google" data-source="google_campagnes" data-row-key="boutique">
+            <thead><tr>
+              <th data-field="campagne">Campagne Google Ads</th>
+              <th data-field="depense">Dépenses</th>
+              <th data-field="clics">Clics</th>
+              <th data-field="ctr">CTR</th>
+              <th data-field="cpc_moyen">CPC</th>
+              <th data-field="itineraires">Itinéraires</th>
+              <th data-field="cout_par_itineraire">Coût / itinéraire</th>
+              <th data-field="part_impressions">Part d’impressions</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bh-pied">
+    <p class="si-nouvelles">Sources : Meta Ads, Google Ads, follow-up BOUTIQUES BH 2026 (ventes, site, fiches Google). Abonnés = abonnements Facebook et Instagram attribués aux publicités.</p>
+    <p class="si-historiques">Sources : Meta Ads (4 comptes boutiques), Google Ads, follow-up BOUTIQUES BH 2026 (ventes 2026 et 2025, fiches Google). Abonnés = abonnements Facebook et Instagram attribués aux publicités.</p>
+  </footer>
+</div>
+
+<script src="calcs.js"></script>
+<script src="app.js"></script>

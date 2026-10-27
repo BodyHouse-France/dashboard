@@ -1,0 +1,32 @@
+{
+ "fin": "2026-10-26",
+ "construit": "2026-10-27T14:33:03",
+ "reseaux": {
+  "nouvelles": {
+   "depense_meta": 18803.69,
+   "impressions_meta": 7283232,
+   "depense_google": 1595.76,
+   "itineraires_google": 452,
+   "nb_campagnes_meta": 39,
+   "nb_campagnes_google": 13,
+   "nb_semaines": 7,
+   "ca_periode": 842700.0,
+   "meta_jusqua": "2026-10-26",
+   "google_jusqua": "2026-10-26",
+   "fiches_jusqua": "2026-10-23"
+  },
+  "historiques": {
+   "depense_meta": 20458.55,
+   "impressions_meta": 7627727,
+   "depense_google": 8116.59,
+   "itineraires_google": 3719,
+   "nb_campagnes_meta": 33,
+   "nb_campagnes_google": 14,
+   "nb_semaines": 7,
+   "ca_periode": 1029707.0,
+   "meta_jusqua": "2026-10-26",
+   "google_jusqua": "2026-10-26",
+   "fiches_jusqua": "2026-10-23"
+  }
+ }
+}
