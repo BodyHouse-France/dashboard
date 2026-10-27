@@ -1,0 +1,572 @@
+{
+ "_lisezmoi": "Paramètres du bilan des boutiques. Les dates fixes (lancement, période avant, fiches avant) ne bougent pas ; la fin de période est le dernier dimanche écoulé.",
+ "debut_campagne": "2026-09-07",
+ "ventes_debut": "2026-07-20",
+ "avant": [
+  "2026-07-20",
+  "2026-07-27",
+  "2026-08-03",
+  "2026-08-10",
+  "2026-08-17",
+  "2026-08-24",
+  "2026-08-31"
+ ],
+ "fiches": {
+  "avant": [
+   "2026-08-24",
+   "2026-08-31",
+   "2026-09-07",
+   "2026-09-14"
+  ],
+  "apres_debut": "2026-09-28",
+  "jours_debut": "2026-09-14",
+  "semaines_debut": "2026-06-01"
+ },
+ "meta_jour_debut": "2026-09-07",
+ "followup": {
+  "doc_titre": "Bilan boutiques - export hebdo",
+  "classeur_id": "1u4HragxQ6N1ydaOb8aWDDX2z_yzixR2OwuzhGW1WV0s"
+ },
+ "reseaux": {
+  "nouvelles": {
+   "reference": "avant",
+   "onglet_ventes": "PERFORMANCES BOUTIQUES BHDOR 2026",
+   "meta": {
+    "comptes": [
+     "1456802089696369"
+    ],
+    "debut": "2026-09-01",
+    "exclusions": []
+   },
+   "google": {
+    "compte": null,
+    "compte_libelle": "Google Ads BH DOR (sous le MCC 7676164331)",
+    "debut": "2026-09-01",
+    "appels_suivis": true
+   },
+   "regroupements_meta": [],
+   "boutiques": [
+    {
+     "nom": "Angers",
+     "alias": [
+      "ANGERS"
+     ],
+     "groupe": "Boutiques en campagne",
+     "page_facebook": "Body House - Angers",
+     "lancement_meta": "2026-09-07",
+     "lancement_notoriete": "2026-10-09",
+     "lancement_google": "2026-10-14",
+     "bloc_ventes": "ANGERS",
+     "onglet_fiche": "ANGERS GMB",
+     "note": ""
+    },
+    {
+     "nom": "Bordeaux",
+     "alias": [
+      "BORDEAUX"
+     ],
+     "groupe": "Boutiques en campagne",
+     "page_facebook": "Body House - Bordeaux",
+     "lancement_meta": "2026-09-07",
+     "lancement_notoriete": "2026-10-09",
+     "lancement_google": "2026-10-15",
+     "bloc_ventes": "BORDEAUX",
+     "onglet_fiche": null,
+     "note": ""
+    },
+    {
+     "nom": "Brest",
+     "alias": [
+      "BREST"
+     ],
+     "groupe": "Boutiques en campagne",
+     "page_facebook": "Body House - Brest",
+     "lancement_meta": "2026-09-07",
+     "lancement_notoriete": "2026-10-09",
+     "lancement_google": "2026-10-15",
+     "bloc_ventes": "BREST",
+     "onglet_fiche": "BREST GMB",
+     "note": ""
+    },
+    {
+     "nom": "Caen",
+     "alias": [
+      "CAEN"
+     ],
+     "groupe": "Boutiques en campagne",
+     "page_facebook": "Body House - Caen",
+     "lancement_meta": "2026-09-07",
+     "lancement_notoriete": "2026-10-09",
+     "lancement_google": "2026-10-15",
+     "bloc_ventes": "CAEN",
+     "onglet_fiche": "CAEN GMB",
+     "note": ""
+    },
+    {
+     "nom": "La Rochelle",
+     "alias": [
+      "LA ROCHELLE"
+     ],
+     "groupe": "Boutiques en campagne",
+     "page_facebook": "Body House - La Rochelle",
+     "lancement_meta": "2026-09-07",
+     "lancement_notoriete": "2026-10-09",
+     "lancement_google": "2026-10-15",
+     "bloc_ventes": "LA ROCHELLE",
+     "onglet_fiche": null,
+     "note": ""
+    },
+    {
+     "nom": "Le Mans",
+     "alias": [
+      "LE MANS"
+     ],
+     "groupe": "Boutiques en campagne",
+     "page_facebook": "Body House - Le Mans",
+     "lancement_meta": "2026-09-07",
+     "lancement_notoriete": "2026-10-09",
+     "lancement_google": "2026-10-15",
+     "bloc_ventes": "LE MANS",
+     "onglet_fiche": "LE MANS GMB",
+     "note": ""
+    },
+    {
+     "nom": "Lille",
+     "alias": [
+      "LILLE"
+     ],
+     "groupe": "Boutiques en campagne",
+     "page_facebook": "Body House - Lille",
+     "lancement_meta": "2026-09-07",
+     "lancement_notoriete": "2026-10-09",
+     "lancement_google": "2026-10-15",
+     "bloc_ventes": "LILLE",
+     "onglet_fiche": null,
+     "note": ""
+    },
+    {
+     "nom": "Limoges",
+     "alias": [
+      "LIMOGES"
+     ],
+     "groupe": "Boutiques en campagne",
+     "page_facebook": "Body House - Limoges",
+     "lancement_meta": "2026-09-07",
+     "lancement_notoriete": "2026-10-09",
+     "lancement_google": "2026-10-15",
+     "bloc_ventes": "LIMOGES",
+     "onglet_fiche": null,
+     "note": ""
+    },
+    {
+     "nom": "Lorient",
+     "alias": [
+      "LORIENT"
+     ],
+     "groupe": "Boutiques en campagne",
+     "page_facebook": "Body House - Lorient",
+     "lancement_meta": "2026-09-07",
+     "lancement_notoriete": "2026-10-09",
+     "lancement_google": "2026-10-15",
+     "bloc_ventes": "LORIENT",
+     "onglet_fiche": "LORIENT GMB",
+     "note": ""
+    },
+    {
+     "nom": "Nantes",
+     "alias": [
+      "NANTES"
+     ],
+     "groupe": "Boutiques en campagne",
+     "page_facebook": "Body House - Nantes",
+     "lancement_meta": "2026-09-07",
+     "lancement_notoriete": "2026-10-12",
+     "lancement_google": "2026-10-15",
+     "bloc_ventes": "NANTES",
+     "onglet_fiche": "NANTES GMB",
+     "note": ""
+    },
+    {
+     "nom": "Rennes",
+     "alias": [
+      "RENNES"
+     ],
+     "groupe": "Boutiques en campagne",
+     "page_facebook": "Body House - Rennes",
+     "lancement_meta": "2026-09-07",
+     "lancement_notoriete": "2026-10-12",
+     "lancement_google": "2026-10-15",
+     "bloc_ventes": "RENNES",
+     "onglet_fiche": "RENNES GMB",
+     "note": ""
+    },
+    {
+     "nom": "Rouen",
+     "alias": [
+      "ROUEN"
+     ],
+     "groupe": "Boutiques en campagne",
+     "page_facebook": "Boyd House - Rouen",
+     "lancement_meta": "2026-09-07",
+     "lancement_notoriete": "2026-10-12",
+     "lancement_google": "2026-10-15",
+     "bloc_ventes": "ROUEN",
+     "onglet_fiche": "ROUEN GMB",
+     "note": ""
+    },
+    {
+     "nom": "Tours",
+     "alias": [
+      "TOURS"
+     ],
+     "groupe": "Boutiques en campagne",
+     "page_facebook": "Body House - Tours",
+     "lancement_meta": "2026-09-07",
+     "lancement_notoriete": "2026-10-12",
+     "lancement_google": "2026-10-15",
+     "bloc_ventes": "TOURS",
+     "onglet_fiche": "TOURS GMB",
+     "note": ""
+    },
+    {
+     "nom": "Bayonne",
+     "alias": [
+      "BAYONNE"
+     ],
+     "groupe": "Boutiques témoins",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "BAYONNE",
+     "onglet_fiche": null,
+     "note": ""
+    },
+    {
+     "nom": "Poitiers",
+     "alias": [
+      "POITIERS"
+     ],
+     "groupe": "Boutiques témoins",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "POITIERS",
+     "onglet_fiche": "POITIERS GMB",
+     "note": ""
+    }
+   ],
+   "jalons": [
+    {
+     "debut": "2026-09-07",
+     "fin": "2026-09-07",
+     "libelle": "Lancement Meta Engagement + Trafic (13 boutiques)",
+     "type": "meta"
+    },
+    {
+     "debut": "2026-09-23",
+     "fin": "2026-09-26",
+     "libelle": "Chute des vues Recherche sur toutes les fiches Google suivies",
+     "type": "fiche"
+    },
+    {
+     "debut": "2026-09-24",
+     "fin": "2026-10-08",
+     "libelle": "Diffusion Meta interrompue (aucune dépense)",
+     "type": "pause"
+    },
+    {
+     "debut": "2026-10-09",
+     "fin": "2026-10-12",
+     "libelle": "Reprise Meta + ajout des campagnes Notoriété",
+     "type": "meta"
+    },
+    {
+     "debut": "2026-10-14",
+     "fin": "2026-10-15",
+     "libelle": "Lancement Google Ads Search (13 boutiques)",
+     "type": "google"
+    },
+    {
+     "debut": "2026-10-18",
+     "fin": "2026-10-19",
+     "libelle": "Diffusion Meta interrompue 2 jours",
+     "type": "pause"
+    }
+   ]
+  },
+  "historiques": {
+   "reference": "n1",
+   "onglet_ventes": "PERFORMANCES BOUTIQUES 2026",
+   "meta": {
+    "comptes": [
+     "1153810269304366",
+     "1386523261970756",
+     "1676843713310776",
+     "26539497552377395"
+    ],
+    "debut": "2026-09-07",
+    "exclusions": [
+     {
+      "motif": "NATIONAL",
+      "libelle": "Campagne nationale Trafic"
+     },
+     {
+      "motif": "RECRUTEMENT",
+      "libelle": "Recrutement franchise"
+     }
+    ]
+   },
+   "google": {
+    "compte": "5815462274",
+    "compte_libelle": "SAS BH CORP (MCC 7676164331)",
+    "debut": "2026-09-07",
+    "appels_suivis": false
+   },
+   "regroupements_meta": [
+    {
+     "alias": "AVIGNON NORD SUD",
+     "nom": "Avignon Nord + Sud",
+     "couvre": [
+      "Avignon Nord",
+      "Avignon Sud"
+     ]
+    }
+   ],
+   "boutiques": [
+    {
+     "nom": "Avignon Nord",
+     "alias": [
+      "AVIGNON NORD"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "AVIGNON NORD",
+     "onglet_fiche": "AVIGNON NORD GMB",
+     "note": "campagne Trafic Instagram commune aux deux boutiques d’Avignon, non comptée ici"
+    },
+    {
+     "nom": "Avignon Sud",
+     "alias": [
+      "AVIGNON SUD"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "AVIGNON SUD",
+     "onglet_fiche": "AVIGNON SUD GMB",
+     "note": "campagne Trafic Instagram commune aux deux boutiques d’Avignon, non comptée ici"
+    },
+    {
+     "nom": "Aubière",
+     "alias": [
+      "AUBIERE"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "AUBIERE",
+     "onglet_fiche": "AUBIERE GMB",
+     "note": ""
+    },
+    {
+     "nom": "Biganos",
+     "alias": [
+      "BIGANOS"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "BIGANOS",
+     "onglet_fiche": "BIGANOS GMB",
+     "note": ""
+    },
+    {
+     "nom": "Cap d'Agde",
+     "alias": [
+      "CAP D AGDE",
+      "AGDE"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": null,
+     "onglet_fiche": null,
+     "note": ""
+    },
+    {
+     "nom": "Chambéry",
+     "alias": [
+      "CHAMBERY"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "CHAMBERY",
+     "onglet_fiche": "CHAMBERY GMB",
+     "note": ""
+    },
+    {
+     "nom": "Grenoble",
+     "alias": [
+      "GRENOBLE"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "GRENOBLE",
+     "onglet_fiche": "GRENOBLE GMB",
+     "note": ""
+    },
+    {
+     "nom": "Jacou",
+     "alias": [
+      "JACOU"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "JACOU",
+     "onglet_fiche": "JACOU GMB",
+     "note": ""
+    },
+    {
+     "nom": "Lyon",
+     "alias": [
+      "LYON"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "LYON",
+     "onglet_fiche": null,
+     "note": ""
+    },
+    {
+     "nom": "Montélimar",
+     "alias": [
+      "MONTELIMAR"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "MONTELIMAR",
+     "onglet_fiche": "MONTELIMAR GMB",
+     "note": ""
+    },
+    {
+     "nom": "Nîmes",
+     "alias": [
+      "NIMES"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "NÎMES",
+     "onglet_fiche": "NIMES GMB",
+     "note": ""
+    },
+    {
+     "nom": "Sainte-Eulalie",
+     "alias": [
+      "SAINTE EULALIE"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "SAINTE-EULALIE",
+     "onglet_fiche": "SAINTE EULALIE GMB",
+     "note": ""
+    },
+    {
+     "nom": "Salaise",
+     "alias": [
+      "SALAISE"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "SALAISE",
+     "onglet_fiche": "SALAISE GMB",
+     "note": ""
+    },
+    {
+     "nom": "Valence",
+     "alias": [
+      "VALENCE"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "VALENCE",
+     "onglet_fiche": "VALENCE GMB",
+     "note": ""
+    },
+    {
+     "nom": "Villefranche",
+     "alias": [
+      "VILLEFRANCHE"
+     ],
+     "groupe": "Boutiques historiques",
+     "page_facebook": "",
+     "lancement_meta": "",
+     "lancement_notoriete": "",
+     "lancement_google": "",
+     "bloc_ventes": "VILLEFRANCHE",
+     "onglet_fiche": "VILLEFRANCHE GMB",
+     "note": ""
+    }
+   ],
+   "jalons": [
+    {
+     "debut": "2026-09-12",
+     "fin": "2026-09-12",
+     "libelle": "Reprise Meta à Chambéry, Sainte-Eulalie et Montélimar",
+     "type": "meta"
+    },
+    {
+     "debut": "2026-09-23",
+     "fin": "2026-09-26",
+     "libelle": "Chute des vues Recherche sur toutes les fiches Google suivies",
+     "type": "fiche"
+    },
+    {
+     "debut": "2026-10-01",
+     "fin": "2026-10-02",
+     "libelle": "Diffusion Meta interrompue sur tous les comptes (aucune dépense)",
+     "type": "pause"
+    }
+   ]
+  }
+ }
+}
