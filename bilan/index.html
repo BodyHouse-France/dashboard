@@ -227,7 +227,7 @@ body { padding: clamp(0px, 2vw, 24px); }
       <b class="bh-num dash-skeleton" data-source="kpi_global" data-field="depense_totale">—</b> investis sur
       <b class="bh-num dash-skeleton" data-source="kpi_global" data-field="nb_boutiques_campagne">—</b> boutiques.
       <span class="si-nouvelles">CA hebdomadaire <b class="bh-num dash-skeleton" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques en campagne">—</b> depuis le lancement,
-      témoins <b class="bh-num dash-skeleton" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques témoins">—</b>.</span>
+      témoin (Bayonne) <b class="bh-num dash-skeleton" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques témoins">—</b>.</span>
       <span class="si-historiques">CA <b class="bh-num dash-skeleton" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques historiques">—</b> sur un an,
       <b class="bh-num" data-source="ventes_groupes" data-field="nb_boutiques_hausse" data-where="groupe=Boutiques historiques">—</b> boutiques sur
       <b class="bh-num" data-source="ventes_groupes" data-field="nb_boutiques" data-where="groupe=Boutiques historiques">—</b> en hausse.</span>
@@ -281,7 +281,7 @@ body { padding: clamp(0px, 2vw, 24px); }
           <div class="bh-kpi si-nouvelles">
             <span class="bh-kpi-label">CA HT par semaine</span>
             <span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="ca_pendant" data-where="groupe=Boutiques en campagne">—</span>
-            <span class="bh-kpi-detail"><b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques en campagne">—</b> vs avant · témoins <b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques témoins">—</b></span>
+            <span class="bh-kpi-detail"><b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques en campagne">—</b> vs avant · témoin <b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques témoins">—</b></span>
           </div>
           <div class="bh-kpi si-historiques">
             <span class="bh-kpi-label">CA HT par semaine</span>
@@ -325,8 +325,8 @@ body { padding: clamp(0px, 2vw, 24px); }
             <p>Vues Recherche <b class="bh-num" data-source="fiches_periodes" data-field="evol_recherche" data-where="boutique=Ensemble des fiches suivies">—</b> depuis fin septembre. La baisse des 23 et 26 septembre touche toutes les fiches, témoins et boutiques historiques compris : cause côté Google. Actions : <b class="bh-num" data-source="fiches_periodes" data-field="evol_actions" data-where="boutique=Ensemble des fiches suivies">—</b>.</p>
           </div>
           <div class="bh-constat">
-            <h3>Ventes : campagne et témoins</h3>
-            <p>CA <b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques en campagne">—</b> vs l’été, témoins <b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques témoins">—</b>. Visites du site <b class="bh-num" data-source="ventes_groupes" data-field="evol_visites" data-where="groupe=Boutiques en campagne">—</b>, témoins <b class="bh-num" data-source="ventes_groupes" data-field="evol_visites" data-where="groupe=Boutiques témoins">—</b>.</p>
+            <h3>Ventes : campagne et témoin</h3>
+            <p>CA <b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques en campagne">—</b> vs l’été, témoin <b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques témoins">—</b>. Visites du site <b class="bh-num" data-source="ventes_groupes" data-field="evol_visites" data-where="groupe=Boutiques en campagne">—</b>, témoin <b class="bh-num" data-source="ventes_groupes" data-field="evol_visites" data-where="groupe=Boutiques témoins">—</b>.</p>
           </div>
           <div class="bh-constat">
             <h3>Prochaines actions</h3>
@@ -373,7 +373,7 @@ body { padding: clamp(0px, 2vw, 24px); }
       <div class="bh-section" id="synthese-boutiques">
         <h2 class="bh-h2">Boutique par boutique</h2>
         <p class="bh-chapo">
-          <span class="si-nouvelles">Bayonne et Poitiers, sans campagne, servent de témoins. Cliquer sur une ligne pour le détail.</span>
+          <span class="si-nouvelles">Bayonne, sans campagne, sert de témoin. Poitiers est en campagne Meta depuis le 27 octobre. Cliquer sur une ligne pour le détail.</span>
           <span class="si-historiques">Cliquer sur une ligne pour le détail. La campagne Instagram commune aux deux boutiques d’Avignon (<b class="bh-num" data-source="meta_campagnes" data-field="depense" data-where="boutique=Avignon Nord + Sud">—</b>) n’est pas répartie.</span>
         </p>
         <div class="bh-carte">
@@ -613,7 +613,7 @@ body { padding: clamp(0px, 2vw, 24px); }
           <div class="bh-kpi bh-kpi-fort"><span class="bh-kpi-label">CA HT / semaine</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="ca_pendant" data-where="groupe=Boutiques en campagne">—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques en campagne">—</b> vs avant, boutiques en campagne</span></div>
           <div class="bh-kpi"><span class="bh-kpi-label">Passages en caisse / semaine</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="tickets_pendant" data-where="groupe=Boutiques en campagne">—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="ventes_groupes" data-field="evol_tickets" data-where="groupe=Boutiques en campagne">—</b> vs avant</span></div>
           <div class="bh-kpi"><span class="bh-kpi-label">Panier moyen HT</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="panier_pendant" data-where="groupe=Boutiques en campagne">—</span><span class="bh-kpi-detail">contre <b class="bh-num" data-source="ventes_groupes" data-field="panier_avant" data-where="groupe=Boutiques en campagne">—</b> avant</span></div>
-          <div class="bh-kpi"><span class="bh-kpi-label">Boutiques témoins</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques témoins">—</span><span class="bh-kpi-detail">CA hebdo vs avant, Bayonne et Poitiers</span></div>
+          <div class="bh-kpi"><span class="bh-kpi-label">Boutique témoin</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques témoins">—</span><span class="bh-kpi-detail">CA hebdo vs avant, Bayonne</span></div>
         </div>
         <div class="bh-kpis si-historiques">
           <div class="bh-kpi bh-kpi-fort"><span class="bh-kpi-label">CA HT / semaine</span><span class="bh-kpi-valeur dash-skeleton" data-source="ventes_groupes" data-field="ca_pendant" data-where="groupe=Boutiques historiques">—</span><span class="bh-kpi-detail"><b class="bh-num" data-source="ventes_groupes" data-field="evol_ca" data-where="groupe=Boutiques historiques">—</b> vs 2025</span></div>
@@ -629,7 +629,7 @@ body { padding: clamp(0px, 2vw, 24px); }
           <span class="si-historiques">CA HT du réseau, 2026 face aux mêmes semaines de 2025.</span>
         </p>
         <div class="bh-carte">
-          <div class="bh-legende si-nouvelles"><span><i class="bh-trait" style="background:#a64551"></i>Boutiques en campagne</span><span><i class="bh-trait" style="background:#c9a89a"></i>Boutiques témoins</span><span><i style="background:#f8ede7;border:1px solid #e8d3c8"></i>Période de campagne</span><span><i style="background:#ece3de"></i>Meta interrompu</span></div>
+          <div class="bh-legende si-nouvelles"><span><i class="bh-trait" style="background:#a64551"></i>Boutiques en campagne</span><span><i class="bh-trait" style="background:#c9a89a"></i>Boutique témoin (Bayonne)</span><span><i style="background:#f8ede7;border:1px solid #e8d3c8"></i>Période de campagne</span><span><i style="background:#ece3de"></i>Meta interrompu</span></div>
           <div class="bh-legende si-historiques"><span><i class="bh-trait" style="background:#a64551"></i>2026</span><span style="color:#b9a39a"><i class="bh-pointille"></i>2025, mêmes semaines</span><span><i style="background:#f8ede7;border:1px solid #e8d3c8"></i>Semaines analysées</span></div>
           <div class="bh-graph" id="graph-ventes-indice" data-source="ventes_reseau_semaine" style="min-height:300px"></div>
         </div>
