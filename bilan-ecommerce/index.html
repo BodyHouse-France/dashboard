@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Body House – bilan e-commerce : ventes en ligne, Google Ads, GA4, Meta et nouvelles sources, mois par mois.">
+<title>Bilan e-commerce</title>
+<link rel="icon" href="https://bodyhouse.fr/favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fbf6f3; --surface: #ffffff; --surface-2: #f6ece6; --fg: #241a1c; --muted: #6f5d61;
+  --line: #ead9d0; --accent: #a64551; --accent-strong: #7f2f3b; --accent-soft: #f1dbcf;
+  --ok: #2f7d55; --bad: #b3261e; --warn: #a3621a;
+  --s1: #a64551; --s2: #e2806b; --s3: #c9a27e; --s4: #6f8fa6; --s5: #8c6bb1; --s6: #9aa97b; --s7: #c7b8b3;
+  --target: #2f7d55; --target4: #6f5d61;
+  --titre: 'League Spartan', system-ui, sans-serif; --texte: 'Source Serif 4', Georgia, serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a1113; --surface: #241719; --surface-2: #2c1c1f; --fg: #f3e9e4; --muted: #a8959a;
+    --line: #3b2a2d; --accent: #ef9aa6; --accent-strong: #f6bcc4; --accent-soft: #3a2528;
+    --ok: #6fc79a; --bad: #f08a80; --warn: #e3b06b;
+    --s1: #ef9aa6; --s2: #f0a589; --s3: #d9b896; --s4: #8fb3cc; --s5: #b39ad6; --s6: #b7c596; --s7: #6e5d60;
+    --target: #6fc79a; --target4: #a8959a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1a1113; --surface: #241719; --surface-2: #2c1c1f; --fg: #f3e9e4; --muted: #a8959a;
+  --line: #3b2a2d; --accent: #ef9aa6; --accent-strong: #f6bcc4; --accent-soft: #3a2528;
+  --ok: #6fc79a; --bad: #f08a80; --warn: #e3b06b;
+  --s1: #ef9aa6; --s2: #f0a589; --s3: #d9b896; --s4: #8fb3cc; --s5: #b39ad6; --s6: #b7c596; --s7: #6e5d60;
+  --target: #6fc79a; --target4: #a8959a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--texte); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 720px) { .wrap { padding: 0 32px; } }
+a { color: var(--accent); }
+h1, h2, h3 { font-family: var(--titre); font-weight: 700; line-height: 1.12; letter-spacing: -0.005em; }
+.num, table, .kpi .v { font-variant-numeric: tabular-nums; }
+
+/* En-tête */
+.hero { padding: 22px 0 26px; border-bottom: 1px solid var(--line); }
+.hero .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 22px; }
+.back, .theme { font-family: var(--titre); font-weight: 500; font-size: 14px; color: var(--fg); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px 5px; text-decoration: none; cursor: pointer; }
+.back:hover, .theme:hover { border-color: var(--accent); color: var(--accent); }
+.eyebrow { font-family: var(--titre); font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; font-size: 13px; color: var(--accent); margin: 0 0 6px; }
+.hero h1 { font-size: clamp(30px, 5vw, 44px); color: var(--accent); margin: 0 0 12px; }
+.lede { font-size: 18px; max-width: 68ch; margin: 0 0 16px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 14px; color: var(--muted); margin: 0; }
+.meta b { font-family: var(--titre); font-weight: 500; color: var(--fg); margin-right: 4px; }
+.etat { margin: 14px 0 0; font-size: 14px; color: var(--muted); }
+.etat.erreur { color: var(--bad); }
+
+/* Sommaire */
+.toc { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.toc .wrap { display: flex; gap: 2px 18px; overflow-x: auto; scrollbar-width: none; padding-top: 10px; padding-bottom: 10px; }
+.toc .wrap::-webkit-scrollbar { display: none; }
+.toc a { font-family: var(--titre); font-weight: 500; font-size: 14px; color: var(--fg); text-decoration: none; white-space: nowrap; }
+.toc a:hover { color: var(--accent); }
+
+/* Sections */
+section { padding: 34px 0 6px; scroll-margin-top: 48px; }
+section h2 { font-size: clamp(24px, 3.2vw, 30px); color: var(--accent); margin: 0 0 10px; display: flex; align-items: baseline; gap: 12px; }
+section h2 .n { font-size: 15px; color: var(--muted); font-weight: 500; }
+section h3 { font-size: 19px; margin: 26px 0 8px; }
+.intro { max-width: 76ch; margin: 0 0 16px; }
+.note { color: var(--muted); font-size: 14px; max-width: 80ch; margin: 8px 0 0; }
+.choix { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 14px; font-family: var(--titre); font-weight: 500; font-size: 14px; }
+.choix select { font: inherit; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px 4px; }
+
+/* Indicateurs */
+.kpis { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12.5rem), 1fr)); }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px 12px; min-width: 0; }
+.kpi .l { font-family: var(--titre); font-weight: 500; font-size: 13px; color: var(--muted); margin: 0 0 4px; }
+.kpi .v { font-family: var(--titre); font-weight: 700; font-size: clamp(24px, 3vw, 30px); line-height: 1.1; margin: 0 0 6px; }
+.kpi .d { font-size: 13px; color: var(--muted); margin: 0; }
+.kpi .d b { font-weight: 600; }
+.up { color: var(--ok); } .down { color: var(--bad); } .flat { color: var(--muted); }
+.kpi.hl { background: var(--accent-soft); border-color: transparent; }
+
+/* Constats */
+.keys { list-style: none; counter-reset: k; padding: 0; margin: 18px 0 0; display: grid; gap: 10px; }
+.keys li { counter-increment: k; position: relative; padding: 2px 0 2px 40px; max-width: 86ch; }
+.keys li::before { content: counter(k); position: absolute; left: 0; top: 2px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-strong); font-family: var(--titre); font-weight: 700; font-size: 13px; display: grid; place-items: center; }
+.keys li b { font-weight: 600; }
+
+/* Tableaux */
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); margin: 14px 0 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { padding: 8px 12px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line); }
+th { font-family: var(--titre); font-weight: 500; font-size: 13px; color: var(--muted); background: var(--surface-2); position: sticky; top: 0; }
+th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: inherit; }
+td:first-child { background: var(--surface); font-weight: 600; }
+th:first-child { background: var(--surface-2); }
+tbody tr:last-child td { border-bottom: 0; }
+tr.tot td { font-weight: 600; background: var(--surface-2); }
+tr.partiel td { color: var(--muted); font-style: italic; }
+td.strong { font-weight: 600; }
+.caption { font-size: 13px; color: var(--muted); margin: 8px 2px 0; }
+details { margin: 14px 0 0; }
+details summary { cursor: pointer; font-family: var(--titre); font-weight: 500; font-size: 15px; color: var(--accent); }
+
+/* Graphiques */
+.chart { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 10px 8px; margin: 14px 0 0; }
+.chart h3 { margin: 0 6px 4px; font-size: 16px; }
+.chart .scroll { overflow-x: auto; }
+.chart svg { display: block; }
+.chart text { font-family: var(--texte); fill: var(--muted); font-size: 11.5px; }
+.chart .vlab { fill: var(--fg); font-size: 11px; font-family: var(--titre); font-weight: 500; }
+.chart .grid line { stroke: var(--line); }
+.chart .tlab { font-family: var(--titre); font-size: 11px; }
+.leg { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--muted); margin: 2px 6px 8px; }
+.leg span { display: inline-flex; align-items: center; gap: 6px; }
+.leg i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+.leg i.trait { height: 0; border-top: 2px dashed currentColor; width: 16px; border-radius: 0; }
+
+/* Étiquettes */
+.tag { display: inline-block; font-family: var(--titre); font-weight: 500; font-size: 12px; padding: 2px 9px 1px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-strong); }
+.tag.ok { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); }
+.tag.warn { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
+
+/* Journal */
+.timeline { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--line); }
+.timeline li { position: relative; padding: 0 0 14px 20px; }
+.timeline li::before { content: ''; position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+.timeline .t { font-family: var(--titre); font-weight: 500; font-size: 14px; color: var(--muted); display: block; }
+
+.methode ul { padding-left: 20px; margin: 8px 0; max-width: 90ch; }
+.methode li { margin: 0 0 6px; font-size: 15px; }
+footer { border-top: 1px solid var(--line); margin-top: 40px; padding: 18px 0 30px; color: var(--muted); font-size: 13px; }
+.vide { color: var(--muted); font-style: italic; }
+@media (max-width: 560px) {
+  body { font-size: 15px; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .kpi { padding: 12px 12px 10px; }
+  .kpi .v { font-size: 22px; }
+  .kpi .d { font-size: 12px; }
+  .lede { font-size: 16px; }
+  th, td { padding: 7px 9px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="top">
+      <a class="back" href="../index.html">← Portail</a>
+      <button class="theme" id="theme" type="button" aria-label="Changer de thème">Thème</button>
+    </div>
+    <p class="eyebrow">Body House · E-commerce</p>
+    <h1>Bilan e-commerce</h1>
+    <p class="lede">Les ventes de bodyhouse.fr mois par mois, ce qu'elles coûtent en publicité et d'où elles viennent : Google Ads, Meta, les assistants IA et Lemrock. Chaque chiffre est comparé au mois précédent et au même mois un an plus tôt.</p>
+    <p class="meta" id="meta"><span><b>Sources</b>Shopify, Google Ads, GA4, Meta, Lemrock</span><span><b>Préparé par</b>Meta-Advertising</span></p>
+    <p class="etat" id="etat">Chargement des données…</p>
+  </div>
+</header>
+<nav class="toc" aria-label="Sommaire">
+  <div class="wrap">
+    <a href="#bref">En bref</a>
+    <a href="#encours">Mois en cours</a>
+    <a href="#temps">Dans le temps</a>
+    <a href="#leviers">Par levier</a>
+    <a href="#sources">D'où viennent les ventes</a>
+    <a href="#nouvelles">Nouvelles sources</a>
+    <a href="#journal">Journal</a>
+    <a href="#methode">Méthode</a>
+  </div>
+</nav>
+<main class="wrap">
+  <section id="bref">
+    <h2><span class="n">1</span>En bref</h2>
+    <div class="choix"><label for="mois">Mois</label><select id="mois"></select></div>
+    <p class="intro" id="bref-intro"></p>
+    <div class="kpis" id="kpis"></div>
+    <ol class="keys" id="constats"></ol>
+  </section>
+
+  <section id="encours">
+    <h2><span class="n">2</span>Mois en cours</h2>
+    <p class="intro" id="encours-intro"></p>
+    <div class="kpis" id="kpis-encours"></div>
+    <p class="note">Mêmes jours du mois précédent et du même mois un an plus tôt. GA4 n'est comparable qu'à partir du 17 juin 2026 (bascule du site sur Shopify). Lemrock est saisi par semaine : une semaine compte en entier dans le mois de son lundi.</p>
+  </section>
+
+  <section id="temps">
+    <h2><span class="n">3</span>Dans le temps</h2>
+    <p class="intro">Le chiffre d'affaires de l'e-shop face à l'année précédente, le budget publicitaire par levier et le ROAS hors marque de Google Ads, qui dit si l'acquisition paie.</p>
+    <div class="chart" id="c-ca"></div>
+    <div class="chart" id="c-budget"></div>
+    <div class="chart" id="c-roas"></div>
+    <details open>
+      <summary>Les chiffres mois par mois</summary>
+      <div class="tablewrap"><table id="t-mois"></table></div>
+      <p class="caption">Mois en italique : en cours, comparé aux mêmes jours de l'année précédente. ROAS = valeur de conversion Google Ads (TTC) ÷ dépense (HT). Budget = Google Ads + Meta (compte e-shop) + Lemrock.</p>
+    </details>
+  </section>
+
+  <section id="leviers">
+    <h2><span class="n">4</span>Par levier</h2>
+    <p class="intro" id="leviers-intro"></p>
+    <div class="tablewrap"><table id="t-leviers"></table></div>
+    <p class="caption">Ventes attribuées : colonne Conversions de Google Ads pour Google, achats GA4 au dernier clic pour Lemrock. Meta n'a pas de ventes mesurées : le pixel est bloqué par Meta sur bodyhouse.fr.</p>
+  </section>
+
+  <section id="sources">
+    <h2><span class="n">5</span>D'où viennent les ventes</h2>
+    <p class="intro" id="sources-intro"></p>
+    <div class="chart" id="c-canaux"></div>
+    <div class="tablewrap"><table id="t-canaux"></table></div>
+    <p class="caption">Achats GA4 au dernier clic, par canal. GA4 ne voit pas les visiteurs qui refusent les cookies : la colonne « GA4 / Shopify » donne la part des commandes réelles qu'il voit.</p>
+  </section>
+
+  <section id="nouvelles">
+    <h2><span class="n">6</span>Nouvelles sources</h2>
+    <p class="intro">Assistants IA (ChatGPT, Perplexity, Gemini…), Lemrock et moteurs alternatifs (Qwant, Lilo, Bing, Ecosia). L'enjeu : savoir si ces sources apportent des ventes qui n'existaient pas, et à quel coût.</p>
+    <div class="chart" id="c-nouvelles"></div>
+    <div class="tablewrap"><table id="t-nouvelles"></table></div>
+    <h3>Lemrock</h3>
+    <p class="intro" id="lemrock-intro"></p>
+    <div class="tablewrap"><table id="t-lemrock"></table></div>
+    <h3 id="detail-titre">Détail par source</h3>
+    <div class="tablewrap"><table id="t-detail"></table></div>
+  </section>
+
+  <section id="journal">
+    <h2><span class="n">7</span>Journal</h2>
+    <p class="intro">Les changements qui peuvent expliquer une évolution.</p>
+    <ul class="timeline" id="timeline"></ul>
+  </section>
+
+  <section id="methode" class="methode">
+    <h2><span class="n">8</span>Méthode et sources</h2>
+    <ul>
+      <li><b>Chiffre d'affaires e-shop</b> : Shopify, ventes totales TTC (après remises et retours, port compris). Depuis le 17 juin 2026, canal Online Store ; avant, historique des commandes PrestaShop importé dans Shopify.</li>
+      <li><b>Google Ads</b> : compte « Body House – Erotic Store &amp; Lingerie ». Dépense HT, colonne Conversions (action « Achat », modèle basé sur les données, ventes rattachées au jour du clic : les derniers jours montent encore). « Hors marque » : toutes les campagnes sauf celles sur la marque.</li>
+      <li><b>Leviers Google</b> : Marque ; Search hors marque ; Shopping et Performance Max ; autres formats.</li>
+      <li><b>GA4</b> : propriété de bodyhouse.fr, sessions, achats et revenus au dernier clic. Avant la bascule sur Shopify (17 juin 2026), GA4 comptait environ deux fois les commandes réelles : il n'est pas utilisé pour comparer avec ces mois-là (« n. c. »).</li>
+      <li><b>Meta</b> : dépense du compte publicitaire e-shop. Les ventes ne sont pas mesurées par Meta sur bodyhouse.fr.</li>
+      <li><b>Lemrock</b> : dépense et clics saisis chaque semaine à partir de l'export Lemrock ; visites et achats lus dans GA4 (utm_source=lemrock).</li>
+      <li><b>Comparaisons</b> : mois précédent et même mois un an plus tôt ; pour le mois en cours, mêmes jours. Évolutions en % pour les montants, en points pour les ROAS et les parts.</li>
+      <li><b>Mise à jour</b> : chaque matin. Les données passent par le classeur de suivi Body House (onglets « ECOM … »), où elles peuvent être vérifiées avant d'arriver ici.</li>
+    </ul>
+    <p class="note" id="fraicheur"></p>
+  </section>
+</main>
+<footer>
+  <div class="wrap">Body House · Bilan e-commerce · Meta-Advertising. Page de travail, non référencée.</div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- Configuration ---------- */
+  var PUB = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXUlg5-6tPscJUJlh1WyhplAlX1VEqVJoB34GmPStGweo4abDmyGqZnnOS_wbUMe45TYwz1FHVjdzD/pub?output=csv&single=true&gid=';
+  var ONGLETS = {
+    adsMois: 1470030270, adsJour: 1875631580,
+    ga4CanauxMois: 1137463018, ga4CanauxJour: 1243606996,
+    ga4SourcesMois: 292603363, ga4SourcesJour: 1244543161,
+    meta: 528712301, shopMois: 1751131871, shopJour: 603928231,
+    lemrock: 952446661, journal: 1390670549
+  };
+  var BASCULE = '2026-06-17';          // GA4 fiable à partir de cette date
+  var MOIS_GA4 = '2026-07';            // premier mois complet comparable dans GA4
+  var DEBUT_TABLE = '2025-01';
+  var OBJECTIF = 3, VISEE = 4;
+
+  /* ---------- Thème ---------- */
+  var root = document.documentElement;
+  try { var t = localStorage.getItem('bh-theme'); if (t === 'light' || t === 'dark') root.setAttribute('data-theme', t); } catch (e) {}
+  document.getElementById('theme').addEventListener('click', function () {
+    var sombre = root.getAttribute('data-theme') ? root.getAttribute('data-theme') === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var nouveau = sombre ? 'light' : 'dark';
+    root.setAttribute('data-theme', nouveau);
+    try { localStorage.setItem('bh-theme', nouveau); } catch (e) {}
+  });
+
+  /* ---------- Lecture ---------- */
+  function parseCSV(text) {
+    var rows = [], row = [], cur = '', q = false;
+    text = text.replace(/\r\n?/g, '\n');
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; }
+        else cur += c;
+      } else if (c === '"') q = true;
+      else if (c === ',') { row.push(cur); cur = ''; }
+      else if (c === '\n') { row.push(cur); rows.push(row); row = []; cur = ''; }
+      else cur += c;
+    }
+    if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
+    return rows.filter(function (r) { return r.some(function (x) { return x.trim() !== ''; }); });
+  }
+  function num(v) {
+    if (v === undefined || v === null) return 0;
+    var s = String(v).replace(/[\s  €%]/g, '').replace(',', '.');
+    if (s === '' || s === '-') return 0;
+    var n = parseFloat(s);
+    return isFinite(n) ? n : 0;
+  }
+  // Date ISO (AAAA-MM-JJ) depuis ISO, JJ/MM/AAAA ou numéro de série Sheets
+  function isoDate(v) {
+    var s = String(v || '').trim(), m;
+    if ((m = s.match(/^(\d{4})-(\d{2})-(\d{2})/))) return m[1] + '-' + m[2] + '-' + m[3];
+    if ((m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/))) return m[3] + '-' + pad(m[2]) + '-' + pad(m[1]);
+    if (/^\d{5}$/.test(s)) { var d = new Date(Math.round((+s - 25569) * 864e5)); return d.toISOString().slice(0, 10); }
+    return null;
+  }
+  // Mois AAAA-MM depuis « 2026|10 », « 202610 », une date…
+  function moisDe(v) {
+    var s = String(v || '').trim(), m;
+    if ((m = s.match(/^(\d{4})\s*\|\s*(\d{1,2})$/))) return m[1] + '-' + pad(m[2]);
+    if ((m = s.match(/^(\d{4})(\d{2})$/))) return m[1] + '-' + m[2];
+    var d = isoDate(s);
+    return d ? d.slice(0, 7) : null;
+  }
+  function pad(x) { x = String(x); return x.length < 2 ? '0' + x : x; }
+  function chargerOnglet(gid) {
+    var ctl = ('AbortController' in window) ? new AbortController() : null;
+    var minuterie = setTimeout(function () { if (ctl) ctl.abort(); }, 30000);
+    return fetch(PUB + gid, ctl ? { signal: ctl.signal } : {}).then(function (r) {
+      clearTimeout(minuterie);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    }).then(parseCSV);
+  }
+
+  /* ---------- Dates et mois ---------- */
+  var NOMS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  var COURTS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+  function decaleMois(m, n) { var a = +m.slice(0, 4), b = +m.slice(5, 7) - 1 + n; a += Math.floor(b / 12); b = ((b % 12) + 12) % 12; return a + '-' + pad(b + 1); }
+  function nomMois(m) { return NOMS[+m.slice(5, 7) - 1] + ' ' + m.slice(0, 4); }
+  function courtMois(m, annee) { return COURTS[+m.slice(5, 7) - 1] + (annee === false ? '' : ' ' + m.slice(2, 4)); }
+  function joursDansMois(m) { return new Date(Date.UTC(+m.slice(0, 4), +m.slice(5, 7), 0)).getUTCDate(); }
+  function dateFr(d) { return +d.slice(8, 10) + ' ' + NOMS[+d.slice(5, 7) - 1] + ' ' + d.slice(0, 4); }
+  function dateCourte(d) { return +d.slice(8, 10) + '/' + d.slice(5, 7); }
+  function moisListe(de, a) { var out = []; for (var m = de; m <= a; m = decaleMois(m, 1)) out.push(m); return out; }
+
+  /* ---------- Format ---------- */
+  var fEur = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
+  var f1 = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  var f0 = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
+  function eur(v) { return v === null || v === undefined || !isFinite(v) ? '—' : fEur.format(Math.round(v)) + ' €'; }
+  function ent(v) { return v === null || v === undefined || !isFinite(v) ? '—' : f0.format(Math.round(v)); }
+  function ratio(v) { return v === null || v === undefined || !isFinite(v) ? '—' : f1.format(v); }
+  function pct(v) { return v === null || v === undefined || !isFinite(v) ? '—' : f1.format(v * 100) + ' %'; }
+  function div(a, b) { return b ? a / b : null; }
+  function evoPct(a, b) {
+    if (a === null || b === null || a === undefined || b === undefined || !isFinite(a) || !isFinite(b) || b === 0) return null;
+    return a / b - 1;
+  }
+  function htmlEvo(a, b, type, inverse) {
+    // type : 'pct' (montants), 'pt' (ROAS, en écart), 'ptp' (parts, en points de %)
+    if (a === null || b === null || a === undefined || b === undefined || !isFinite(a) || !isFinite(b)) return '<b class="flat">n. d.</b>';
+    var d, txt;
+    if (type === 'pt') { d = a - b; txt = (d >= 0 ? '+' : '−') + f1.format(Math.abs(d)); }
+    else if (type === 'ptp') { d = a - b; txt = (d >= 0 ? '+' : '−') + f1.format(Math.abs(d * 100)) + ' pt'; }
+    else { if (!b) return '<b class="flat">n. d.</b>'; d = a / b - 1; txt = (d >= 0 ? '+' : '−') + f0.format(Math.abs(d * 100)) + ' %'; }
+    var cl = Math.abs(d) < 0.005 ? 'flat' : ((d > 0) !== !!inverse ? 'up' : 'down');
+    return '<b class="' + cl + '">' + txt + '</b>';
+  }
+  function txtEvo(a, b, type) { return htmlEvo(a, b, type).replace(/<[^>]+>/g, ''); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  /* ---------- Classements ---------- */
+  function estMarque(nom) { return /brand/i.test(nom) || /(^|[|\-–]\s*)marque\s*$/i.test(nom); }
+  function levierGoogle(nom, type) {
+    if (estMarque(nom)) return 'marque';
+    var t = String(type || '').toUpperCase();
+    if (t === 'SEARCH') return 'search';
+    if (t === 'SHOPPING' || t === 'PERFORMANCE_MAX') return 'shopping';
+    return 'autres';
+  }
+  var CANAUX = {
+    'Organic Search': 'Recherche naturelle', 'Direct': 'Accès direct', 'Paid Search': 'Google Ads',
+    'Paid Shopping': 'Google Ads', 'Cross-network': 'Google Ads', 'Email': 'E-mail',
+    'Organic Social': 'Réseaux sociaux', 'Paid Social': 'Réseaux sociaux', 'Organic Shopping': 'Shopping naturel',
+    'AI Assistant': 'Assistants IA', 'Referral': 'Sites référents', 'Unassigned': 'Non attribué',
+    'Paid Other': 'Autres canaux payants'
+  };
+  var ORDRE_CANAUX = ['Recherche naturelle', 'Accès direct', 'Google Ads', 'E-mail', 'Réseaux sociaux', 'Shopping naturel', 'Assistants IA', 'Autres canaux payants', 'Sites référents', 'Non attribué', 'Autres'];
+  var IA = /chatgpt|openai|perplexity|gemini|copilot|claude|mistral|deepseek/i;
+  var NOMS_SOURCES = [
+    [/lemrock/i, 'Lemrock'], [/chatgpt|openai/i, 'ChatGPT'], [/perplexity/i, 'Perplexity'], [/gemini/i, 'Gemini'],
+    [/copilot/i, 'Copilot'], [/claude/i, 'Claude'], [/mistral/i, 'Mistral'], [/deepseek/i, 'DeepSeek'],
+    [/qwant/i, 'Qwant'], [/lilo/i, 'Lilo'], [/bing/i, 'Bing'], [/ecosia/i, 'Ecosia']
+  ];
+  function groupeSource(src, med) {
+    if (/lemrock/i.test(src)) return 'Lemrock';
+    if (IA.test(src) || /ai-assistant/i.test(med)) return 'Assistants IA';
+    if (/qwant|lilo/i.test(src)) return 'Qwant et Lilo';
+    if (/bing|ecosia/i.test(src)) return 'Bing et Ecosia';
+    return null;
+  }
+  function nomSource(src) {
+    for (var i = 0; i < NOMS_SOURCES.length; i++) if (NOMS_SOURCES[i][0].test(src)) return NOMS_SOURCES[i][1];
+    return null;
+  }
+  var GROUPES = ['Assistants IA', 'Lemrock', 'Qwant et Lilo', 'Bing et Ecosia'];
+
+  /* ---------- Modèle ---------- */
+  var D = {};
+  function vide() { return { cost: 0, value: 0, conv: 0, clicks: 0, impr: 0 }; }
+  function ajoute(o, r) { o.cost += r.cost; o.value += r.value; o.conv += r.conv; o.clicks += r.clicks; o.impr += r.impr; }
+  function adsVide() { return { tot: vide(), marque: vide(), search: vide(), shopping: vide(), autres: vide(), isImpr: 0, isDen: 0 }; }
+
+  function construire(t) {
+    // Google Ads par jour
+    var adsJ = [];
+    t.adsJour.slice(1).forEach(function (r) {
+      var d = isoDate(r[0]); if (!d) return;
+      adsJ.push({ d: d, lev: levierGoogle(r[1], r[2]), cost: num(r[3]), conv: num(r[4]), value: num(r[5]), clicks: num(r[6]), impr: num(r[7]) });
+    });
+    // Google Ads par mois (mois complets)
+    var adsM = {};
+    t.adsMois.slice(1).forEach(function (r) {
+      var m = moisDe(r[0]); if (!m) return;
+      var lev = levierGoogle(r[1], r[2]);
+      var o = adsM[m] || (adsM[m] = adsVide());
+      var x = { cost: num(r[3]), conv: num(r[4]), value: num(r[5]), clicks: num(r[6]), impr: num(r[7]) };
+      ajoute(o.tot, x); ajoute(o[lev], x);
+      var is = num(r[8]);
+      if (lev === 'marque' && is > 0 && x.impr > 0) { o.isImpr += x.impr; o.isDen += x.impr / is; }
+    });
+    // Shopify
+    var shopM = {};
+    t.shopMois.slice(1).forEach(function (r) {
+      var m = moisDe(r[0]); if (!m) return;
+      var canal = String(r[1]).trim();
+      var garde = canal === 'Online Store' || (canal === 'Matrixify' && m <= '2026-06');
+      if (!garde) return;
+      var o = shopM[m] || (shopM[m] = { orders: 0, ca: 0, net: 0 });
+      o.orders += num(r[2]); o.ca += num(r[3]); o.net += num(r[4]);
+    });
+    var shopJ = [], shopExtrait = null;
+    t.shopJour.slice(1).forEach(function (r) {
+      var d = isoDate(r[0]); if (!d) return;
+      shopJ.push({ d: d, orders: num(r[1]), ca: num(r[2]), net: num(r[3]) });
+      var e = isoDate(r[4]); if (e && (!shopExtrait || e > shopExtrait)) shopExtrait = e;
+    });
+    // Meta
+    var metaJ = [];
+    t.meta.slice(1).forEach(function (r) { var d = isoDate(r[0]); if (d) metaJ.push({ d: d, cost: num(r[2]) }); });
+    // GA4
+    function ga4Canaux(rows, cle) {
+      var out = [];
+      rows.slice(1).forEach(function (r) {
+        var k = cle(r[0]); if (!k) return;
+        out.push({ k: k, canal: CANAUX[String(r[1]).trim()] || 'Autres', sessions: num(r[2]), achats: num(r[3]), revenu: num(r[4]) });
+      });
+      return out;
+    }
+    function ga4Sources(rows, cle) {
+      var out = [];
+      rows.slice(1).forEach(function (r) {
+        var k = cle(r[0]); if (!k) return;
+        var g = groupeSource(r[1], r[2]); if (!g) return;
+        out.push({ k: k, groupe: g, nom: nomSource(r[1]) || (g === 'Assistants IA' ? 'Autre assistant IA' : g), campagne: String(r[3] || '').trim(), sessions: num(r[4]), achats: num(r[5]), revenu: num(r[6]) });
+      });
+      return out;
+    }
+    var gcM = ga4Canaux(t.ga4CanauxMois, moisDe), gcJ = ga4Canaux(t.ga4CanauxJour, isoDate);
+    var gsM = ga4Sources(t.ga4SourcesMois, moisDe), gsJ = ga4Sources(t.ga4SourcesJour, isoDate);
+    // Lemrock (saisie)
+    var lem = [];
+    t.lemrock.slice(1).forEach(function (r) {
+      var d = isoDate(r[0]); if (!d) return;
+      lem.push({ d: d, editeur: String(r[1] || '').trim(), clics: num(r[2]), cost: num(r[3]) });
+    });
+    // Journal
+    var journal = [];
+    t.journal.slice(1).forEach(function (r) {
+      var d = isoDate(r[0]); if (!d || !String(r[1] || '').trim()) return;
+      if (/^non$/i.test(String(r[2] || '').trim())) return;
+      journal.push({ d: d, txt: String(r[1]).trim() });
+    });
+
+    // Date de référence : dernier jour de données Google Ads
+    var ref = adsJ.reduce(function (a, x) { return x.d > a ? x.d : a; }, '');
+    if (!ref) throw new Error('Onglet Google Ads vide');
+    var moisRef = ref.slice(0, 7);
+    var complet = +ref.slice(8, 10) === joursDansMois(moisRef);
+    var dernierComplet = complet ? moisRef : decaleMois(moisRef, -1);
+
+    D = { adsJ: adsJ, adsM: adsM, shopM: shopM, shopJ: shopJ, shopExtrait: shopExtrait, metaJ: metaJ,
+      gcM: gcM, gcJ: gcJ, gsM: gsM, gsJ: gsJ, lem: lem, journal: journal,
+      ref: ref, moisRef: moisRef, complet: complet, dernierComplet: dernierComplet,
+      lastGa4: gcJ.reduce(function (a, x) { return x.k > a ? x.k : a; }, ''),
+      lastShop: shopJ.reduce(function (a, x) { return x.d > a ? x.d : a; }, ''),
+      lastMeta: metaJ.reduce(function (a, x) { return x.d > a ? x.d : a; }, ''),
+      lastLem: lem.reduce(function (a, x) { return x.d > a ? x.d : a; }, '') };
+  }
+
+  /* ---------- Agrégats ---------- */
+  // Période : { mois } (mois complet) ou { de, a } (jours)
+  function dansPeriode(d, p) { return p.mois ? d.slice(0, 7) === p.mois : (d >= p.de && d <= p.a); }
+  function ads(p) {
+    if (p.mois && D.adsM[p.mois] && p.mois <= D.dernierComplet) return D.adsM[p.mois];
+    var o = adsVide(), vu = false;
+    D.adsJ.forEach(function (x) { if (dansPeriode(x.d, p)) { vu = true; ajoute(o.tot, x); ajoute(o[x.lev], x); } });
+    if (!vu && p.mois && D.adsM[p.mois]) return D.adsM[p.mois];
+    return vu ? o : null;
+  }
+  function shop(p) {
+    if (p.mois && D.shopM[p.mois] && p.mois <= D.dernierComplet) return D.shopM[p.mois];
+    var o = { orders: 0, ca: 0, net: 0 }, vu = false;
+    D.shopJ.forEach(function (x) { if (dansPeriode(x.d, p)) { vu = true; o.orders += x.orders; o.ca += x.ca; o.net += x.net; } });
+    if (!vu && p.mois && D.shopM[p.mois]) return D.shopM[p.mois];
+    return vu ? o : null;
+  }
+  function meta(p) {
+    var s = 0;
+    D.metaJ.forEach(function (x) { if (dansPeriode(x.d, p)) s += x.cost; });
+    return s;
+  }
+  function lemrock(p) {
+    var o = { cost: 0, clics: 0, lignes: 0 };
+    D.lem.forEach(function (x) {
+      // une semaine est rattachée au mois de son lundi ; pour une période en jours, aux semaines dont le lundi y tombe
+      if (dansPeriode(x.d, p)) { o.cost += x.cost; o.clics += x.clics; o.lignes++; }
+    });
+    return o;
+  }
+  function ga4Comparable(p) { return p.mois ? p.mois >= MOIS_GA4 : p.de >= BASCULE; }
+  function ga4(p) {
+    if (!ga4Comparable(p)) return null;
+    var src = p.mois && p.mois <= D.dernierComplet ? D.gcM.filter(function (x) { return x.k === p.mois; }) : D.gcJ.filter(function (x) { return dansPeriode(x.k, p); });
+    if (!src.length) return null;
+    var o = { tot: { sessions: 0, achats: 0, revenu: 0 }, canaux: {} };
+    src.forEach(function (x) {
+      o.tot.sessions += x.sessions; o.tot.achats += x.achats; o.tot.revenu += x.revenu;
+      var c = o.canaux[x.canal] || (o.canaux[x.canal] = { sessions: 0, achats: 0, revenu: 0 });
+      c.sessions += x.sessions; c.achats += x.achats; c.revenu += x.revenu;
+    });
+    return o;
+  }
+  function nouvelles(p) {
+    if (!ga4Comparable(p)) return null;
+    var src = p.mois && p.mois <= D.dernierComplet ? D.gsM.filter(function (x) { return x.k === p.mois; }) : D.gsJ.filter(function (x) { return dansPeriode(x.k, p); });
+    var o = { groupes: {}, sources: {}, campagnes: {} };
+    GROUPES.forEach(function (g) { o.groupes[g] = { sessions: 0, achats: 0, revenu: 0 }; });
+    src.forEach(function (x) {
+      var g = o.groupes[x.groupe]; g.sessions += x.sessions; g.achats += x.achats; g.revenu += x.revenu;
+      var s = o.sources[x.nom] || (o.sources[x.nom] = { groupe: x.groupe, sessions: 0, achats: 0, revenu: 0 });
+      s.sessions += x.sessions; s.achats += x.achats; s.revenu += x.revenu;
+      if (x.groupe === 'Lemrock') {
+        var c = o.campagnes[x.campagne || '(sans campagne)'] || (o.campagnes[x.campagne || '(sans campagne)'] = { sessions: 0, achats: 0, revenu: 0 });
+        c.sessions += x.sessions; c.achats += x.achats; c.revenu += x.revenu;
+      }
+    });
+    return o;
+  }
+  function bilan(p) {
+    var a = ads(p), s = shop(p), m = meta(p), l = lemrock(p), g = ga4(p), n = nouvelles(p);
+    var r = { ads: a, shop: s, meta: m, lem: l, ga4: g, nouv: n };
+    r.gCost = a ? a.tot.cost : null;
+    r.gValue = a ? a.tot.value : null;
+    r.roas = a ? div(a.tot.value, a.tot.cost) : null;
+    r.hmCost = a ? a.tot.cost - a.marque.cost : null;
+    r.hmValue = a ? a.tot.value - a.marque.value : null;
+    r.roasHM = a ? div(r.hmValue, r.hmCost) : null;
+    r.roasMarque = a ? div(a.marque.value, a.marque.cost) : null;
+    r.isMarque = a && a.isDen ? a.isImpr / a.isDen : null;
+    r.budget = (a ? a.tot.cost : 0) + m + l.cost;
+    r.ca = s ? s.ca : null;
+    r.orders = s ? s.orders : null;
+    r.panier = s ? div(s.ca, s.orders) : null;
+    r.part = s && s.ca ? r.budget / s.ca : null;
+    r.couverture = g && s && s.orders ? g.tot.achats / s.orders : null;
+    r.nouvAchats = n ? GROUPES.reduce(function (t, k) { return t + (k === 'Bing et Ecosia' ? 0 : n.groupes[k].achats); }, 0) : null;
+    r.nouvRevenu = n ? GROUPES.reduce(function (t, k) { return t + (k === 'Bing et Ecosia' ? 0 : n.groupes[k].revenu); }, 0) : null;
+    r.nouvPart = n && g && g.tot.achats ? r.nouvAchats / g.tot.achats : null;
+    r.lemAchats = n ? n.groupes['Lemrock'].achats : null;
+    r.lemRevenu = n ? n.groupes['Lemrock'].revenu : null;
+    return r;
+  }
+  function memesJours(m, jours) { return { de: m + '-01', a: m + '-' + pad(Math.min(jours, joursDansMois(m))) }; }
+
+  /* ---------- Rendu : indicateurs ---------- */
+  function carte(label, valeur, cur, prev, n1, type, lp, ln, inverse, hl) {
+    var ga = /GA4/.test(label);
+    var manque = function (v) { return v === null || v === undefined || !isFinite(v); };
+    var evo = function (ref) { return ga && (manque(ref) || manque(cur)) ? '<b class="flat">n. c.</b>' : htmlEvo(cur, ref, type, inverse); };
+    var h = '<div class="kpi' + (hl ? ' hl' : '') + '"><p class="l">' + label + '</p><p class="v">' + (ga && manque(cur) ? 'n. c.' : valeur) + '</p>';
+    h += '<p class="d">vs ' + lp + ' : ' + evo(prev) + (manque(prev) ? '' : ' (' + fmtSelon(type, prev, label) + ')') + '</p>';
+    h += '<p class="d">vs ' + ln + ' : ' + evo(n1) + (manque(n1) ? '' : ' (' + fmtSelon(type, n1, label) + ')') + '</p></div>';
+    return h;
+  }
+  function fmtSelon(type, v, label) {
+    if (type === 'pt') return ratio(v);
+    if (type === 'ptp') return pct(v);
+    if (/commandes|achats/i.test(label)) return ent(v);
+    return eur(v);
+  }
+  function kpis(el, c, p, n, lp, ln) {
+    var h = '';
+    h += carte('CA e-shop TTC', eur(c.ca), c.ca, p.ca, n.ca, 'pct', lp, ln, false, true);
+    h += carte('Commandes', ent(c.orders), c.orders, p.orders, n.orders, 'pct', lp, ln);
+    h += carte('Panier moyen TTC', eur(c.panier), c.panier, p.panier, n.panier, 'pct', lp, ln);
+    h += carte('Budget publicitaire', eur(c.budget), c.budget, p.budget, n.budget, 'pct', lp, ln, true);
+    h += carte('Budget / CA', pct(c.part), c.part, p.part, n.part, 'ptp', lp, ln, true);
+    h += carte('ROAS Google Ads', ratio(c.roas), c.roas, p.roas, n.roas, 'pt', lp, ln);
+    h += carte('ROAS hors marque', ratio(c.roasHM), c.roasHM, p.roasHM, n.roasHM, 'pt', lp, ln);
+    h += carte('Achats nouvelles sources (GA4)', ent(c.nouvAchats), c.nouvAchats, p.nouvAchats, n.nouvAchats, 'pct', lp, ln);
+    el.innerHTML = h;
+  }
+
+  function renderBref(m) {
+    var c = bilan({ mois: m }), p = bilan({ mois: decaleMois(m, -1) }), n = bilan({ mois: decaleMois(m, -12) });
+    var lp = courtMois(decaleMois(m, -1)), ln = courtMois(decaleMois(m, -12));
+    var partiel = m === D.moisRef && !D.complet;
+    document.getElementById('bref-intro').innerHTML = (partiel ? '<b>' + cap(nomMois(m)) + ', mois en cours (jusqu\'au ' + dateFr(D.ref) + ').</b> Les comparaisons portent sur les mois complets : voir la partie 2 pour les mêmes jours. ' : '<b>' + cap(nomMois(m)) + '.</b> ')
+      + 'Comparé à ' + nomMois(decaleMois(m, -1)) + ' et à ' + nomMois(decaleMois(m, -12)) + '. Valeurs Google Ads et CA en TTC, dépenses en HT.';
+    kpis(document.getElementById('kpis'), c, p, n, lp, ln);
+
+    var k = [];
+    if (c.ca !== null) k.push('<b>Ventes en ligne : ' + eur(c.ca) + ' TTC et ' + ent(c.orders) + ' commandes</b>, soit ' + txtEvo(c.ca, p.ca, 'pct') + ' sur ' + nomMois(decaleMois(m, -1)) + ' et ' + txtEvo(c.ca, n.ca, 'pct') + ' sur ' + nomMois(decaleMois(m, -12)) + '. Panier moyen ' + eur(c.panier) + ' (' + eur(p.panier) + ' et ' + eur(n.panier) + ').');
+    var parts = ['Google Ads ' + eur(c.gCost)];
+    if (c.meta || p.meta || n.meta) parts.push('Meta ' + eur(c.meta));
+    if (c.lem.cost || p.lem.cost || D.lem.length) parts.push('Lemrock ' + eur(c.lem.cost));
+    k.push('<b>Budget publicitaire e-commerce : ' + eur(c.budget) + ' HT</b> (' + parts.join(', ') + '), ' + pct(c.part) + ' du CA, contre ' + pct(p.part) + ' le mois précédent et ' + pct(n.part) + ' un an plus tôt.');
+    if (c.roasHM !== null) {
+      var pos = c.roasHM >= VISEE ? 'au-dessus de la visée de 4' : (c.roasHM >= OBJECTIF ? 'au-dessus de l\'objectif de 3' : 'sous l\'objectif de 3');
+      k.push('<b>ROAS hors marque Google Ads : ' + ratio(c.roasHM) + '</b>, ' + pos + ' (' + ratio(p.roasHM) + ' en ' + nomMois(decaleMois(m, -1)) + ', ' + ratio(n.roasHM) + ' un an plus tôt), pour ' + eur(c.hmCost) + ' de dépense et ' + eur(c.hmValue) + ' de ventes attribuées.');
+    }
+    if (c.isMarque !== null) k.push('<b>Campagne Marque : affichée sur ' + pct(c.isMarque) + ' des recherches « body house »</b> (' + pct(p.isMarque) + ' et ' + pct(n.isMarque) + '), ROAS ' + ratio(c.roasMarque) + '. Une partie de ces ventes se ferait sans annonce.');
+    if (c.nouv) {
+      var lemTxt = D.lem.length || c.lemAchats ? ' Lemrock : ' + ent(c.lemAchats) + ' achat' + (c.lemAchats > 1 ? 's' : '') + ' GA4 pour ' + eur(c.lemRevenu) + (c.lem.cost ? ', ' + eur(c.lem.cost) + ' HT dépensés' : '') + '.' : ' Lemrock : pas encore de visite avec utm_source=lemrock.';
+      k.push('<b>Nouvelles sources (assistants IA, Lemrock, Qwant et Lilo) : ' + ent(c.nouvAchats) + ' achats GA4 pour ' + eur(c.nouvRevenu) + '</b>, ' + pct(c.nouvPart) + ' des achats vus par GA4 (' + (p.nouv ? ent(p.nouvAchats) + ' achats le mois précédent' : 'n. c. le mois précédent') + ').' + lemTxt);
+    } else k.push('<b>Nouvelles sources :</b> GA4 n\'est pas comparable pour ce mois (avant la bascule sur Shopify).');
+    if (c.couverture !== null) k.push('<b>Mesure : GA4 voit ' + pct(c.couverture) + ' des commandes Shopify</b>' + (p.couverture !== null ? ' (' + pct(p.couverture) + ' le mois précédent)' : '') + '. L\'écart correspond surtout aux refus de cookies.');
+    document.getElementById('constats').innerHTML = k.map(function (x) { return '<li>' + x + '</li>'; }).join('');
+    renderLeviers(m, c, p, n);
+    renderCanaux(m);
+    renderNouvellesDetail(m);
+  }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  function renderEnCours() {
+    var m = D.moisRef, j = +D.ref.slice(8, 10);
+    var sec = document.getElementById('encours');
+    if (D.complet) {
+      document.getElementById('encours-intro').innerHTML = 'Le mois de ' + nomMois(m) + ' est complet : il est détaillé dans la partie 1. Le mois suivant apparaîtra ici dès son premier jour de données.';
+      document.getElementById('kpis-encours').innerHTML = '';
+      return;
+    }
+    var pc = memesJours(m, j), pp = memesJours(decaleMois(m, -1), j), pn = memesJours(decaleMois(m, -12), j);
+    var c = bilan(pc), p = bilan(pp), n = bilan(pn);
+    var lp = '1–' + j + ' ' + courtMois(decaleMois(m, -1), false), ln = '1–' + j + ' ' + courtMois(decaleMois(m, -12));
+    document.getElementById('encours-intro').innerHTML = '<b>' + cap(nomMois(m)) + ', du 1er au ' + j + '</b> (' + j + ' jour' + (j > 1 ? 's' : '') + ' de données), comparé aux mêmes jours.' + (D.lastShop && D.lastShop < D.ref ? ' Shopify : données jusqu\'au ' + dateFr(D.lastShop) + '.' : '');
+    kpis(document.getElementById('kpis-encours'), c, p, n, lp, ln);
+    void sec;
+  }
+
+  /* ---------- Rendu : tableaux ---------- */
+  function table(el, entetes, lignes, classes) {
+    var h = '<thead><tr>' + entetes.map(function (x) { return '<th scope="col">' + x + '</th>'; }).join('') + '</tr></thead><tbody>';
+    lignes.forEach(function (l, i) { h += '<tr' + (classes && classes[i] ? ' class="' + classes[i] + '"' : '') + '>' + l.map(function (x) { return '<td>' + x + '</td>'; }).join('') + '</tr>'; });
+    el.innerHTML = h + '</tbody>';
+  }
+
+  function renderMois() {
+    var fin = D.moisRef, mois = moisListe(DEBUT_TABLE, fin).reverse();
+    var lignes = [], cl = [];
+    mois.forEach(function (m) {
+      var partiel = m === D.moisRef && !D.complet;
+      var c = bilan({ mois: m }), n = bilan(partiel ? memesJours(decaleMois(m, -12), +D.ref.slice(8, 10)) : { mois: decaleMois(m, -12) });
+      lignes.push([
+        cap(courtMois(m)) + (partiel ? ' (au ' + dateCourte(D.ref) + ')' : ''),
+        eur(c.ca), eur(n.ca), htmlEvo(c.ca, n.ca, 'pct'), ent(c.orders),
+        eur(c.gCost), eur(c.gValue), '<span class="strong">' + ratio(c.roasHM) + '</span>', ratio(n.roasHM), ratio(c.roasMarque),
+        c.meta ? eur(c.meta) : '—', c.lem.lignes ? eur(c.lem.cost) : '—', eur(c.budget), pct(c.part),
+        c.nouv ? ent(c.nouvAchats) : 'n. c.'
+      ]);
+      cl.push(partiel ? 'partiel' : '');
+    });
+    table(document.getElementById('t-mois'), ['Mois', 'CA e-shop TTC', 'CA N-1', 'Évol. N-1', 'Commandes', 'Google Ads', 'Valeur conv.', 'ROAS hors marque', 'ROAS HM N-1', 'ROAS marque', 'Meta', 'Lemrock', 'Budget', 'Budget / CA', 'Achats nouv. sources'], lignes, cl);
+  }
+
+  function renderLeviers(m, c, p, n) {
+    var lp = courtMois(decaleMois(m, -1)), ln = courtMois(decaleMois(m, -12));
+    document.getElementById('leviers-intro').innerHTML = 'Dépense et ventes attribuées par levier en ' + nomMois(m) + ', comparées à ' + nomMois(decaleMois(m, -1)) + ' et à ' + nomMois(decaleMois(m, -12)) + '.';
+    var defs = [
+      ['Google Ads – Marque', function (b) { return b.ads ? b.ads.marque.cost : null; }, function (b) { return b.ads ? b.ads.marque.value : null; }],
+      ['Google Ads – Search hors marque', function (b) { return b.ads ? b.ads.search.cost : null; }, function (b) { return b.ads ? b.ads.search.value : null; }],
+      ['Google Ads – Shopping et PMax', function (b) { return b.ads ? b.ads.shopping.cost : null; }, function (b) { return b.ads ? b.ads.shopping.value : null; }],
+      ['Google Ads – autres formats', function (b) { return b.ads ? b.ads.autres.cost : null; }, function (b) { return b.ads ? b.ads.autres.value : null; }],
+      ['Meta (compte e-shop)', function (b) { return b.meta; }, function () { return null; }],
+      ['Lemrock', function (b) { return b.lem.cost; }, function (b) { return b.lemRevenu; }]
+    ];
+    var lignes = [], cl = [];
+    defs.forEach(function (d) {
+      var dc = d[1](c), dp = d[1](p), dn = d[1](n), vc = d[2](c), vp = d[2](p), vn = d[2](n);
+      if (!dc && !dp && !dn && !vc && !vp && !vn) return;
+      lignes.push([d[0], eur(dc), htmlEvo(dc, dp, 'pct', true), htmlEvo(dc, dn, 'pct', true), vc === null ? '—' : eur(vc), '<span class="strong">' + ratio(vc === null ? null : div(vc, dc)) + '</span>', ratio(vp === null ? null : div(vp, dp)), ratio(vn === null ? null : div(vn, dn))]);
+      cl.push('');
+    });
+    lignes.push(['Total', eur(c.budget), htmlEvo(c.budget, p.budget, 'pct', true), htmlEvo(c.budget, n.budget, 'pct', true), eur((c.gValue || 0) + (c.lemRevenu || 0)), ratio(div((c.gValue || 0) + (c.lemRevenu || 0), c.budget)), ratio(div((p.gValue || 0) + (p.lemRevenu || 0), p.budget)), ratio(div((n.gValue || 0) + (n.lemRevenu || 0), n.budget))]);
+    cl.push('tot');
+    table(document.getElementById('t-leviers'), ['Levier', 'Dépense HT', 'vs ' + lp, 'vs ' + ln, 'Ventes attribuées', 'ROAS', 'ROAS ' + lp, 'ROAS ' + ln], lignes, cl);
+  }
+
+  function renderCanaux(m) {
+    var g = ga4({ mois: m }), gp = ga4({ mois: decaleMois(m, -1) }), s = shop({ mois: m });
+    var el = document.getElementById('t-canaux');
+    if (!g) {
+      document.getElementById('sources-intro').innerHTML = 'GA4 n\'est pas comparable en ' + nomMois(m) + ' (avant la bascule sur Shopify). Choisir un mois à partir de juillet 2026.';
+      el.innerHTML = ''; return;
+    }
+    document.getElementById('sources-intro').innerHTML = 'Achats vus par GA4 en ' + nomMois(m) + ', par canal d\'arrivée, comparés à ' + nomMois(decaleMois(m, -1)) + '. Le même mois de l\'an dernier n\'est pas comparable (GA4 avant la bascule sur Shopify).';
+    var lignes = [], cl = [];
+    ORDRE_CANAUX.forEach(function (k) {
+      var c = g.canaux[k] || { sessions: 0, achats: 0, revenu: 0 }, p = gp ? (gp.canaux[k] || { sessions: 0, achats: 0, revenu: 0 }) : null;
+      if (!c.sessions && !c.achats && !(p && p.achats)) return;
+      lignes.push([k, ent(c.sessions), ent(c.achats), htmlEvo(c.achats, p ? p.achats : null, 'pct'), pct(div(c.achats, g.tot.achats)), p ? pct(div(p.achats, gp.tot.achats)) : '—', eur(c.revenu), pct(div(c.achats, c.sessions))]);
+      cl.push('');
+    });
+    lignes.push(['Total GA4', ent(g.tot.sessions), ent(g.tot.achats), htmlEvo(g.tot.achats, gp ? gp.tot.achats : null, 'pct'), '100 %', '100 %', eur(g.tot.revenu), pct(div(g.tot.achats, g.tot.sessions))]);
+    cl.push('tot');
+    if (s) { lignes.push(['Commandes Shopify (réel)', '', ent(s.orders), '', '', '', eur(s.ca), '']); cl.push(''); lignes.push(['GA4 / Shopify', '', pct(div(g.tot.achats, s.orders)), '', '', '', pct(div(g.tot.revenu, s.ca)), '']); cl.push(''); }
+    table(el, ['Canal', 'Visites', 'Achats', 'vs ' + courtMois(decaleMois(m, -1)), 'Part des achats', 'Part ' + courtMois(decaleMois(m, -1)), 'CA GA4', 'Taux de conv.'], lignes, cl);
+  }
+
+  function renderNouvellesTable() {
+    var mois = moisListe(MOIS_GA4, D.moisRef).reverse();
+    var lignes = [], cl = [];
+    mois.forEach(function (m) {
+      var partiel = m === D.moisRef && !D.complet;
+      var n = nouvelles({ mois: m }), g = ga4({ mois: m }), l = lemrock({ mois: m });
+      if (!n) return;
+      var row = [cap(courtMois(m)) + (partiel ? ' (au ' + dateCourte(D.ref) + ')' : '')];
+      GROUPES.forEach(function (k) { var x = n.groupes[k]; row.push(ent(x.sessions) + ' / <b>' + ent(x.achats) + '</b>'); });
+      var tot = GROUPES.reduce(function (t, k) { return t + (k === 'Bing et Ecosia' ? 0 : n.groupes[k].achats); }, 0);
+      row.push(ent(tot), pct(g ? div(tot, g.tot.achats) : null), l.lignes ? eur(l.cost) : '—');
+      lignes.push(row); cl.push(partiel ? 'partiel' : '');
+    });
+    table(document.getElementById('t-nouvelles'), ['Mois', 'Assistants IA<br>visites / achats', 'Lemrock<br>visites / achats', 'Qwant et Lilo<br>visites / achats', 'Bing et Ecosia<br>visites / achats', 'Achats (hors Bing, Ecosia)', 'Part des achats GA4', 'Dépense Lemrock HT'], lignes, cl);
+
+    // Lemrock par mois
+    var ll = [], lc = [];
+    var debut = D.lem.length ? D.lem.reduce(function (a, x) { return x.d < a ? x.d : a; }, '9999').slice(0, 7) : null;
+    var premierGa4 = D.gsM.concat(D.gsJ).filter(function (x) { return x.groupe === 'Lemrock'; }).reduce(function (a, x) { return x.k.slice(0, 7) < a ? x.k.slice(0, 7) : a; }, '9999');
+    if (premierGa4 !== '9999' && (!debut || premierGa4 < debut)) debut = premierGa4;
+    if (!debut) {
+      document.getElementById('lemrock-intro').innerHTML = 'Pas encore de données : aucune dépense saisie dans l\'onglet « ECOM Lemrock (saisie) » et aucune visite GA4 avec utm_source=lemrock. Les lignes apparaîtront ici dès la première semaine du test.';
+      document.getElementById('t-lemrock').innerHTML = '';
+    } else {
+      document.getElementById('lemrock-intro').innerHTML = 'Dépense et clics saisis à partir de l\'export Lemrock ; visites, achats et CA lus dans GA4. ROAS = CA GA4 (TTC) ÷ dépense (HT), comme pour Google Ads. Repère : 5 000 € HT par mois demandent environ 15 000 € TTC de ventes pour un ROAS de 3.';
+      moisListe(debut, D.moisRef).reverse().forEach(function (m) {
+        var l = lemrock({ mois: m }), n = nouvelles({ mois: m }), x = n ? n.groupes['Lemrock'] : { sessions: 0, achats: 0, revenu: 0 };
+        ll.push([cap(courtMois(m)) + (m === D.moisRef && !D.complet ? ' (au ' + dateCourte(D.ref) + ')' : ''), eur(l.cost), ent(l.clics), ent(x.sessions), ent(x.achats), eur(x.revenu), eur(div(l.cost, x.achats)), '<span class="strong">' + ratio(div(x.revenu, l.cost)) + '</span>']);
+        lc.push(m === D.moisRef && !D.complet ? 'partiel' : '');
+      });
+      table(document.getElementById('t-lemrock'), ['Mois', 'Dépense HT', 'Clics (Lemrock)', 'Visites GA4', 'Achats GA4', 'CA GA4 TTC', 'Coût par achat', 'ROAS'], ll, lc);
+    }
+  }
+
+  function renderNouvellesDetail(m) {
+    var n = nouvelles({ mois: m }), p = nouvelles({ mois: decaleMois(m, -1) });
+    document.getElementById('detail-titre').textContent = 'Détail par source, ' + nomMois(m);
+    var el = document.getElementById('t-detail');
+    if (!n) { el.innerHTML = '<tbody><tr><td class="vide">GA4 non comparable pour ce mois.</td></tr></tbody>'; return; }
+    var noms = Object.keys(n.sources).concat(p ? Object.keys(p.sources) : []).filter(function (v, i, a) { return a.indexOf(v) === i; });
+    noms.sort(function (a, b) { return (n.sources[b] ? n.sources[b].sessions : 0) - (n.sources[a] ? n.sources[a].sessions : 0); });
+    var lignes = noms.map(function (k) {
+      var x = n.sources[k] || { groupe: p.sources[k].groupe, sessions: 0, achats: 0, revenu: 0 }, y = p && p.sources[k] ? p.sources[k] : { sessions: 0, achats: 0, revenu: 0 };
+      return [k, x.groupe, ent(x.sessions), htmlEvo(x.sessions, p ? y.sessions : null, 'pct'), ent(x.achats), ent(y.achats), eur(x.revenu), pct(div(x.achats, x.sessions))];
+    });
+    var camp = Object.keys(n.campagnes);
+    camp.forEach(function (k) { var x = n.campagnes[k]; lignes.push(['Lemrock · ' + esc(k), 'éditeur (utm_campaign)', ent(x.sessions), '', ent(x.achats), '', eur(x.revenu), pct(div(x.achats, x.sessions))]); });
+    if (!lignes.length) { el.innerHTML = '<tbody><tr><td class="vide">Aucune visite de ces sources ce mois-ci.</td></tr></tbody>'; return; }
+    table(el, ['Source', 'Groupe', 'Visites', 'vs ' + courtMois(decaleMois(m, -1)), 'Achats', 'Achats ' + courtMois(decaleMois(m, -1)), 'CA GA4', 'Taux de conv.'], lignes);
+  }
+
+  function renderJournal() {
+    var l = D.journal.slice().sort(function (a, b) { return b.d.localeCompare(a.d); });
+    document.getElementById('timeline').innerHTML = l.length ? l.map(function (x) { return '<li><span class="t">' + dateFr(x.d) + '</span>' + esc(x.txt) + '</li>'; }).join('') : '<li class="vide">Aucun événement saisi.</li>';
+  }
+
+  function renderFraicheur() {
+    var t = [];
+    t.push('Google Ads : jusqu\'au ' + dateFr(D.ref));
+    if (D.lastGa4) t.push('GA4 : jusqu\'au ' + dateFr(D.lastGa4));
+    if (D.lastShop) t.push('Shopify : jusqu\'au ' + dateFr(D.lastShop) + (D.shopExtrait ? ' (extrait le ' + dateFr(D.shopExtrait) + ')' : ''));
+    t.push(D.lastMeta ? 'Meta : dernière dépense le ' + dateFr(D.lastMeta) : 'Meta : aucune dépense');
+    t.push(D.lastLem ? 'Lemrock : dernière semaine saisie, ' + dateFr(D.lastLem) : 'Lemrock : rien de saisi');
+    document.getElementById('fraicheur').textContent = 'Données : ' + t.join(' · ') + '.';
+    var meta = document.getElementById('meta');
+    meta.insertAdjacentHTML('afterbegin', '<span><b>Données au</b>' + dateFr(D.ref) + '</span>');
+  }
+
+  /* ---------- Graphiques (SVG) ---------- */
+  var NS = 'http://www.w3.org/2000/svg';
+  function svgEl(tag, attrs, parent, texte) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) if (attrs[k] !== undefined && attrs[k] !== null) e.setAttribute(k, attrs[k]);
+    if (texte !== undefined) e.textContent = texte;
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function echelle(max) {
+    if (max <= 0) return { max: 1, pas: 1 };
+    var brut = max / 4, p = Math.pow(10, Math.floor(Math.log10(brut))), r = brut / p;
+    var pas = (r <= 1 ? 1 : r <= 2 ? 2 : r <= 2.5 ? 2.5 : r <= 5 ? 5 : 10) * p;
+    return { max: Math.ceil(max / pas) * pas, pas: pas };
+  }
+  function fmtAxe(v, unite) {
+    if (unite === 'eur') return v >= 1000 ? (v % 1000 === 0 || v >= 10000 ? f0.format(v / 1000) : f1.format(v / 1000)) + ' k€' : f0.format(v) + ' €';
+    if (unite === 'pct') return f0.format(v * 100) + ' %';
+    if (unite === 'n') return f0.format(v);
+    return f1.format(v).replace(',0', '');
+  }
+  // series : [{ nom, couleur, valeurs: [...] }] empilées ; options : unite, cibles, ligne (série en pointillés), etiquettes
+  function barres(conteneur, titre, mois, series, o) {
+    o = o || {};
+    var el = document.getElementById(conteneur);
+    el.innerHTML = '<h3>' + titre + '</h3>';
+    var leg = document.createElement('div'); leg.className = 'leg';
+    series.forEach(function (s) { leg.insertAdjacentHTML('beforeend', '<span><i style="background:' + s.couleur + '"></i>' + s.nom + '</span>'); });
+    if (o.ligne) leg.insertAdjacentHTML('beforeend', '<span style="color:' + o.ligne.couleur + '"><i class="trait"></i>' + o.ligne.nom + '</span>');
+    (o.cibles || []).forEach(function (c) { leg.insertAdjacentHTML('beforeend', '<span style="color:' + c.couleur + '"><i class="trait"></i>' + c.nom + '</span>'); });
+    el.appendChild(leg);
+    var sc = document.createElement('div'); sc.className = 'scroll'; el.appendChild(sc);
+    var n = mois.length, bw = o.largeurBarre || 30, gap = Math.max(8, Math.round(bw * 0.45));
+    var gauche = 52, droite = 12, haut = 18, bas = 34, h = o.hauteur || 240;
+    var largeur = Math.max(gauche + droite + n * (bw + gap), Math.min(1056, sc.clientWidth || 320));
+    var pasX = (largeur - gauche - droite) / n; bw = Math.min(bw * 1.4, pasX * 0.68);
+    var totals = mois.map(function (_, i) { return series.reduce(function (t, s) { return t + (s.valeurs[i] || 0); }, 0); });
+    var max = Math.max.apply(null, totals.concat(o.ligne ? o.ligne.valeurs.filter(isFinite) : [], (o.cibles || []).map(function (c) { return c.valeur; })));
+    var e = echelle(o.max || max);
+    var svg = svgEl('svg', { width: largeur, height: h, viewBox: '0 0 ' + largeur + ' ' + h, role: 'img', 'aria-label': titre }, sc);
+    var y = function (v) { return haut + (h - haut - bas) * (1 - v / e.max); };
+    var gg = svgEl('g', { 'class': 'grid' }, svg);
+    for (var v = 0; v <= e.max + 1e-9; v += e.pas) {
+      svgEl('line', { x1: gauche, x2: largeur - droite, y1: y(v), y2: y(v) }, gg);
+      svgEl('text', { x: gauche - 6, y: y(v) + 4, 'text-anchor': 'end' }, gg, fmtAxe(v, o.unite));
+    }
+    mois.forEach(function (m, i) {
+      var cx = gauche + pasX * i + pasX / 2, base = 0;
+      var tip = cap(nomMois(m));
+      series.forEach(function (s) {
+        var val = s.valeurs[i] || 0; if (!val) return;
+        var r = svgEl('rect', { x: cx - bw / 2, y: y(base + val), width: bw, height: Math.max(0, y(base) - y(base + val)), fill: s.couleur, rx: 2 }, svg);
+        tip += '\n' + s.nom + ' : ' + (o.unite === 'eur' ? eur(val) : o.unite === 'pct' ? pct(val) : o.unite === 'n' ? ent(val) : ratio(val));
+        base += val; void r;
+      });
+      if (o.ligne && isFinite(o.ligne.valeurs[i]) && o.ligne.valeurs[i] !== null) {
+        var lv = o.ligne.valeurs[i];
+        svgEl('line', { x1: cx - bw / 2 - 3, x2: cx + bw / 2 + 3, y1: y(lv), y2: y(lv), stroke: o.ligne.couleur, 'stroke-width': 2, 'stroke-dasharray': '4 3' }, svg);
+        tip += '\n' + o.ligne.nom + ' : ' + (o.unite === 'eur' ? eur(lv) : ratio(lv));
+      }
+      if (o.etiquettes && totals[i]) svgEl('text', { x: cx, y: y(totals[i]) - 4, 'text-anchor': 'middle', 'class': 'vlab' }, svg, o.unite === 'eur' ? (totals[i] >= 10000 ? f0.format(totals[i] / 1000) + ' k€' : totals[i] >= 1000 ? f1.format(totals[i] / 1000) + ' k€' : eur(totals[i])) : o.unite === 'n' ? ent(totals[i]) : ratio(totals[i]));
+      var lab = courtMois(m, false) + (m.slice(5, 7) === '01' || i === 0 ? ' ' + m.slice(0, 4) : '');
+      svgEl('text', { x: cx, y: h - bas + 16, 'text-anchor': 'middle' }, svg, lab);
+      if (o.partiel && m === o.partiel) svgEl('text', { x: cx, y: h - bas + 29, 'text-anchor': 'middle' }, svg, 'en cours');
+      var hit = svgEl('rect', { x: cx - pasX / 2, y: haut, width: pasX, height: h - haut - bas, fill: 'transparent' }, svg);
+      svgEl('title', {}, hit, tip);
+    });
+    (o.cibles || []).forEach(function (c) {
+      svgEl('line', { x1: gauche, x2: largeur - droite, y1: y(c.valeur), y2: y(c.valeur), stroke: c.couleur, 'stroke-width': 1.5, 'stroke-dasharray': '6 4' }, svg);
+      svgEl('text', { x: largeur - droite, y: y(c.valeur) - 4, 'text-anchor': 'end', 'class': 'tlab', fill: c.couleur, style: 'fill:' + c.couleur }, svg, c.nom);
+    });
+    if (o.legendeNote) el.insertAdjacentHTML('beforeend', '<p class="caption">' + o.legendeNote + '</p>');
+  }
+  function couleur(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+
+  function renderGraphiques() {
+    var fin = D.moisRef, partiel = D.complet ? null : D.moisRef;
+    var m13 = moisListe(decaleMois(fin, -12), fin);
+    barres('c-ca', 'Chiffre d\'affaires e-shop TTC par mois', m13,
+      [{ nom: 'CA e-shop', couleur: couleur('--s1'), valeurs: m13.map(function (m) { var s = shop({ mois: m }); return s ? s.ca : 0; }) }],
+      { unite: 'eur', etiquettes: true, partiel: partiel, ligne: { nom: 'même mois un an plus tôt', couleur: couleur('--muted'), valeurs: m13.map(function (m) { var s = shop({ mois: decaleMois(m, -12) }); return s ? s.ca : null; }) },
+        legendeNote: partiel ? 'Le dernier mois est en cours ; le trait N-1 porte sur le mois complet.' : '' });
+    var lev = function (k) { return m13.map(function (m) { var a = ads({ mois: m }); return a ? (k === 'hm' ? a.tot.cost - a.marque.cost : a.marque.cost) : 0; }); };
+    barres('c-budget', 'Budget publicitaire e-commerce par mois (HT)', m13, [
+      { nom: 'Google Ads hors marque', couleur: couleur('--s1'), valeurs: lev('hm') },
+      { nom: 'Google Ads marque', couleur: couleur('--s3'), valeurs: lev('marque') },
+      { nom: 'Meta', couleur: couleur('--s4'), valeurs: m13.map(function (m) { return meta({ mois: m }); }) },
+      { nom: 'Lemrock', couleur: couleur('--s2'), valeurs: m13.map(function (m) { return lemrock({ mois: m }).cost; }) }
+    ], { unite: 'eur', etiquettes: true, partiel: partiel });
+    var mr = moisListe(DEBUT_TABLE, fin);
+    barres('c-roas', 'ROAS hors marque Google Ads par mois', mr, [
+      { nom: 'ROAS hors marque', couleur: couleur('--s1'), valeurs: mr.map(function (m) { var b = bilan({ mois: m }); return b.roasHM || 0; }) }
+    ], { unite: 'x', etiquettes: true, largeurBarre: 22, partiel: partiel, cibles: [{ nom: 'objectif 3', valeur: OBJECTIF, couleur: couleur('--target') }, { nom: 'visée 4', valeur: VISEE, couleur: couleur('--target4') }] });
+
+    // Canaux GA4 : part des achats
+    var mg = moisListe(MOIS_GA4, fin);
+    var cols = ['--s1', '--s3', '--s4', '--s2', '--s5', '--s6', '--accent-strong', '--warn', '--s7', '--muted', '--line'];
+    var data = mg.map(function (m) { return ga4({ mois: m }); });
+    var series = ORDRE_CANAUX.map(function (k, i) {
+      return { nom: k, couleur: couleur(cols[i % cols.length]), valeurs: data.map(function (g) { return g && g.tot.achats ? ((g.canaux[k] || {}).achats || 0) / g.tot.achats : 0; }) };
+    }).filter(function (s) { return s.valeurs.some(function (v) { return v > 0; }); });
+    barres('c-canaux', 'Part des achats GA4 par canal', mg, series, { unite: 'pct', max: 1, largeurBarre: 46, partiel: partiel });
+
+    var sn = mg.map(function (m) { return nouvelles({ mois: m }); });
+    barres('c-nouvelles', 'Achats GA4 des nouvelles sources par mois', mg, [
+      { nom: 'Assistants IA', couleur: couleur('--s5'), valeurs: sn.map(function (n) { return n ? n.groupes['Assistants IA'].achats : 0; }) },
+      { nom: 'Lemrock', couleur: couleur('--s2'), valeurs: sn.map(function (n) { return n ? n.groupes['Lemrock'].achats : 0; }) },
+      { nom: 'Qwant et Lilo', couleur: couleur('--s4'), valeurs: sn.map(function (n) { return n ? n.groupes['Qwant et Lilo'].achats : 0; }) }
+    ], { unite: 'n', etiquettes: true, largeurBarre: 46, partiel: partiel });
+  }
+
+  /* ---------- Démarrage ---------- */
+  var cles = Object.keys(ONGLETS);
+  Promise.all(cles.map(function (k) { return chargerOnglet(ONGLETS[k]).catch(function (e) { throw new Error(k + ' : ' + e.message); }); }))
+    .then(function (res) {
+      var t = {}; cles.forEach(function (k, i) { t[k] = res[i]; });
+      construire(t);
+      var sel = document.getElementById('mois');
+      var liste = moisListe(DEBUT_TABLE, D.moisRef).reverse();
+      sel.innerHTML = liste.map(function (m) { return '<option value="' + m + '">' + cap(nomMois(m)) + (m === D.moisRef && !D.complet ? ' (en cours)' : '') + '</option>'; }).join('');
+      sel.value = D.dernierComplet;
+      sel.addEventListener('change', function () { renderBref(sel.value); });
+      renderBref(D.dernierComplet);
+      renderEnCours();
+      renderMois();
+      renderNouvellesTable();
+      renderJournal();
+      renderFraicheur();
+      renderGraphiques();
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      var redessine = function () { renderGraphiques(); };
+      if (mq.addEventListener) mq.addEventListener('change', redessine);
+      document.getElementById('theme').addEventListener('click', function () { setTimeout(redessine, 0); });
+      var resize; window.addEventListener('resize', function () { clearTimeout(resize); resize = setTimeout(redessine, 200); });
+      var etat = document.getElementById('etat');
+      etat.textContent = 'Données mises à jour chaque matin à partir du classeur de suivi Body House.';
+    })
+    .catch(function (e) {
+      var etat = document.getElementById('etat');
+      etat.className = 'etat erreur';
+      etat.textContent = 'Les données n\'ont pas pu être chargées (' + e.message + '). Recharger la page ; si le problème continue, prévenir Meta-Advertising.';
+    });
+})();
+</script>
+</body>
+</html>
