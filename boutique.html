@@ -624,6 +624,67 @@ const skeepers = (typeof SKEEPERS_DATA !== 'undefined' && SKEEPERS_DATA[BOUTIQUE
 document.title = 'Body House ' + BOUTIQUE_NAME + ' — Dashboard Marketing 2025-2026';
 
 /* ═══════════════════════════════════════════════════
+   COLUMN ALIAS MAP (The Sheep FR → Supermetrics EN)
+   ═══════════════════════════════════════════════════ */
+var COLUMN_ALIASES={
+'Nom de la campagne':'Campaign name',
+'Nom de l\'ensemble de publicités':'Ad set name',
+'Nom de la publicité':'Ad name',
+'Nom du groupe d\'annonces':'Ad group name',
+'Coût (EUR)':'Cost (EUR)',
+'Portée':'Reach',
+'Clics (tous)':'Clicks (all)',
+'CTR (tous)':'CTR (all)',
+'Fréquence':'Frequency',
+'CPM (coût pour 1000 impressions)':'CPM',
+'Prospects sur Facebook':'Facebook leads',
+'Cost per on-Facebook lead':'Cost per lead',
+'J\'aime la page':'Page likes',
+'Commentaires sur les publications':'Post comments',
+'Réactions aux publications':'Post reactions',
+'Partages de publications':'Post shares',
+'Enregistrements de publications':'Post saves',
+'Coût par conversion':'Cost per conversion',
+'Clics':'Clicks',
+'Conversion type name':'Conversion type',
+'Total conversion value':'Conversion value',
+'URL de la miniature de la création':'Ad creative thumbnail URL',
+'URL de l\'image de la création':'Ad creative image URL'
+};
+function normalizeRow(row){
+var out={};
+for(var k in row){
+if(!row.hasOwnProperty(k))continue;
+var nk=COLUMN_ALIASES[k]||k;
+out[nk]=row[k];
+}
+return out;
+}
+function normalizeRows(rows){
+if(!rows||!rows.length)return rows;
+var sample=rows[0],needsNorm=false;
+for(var k in sample){if(COLUMN_ALIASES[k]){needsNorm=true;break;}}
+if(!needsNorm)return rows;
+return rows.map(normalizeRow);
+}
+var _missingCols={};
+function safeCol(row,col){
+  if(row && col in row) return row[col];
+  if(!_missingCols[col]){_missingCols[col]=true;console.warn('⚠️ Colonne manquante: '+col)}
+  return '';
+}
+function showMissingWarning(){
+  var cols=Object.keys(_missingCols);
+  if(!cols.length)return;
+  var d=document.createElement('div');
+  d.style.cssText='position:fixed;top:0;left:0;right:0;padding:8px 16px;background:#f59e0b;color:#000;font:13px/1.4 sans-serif;text-align:center;z-index:99999;';
+  d.textContent='⚠️ '+cols.length+' colonne(s) manquante(s) dans les donn\u00e9es : '+cols.join(', ');
+  document.body.appendChild(d);
+  setTimeout(function(){d.remove()},15000);
+}
+
+
+/* ═══════════════════════════════════════════════════
    MULTI-YEAR DATA + 2026 LIVE FETCH
    ═══════════════════════════════════════════════════ */
 let selectedYear = '2025';
@@ -667,7 +728,7 @@ const NAME_MAP = {
 
 function csvLine(l){const r=[];let c='',q=false;for(let i=0;i<l.length;i++){const ch=l[i];if(ch==='"'){if(q&&l[i+1]==='"'){c+='"';i++}else q=!q}else if(ch===','&&!q){r.push(c);c=''}else c+=ch}r.push(c);return r}
 function pN(v){if(!v||!v.trim())return 0;let s=v.trim().replace(/[\s  ]/g,'').replace(/[€%]/g,'').replace(/,/g,'.');const n=parseFloat(s);return isNaN(n)?0:n}
-async function fetchCSV(url){const r=await fetch(url);if(!r.ok)throw new Error('HTTP '+r.status);return await r.text()}
+async function fetchCSV(url){const r=await fetch(url+(url.indexOf('?')>-1?'&':'?')+'_t='+Date.now());if(!r.ok)throw new Error('HTTP '+r.status);return await r.text()}
 
 function extractDailyRow(fields){
   const monthly=[];
@@ -766,9 +827,7 @@ async function loadPosData() {
       if (matched !== BOUTIQUE_NAME || !date || !total) continue;
       if (!daily[date]) daily[date] = { ca: 0, count: 0 };
       daily[date].ca += total;
-      // Onglet « Pos order » agrégé (date, point de vente, CA TTC, tickets) : la 4e colonne donne le nombre de tickets
-      const tickets = fields.length > 3 ? pN(fields[3]) : 0;
-      daily[date].count += tickets > 0 ? tickets : 1;
+      daily[date].count++;
     }
     posData = daily;
     console.log('['+BOUTIQUE_NAME+'] POS data loaded:', Object.keys(daily).length, 'jours');
@@ -1733,6 +1792,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadLiveData().then(() => {
       if (btn2026) btn2026.classList.remove('loading');
       if (data2026Loaded) console.log('['+BOUTIQUE_NAME+'] 2026 disponible — toggle actif');
+      showMissingWarning();
     }),
     loadPosData().then(() => {
       const ps = getPosStats();
