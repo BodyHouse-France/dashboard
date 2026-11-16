@@ -1,31 +1,31 @@
 {
- "fin": "2026-11-01",
- "construit": "2026-11-02T10:38:22",
+ "fin": "2026-11-15",
+ "construit": "2026-11-16T08:54:15",
  "reseaux": {
   "nouvelles": {
-   "depense_meta": 24397.92,
-   "impressions_meta": 9700654,
-   "depense_google": 2301.72,
-   "itineraires_google": 763,
+   "depense_meta": 29903.63,
+   "impressions_meta": 12109101,
+   "depense_google": 4355.94,
+   "itineraires_google": 1578,
    "nb_campagnes_meta": 42,
-   "nb_campagnes_google": 13,
+   "nb_campagnes_google": 14,
    "nb_semaines": 8,
    "ca_periode": 978026.51,
-   "meta_jusqua": "2026-11-01",
-   "google_jusqua": "2026-11-01",
+   "meta_jusqua": "2026-11-15",
+   "google_jusqua": "2026-11-15",
    "fiches_jusqua": "2026-10-29"
   },
   "historiques": {
-   "depense_meta": 22436.3,
-   "impressions_meta": 8355190,
-   "depense_google": 9045.01,
-   "itineraires_google": 4262,
-   "nb_campagnes_meta": 33,
+   "depense_meta": 27394.69,
+   "impressions_meta": 10201511,
+   "depense_google": 11492.77,
+   "itineraires_google": 5497,
+   "nb_campagnes_meta": 42,
    "nb_campagnes_google": 14,
    "nb_semaines": 8,
    "ca_periode": 1200759.92,
-   "meta_jusqua": "2026-11-01",
-   "google_jusqua": "2026-11-01",
+   "meta_jusqua": "2026-11-15",
+   "google_jusqua": "2026-11-15",
    "fiches_jusqua": "2026-10-29"
   }
  }
